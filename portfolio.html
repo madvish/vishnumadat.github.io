@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio — Vishnu Madat | Research, Projects & Analysis</title>
+  <meta name="description" content="Explore Vishnu Madat's work — equity research at Greenhill Consulting, Fog & Clarity Substack, Forex trading research, and academic projects." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Navigation -->
+  <nav id="main-nav" class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo" id="nav-logo">
+        <span class="logo-text">VM</span>
+      </a>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html" class="nav-link" data-page="home">Home</a>
+        <a href="about.html" class="nav-link" data-page="about">About</a>
+        <a href="portfolio.html" class="nav-link active" data-page="portfolio">Portfolio</a>
+        <a href="blog.html" class="nav-link" data-page="blog">Articles</a>
+        <a href="skills.html" class="nav-link" data-page="skills">Skills</a>
+        <a href="contact.html" class="nav-link" data-page="contact">Contact</a>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Page Hero -->
+    <section class="page-hero">
+      <span class="section-tag animate-fade-up">Portfolio</span>
+      <h1 class="animate-fade-up delay-1">My Work &<br />Research Projects</h1>
+      <p class="animate-fade-up delay-2">A curated collection of research, writing, investment analysis, and academic projects.</p>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio-section">
+      <div class="container">
+        <div class="portfolio-filters animate-fade-up">
+          <button class="filter-btn active" data-filter="all" id="filter-all">All</button>
+          <button class="filter-btn" data-filter="research" id="filter-research">Investment Research</button>
+          <button class="filter-btn" data-filter="writing" id="filter-writing">Writing</button>
+          <button class="filter-btn" data-filter="academic" id="filter-academic">Academic</button>
+          <button class="filter-btn" data-filter="professional" id="filter-professional">Professional</button>
+        </div>
+
+        <div class="portfolio-grid">
+          <!-- Card 1: Greenhill Research -->
+          <div class="portfolio-card reveal" data-category="research" id="portfolio-1">
+            <div class="portfolio-card-image">
+              <div class="work-placeholder-img gradient-1">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                  <path d="M2 20h.01M7 20v-4M12 20V10M17 20V4M22 20v-8"/>
+                </svg>
+              </div>
+            </div>
+            <div class="portfolio-card-body">
+              <span class="work-tag">Investment Research</span>
+              <h3>End-to-End Fundamental Research — Greenhill Consulting</h3>
+              <p>Sector-agnostic investment research combining industry analysis, business-quality assessment, competitive positioning and risk analysis. Built DCF models, valuation frameworks and comparative analysis to test investment theses.</p>
+            </div>
+            <div class="portfolio-card-footer">
+              <span class="portfolio-date">Apr 2026 — Present</span>
+              <a href="#" class="work-link">Details →</a>
+            </div>
+          </div>
+
+          <!-- Card 2: Fog & Clarity -->
+          <div class="portfolio-card reveal" data-category="writing" id="portfolio-2">
+            <div class="portfolio-card-image">
+              <div class="work-placeholder-img gradient-2">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+              </div>
+            </div>
+            <div class="portfolio-card-body">
+              <span class="work-tag">Substack</span>
+              <h3>Fog & Clarity — Ideas & Research on Global Markets</h3>
+              <p>My Substack publication where I write about investment ideas, research on global markets, macro themes, and perspectives on what moves capital.</p>
+            </div>
+            <div class="portfolio-card-footer">
+              <span class="portfolio-date">Ongoing</span>
+              <a href="https://substack.com/@vishnumadat" class="work-link" target="_blank" rel="noopener noreferrer">Read on Substack →</a>
+            </div>
+          </div>
+
+          <!-- Card 3: Forex Trading Book -->
+          <div class="portfolio-card reveal" data-category="academic" id="portfolio-3">
+            <div class="portfolio-card-image">
+              <div class="work-placeholder-img" style="background: linear-gradient(135deg, #1C2A3A, #3A5A70);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                </svg>
+              </div>
+            </div>
+            <div class="portfolio-card-body">
+              <span class="work-tag">Black Book Project</span>
+              <h3>Forex Trading — Strategies, Styles & Insights</h3>
+              <p>Authored comprehensive project covering trading psychology, risk management frameworks, and strategic approaches in currency trading. Analysed OTC currency markets, hedging strategies, and their relevance for retail and institutional investors.</p>
+            </div>
+            <div class="portfolio-card-footer">
+              <span class="portfolio-date">BMS Finance</span>
+              <a href="#" class="work-link">Details →</a>
+            </div>
+          </div>
+
+          <!-- Card 4: Macro & FX Research -->
+          <div class="portfolio-card reveal" data-category="research" id="portfolio-4">
+            <div class="portfolio-card-image">
+              <div class="work-placeholder-img gradient-3">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                </svg>
+              </div>
+            </div>
+            <div class="portfolio-card-body">
+              <span class="work-tag">Macro Research</span>
+              <h3>Macroeconomic & FX Analysis at Greenhill</h3>
+              <p>Developed an economist's perspective analysing FX movements, interest rates and fixed-income dynamics. Translated complex macro data into structured investment views linking economic drivers, market behaviour and fundamentals.</p>
+            </div>
+            <div class="portfolio-card-footer">
+              <span class="portfolio-date">2024 — Present</span>
+              <a href="#" class="work-link">Details →</a>
+            </div>
+          </div>
+
+          <!-- Card 5: Digital Finance Study -->
+          <div class="portfolio-card reveal" data-category="academic" id="portfolio-5">
+            <div class="portfolio-card-image">
+              <div class="work-placeholder-img" style="background: linear-gradient(135deg, #4A3F35, #8B6F47);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                  <line x1="8" y1="21" x2="16" y2="21"/>
+                  <line x1="12" y1="17" x2="12" y2="21"/>
+                </svg>
+              </div>
+            </div>
+            <div class="portfolio-card-body">
+              <span class="work-tag">Primary Research</span>
+              <h3>Digital Finance Adoption Among Young Professionals</h3>
+              <p>Surveyed 120+ respondents to identify fintech adoption trends among young professionals. Presented findings at NIRMITI — National Research Convention, SIES College.</p>
+            </div>
+            <div class="portfolio-card-footer">
+              <span class="portfolio-date">SIES College</span>
+              <a href="#" class="work-link">Details →</a>
+            </div>
+          </div>
+
+          <!-- Card 6: LFC Securities -->
+          <div class="portfolio-card reveal" data-category="professional" id="portfolio-6">
+            <div class="portfolio-card-image">
+              <div class="work-placeholder-img" style="background: linear-gradient(135deg, #5A3A4A, #8B5A6A);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+              </div>
+            </div>
+            <div class="portfolio-card-body">
+              <span class="work-tag">Internship</span>
+              <h3>Equity & Fixed Income Research — L.F.C Securities</h3>
+              <p>Researched equities and fixed income instruments at a SEBI-registered broking house. Participated in client investment strategy discussions and gained exposure to capital markets operations.</p>
+            </div>
+            <div class="portfolio-card-footer">
+              <span class="portfolio-date">Oct 2022 — Feb 2023</span>
+              <a href="#" class="work-link">Details →</a>
+            </div>
+          </div>
+
+          <!-- Card 7: Fine-Ans -->
+          <div class="portfolio-card reveal" data-category="academic" id="portfolio-7">
+            <div class="portfolio-card-image">
+              <div class="work-placeholder-img" style="background: linear-gradient(135deg, #2C3E50, #4A6FA5);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                  <path d="M12 15l-3 3 1 4 2-2 2 2 1-4-3-3z"/>
+                  <circle cx="12" cy="8" r="7"/>
+                </svg>
+              </div>
+            </div>
+            <div class="portfolio-card-body">
+              <span class="work-tag">Case Competition</span>
+              <h3>Fine-Ans Case Study Competition (AICPA & CIMA)</h3>
+              <p>Explored financial restructuring, exit planning, and corporate governance frameworks in a competitive case study environment organised by AICPA and CIMA.</p>
+            </div>
+            <div class="portfolio-card-footer">
+              <span class="portfolio-date">Competition</span>
+              <a href="#" class="work-link">Details →</a>
+            </div>
+          </div>
+
+          <!-- Card 8: Bharat Enterprise -->
+          <div class="portfolio-card reveal" data-category="professional" id="portfolio-8">
+            <div class="portfolio-card-image">
+              <div class="work-placeholder-img" style="background: linear-gradient(135deg, #3A5A40, #6B8F71);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                </svg>
+              </div>
+            </div>
+            <div class="portfolio-card-body">
+              <span class="work-tag">Business Operations</span>
+              <h3>Bharat Enterprise — B2B Operations Management</h3>
+              <p>Managed business operations of a B2B office supplies and corporate stationery distribution company. Hands-on experience in supply chain, client management, and operational efficiency.</p>
+            </div>
+            <div class="portfolio-card-footer">
+              <span class="portfolio-date">Business</span>
+              <a href="#" class="work-link">Details →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-banner">
+      <div class="container">
+        <div class="cta-content">
+          <h2>Interested in Collaborating?</h2>
+          <p>I'm always open to discussing new research ideas and investment opportunities.</p>
+          <a href="contact.html" class="btn btn-light">Get in Touch</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" id="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <span class="footer-logo">VM</span>
+          <p>CFA Level III Candidate · Research Associate</p>
+          <p class="footer-tagline">Translating complex data into actionable investment views.</p>
+        </div>
+        <div class="footer-nav">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="blog.html">Articles</a></li>
+            <li><a href="skills.html">Skills</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-social">
+          <h4>Connect</h4>
+          <div class="social-links">
+            <a href="https://www.linkedin.com/in/vishnumadat/" class="social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+            <a href="mailto:Vishnumahadevmadat@gmail.com" class="social-link" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></a>
+            <a href="https://substack.com/@vishnumadat" class="social-link" aria-label="Substack" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Vishnu Madat. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
