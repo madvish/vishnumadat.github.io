@@ -154,36 +154,78 @@ function initPortfolioFilters() {
   });
 }
 
-// --- Contact Form ---
+// --- Contact Form (Telegram Integration) ---
 function initContactForm() {
   const form = document.getElementById('contact-form');
   
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  const TELEGRAM_BOT_TOKEN = '8924691763:AAGymPp9Zb2IOnJ16y3ddZMeLBDYnhGnDW0';
+  const TELEGRAM_CHAT_ID = '5033051057';
+
+  // Helper to escape HTML special characters for Telegram HTML parse_mode
+  function escapeHTML(str) {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
     const submitBtn = form.querySelector('.btn-primary');
-    const originalText = submitBtn.textContent;
+    const originalHTML = submitBtn.innerHTML;
     
-    // Simulate form submission
-    submitBtn.textContent = 'Sending...';
+    // Gather form data
+    const name = form.querySelector('#contact-name').value.trim();
+    const email = form.querySelector('#contact-email-input').value.trim() || 'Not provided';
+    const subjectEl = form.querySelector('#contact-subject');
+    const subject = subjectEl.options[subjectEl.selectedIndex]?.text || 'Not specified';
+    const message = form.querySelector('#contact-message').value.trim();
+
+    // Build a formatted Telegram message using HTML parse_mode (more robust than Markdown)
+    const text = "\uD83D\uDCEC <b>New Contact Form Submission</b>\n\n\uD83D\uDC64 <b>Name:</b> " + escapeHTML(name) + "\n\uD83D\uDCE7 <b>Email:</b> " + escapeHTML(email) + "\n\uD83D\uDCCC <b>Subject:</b> " + escapeHTML(subject) + "\n\n\uD83D\uDCAC <b>Message:</b>\n" + escapeHTML(message);
+
+    // Show sending state
+    submitBtn.innerHTML = '<span>Sending...</span>';
     submitBtn.disabled = true;
     submitBtn.style.opacity = '0.7';
-    
-    setTimeout(() => {
-      submitBtn.textContent = '✓ Message Sent!';
-      submitBtn.style.background = '#3A5A40';
+
+    try {
+      const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: text,
+          parse_mode: 'HTML'
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.ok) {
+        submitBtn.innerHTML = '<span>\u2713 Message Sent!</span>';
+        submitBtn.style.background = '#3A5A40';
+        submitBtn.style.opacity = '1';
+        form.reset();
+      } else {
+        console.error('Telegram API error:', data);
+        throw new Error(data.description || 'Telegram API returned an error');
+      }
+    } catch (error) {
+      submitBtn.innerHTML = '<span>\u2715 Failed to send</span>';
+      submitBtn.style.background = '#8B0000';
       submitBtn.style.opacity = '1';
-      
-      form.reset();
-      
-      setTimeout(() => {
-        submitBtn.textContent = originalText;
-        submitBtn.style.background = '';
-        submitBtn.disabled = false;
-      }, 3000);
-    }, 1500);
+      console.error('Contact form error:', error);
+    }
+
+    setTimeout(() => {
+      submitBtn.innerHTML = originalHTML;
+      submitBtn.style.background = '';
+      submitBtn.disabled = false;
+    }, 3000);
   });
 }
 
