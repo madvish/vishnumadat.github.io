@@ -267,3 +267,5 @@ if (statNumbers.length > 0) {
 
   statNumbers.forEach(stat => statsObserver.observe(stat));
 }
+
+
