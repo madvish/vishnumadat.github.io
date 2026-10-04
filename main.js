@@ -1,5 +1,6 @@
 // ============================================
-// Main JavaScript — Riddhi Kharote Website
+// Main JavaScript — Vishnu Madat Website
+// Light Luxury Theme — Enhanced Animations
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -9,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initSkillBars();
   initContactForm();
   initPortfolioFilters();
+  initParallaxCards();
+  initSmoothHoverEffects();
 });
 
 // --- Navigation ---
@@ -64,13 +67,14 @@ function initNavigation() {
 
 // --- Scroll Effects ---
 function initScrollEffects() {
-  // Parallax-like effect for hero
+  // Parallax-like effect for hero background
   const heroBg = document.querySelector('.hero-bg-pattern');
   if (heroBg) {
     window.addEventListener('scroll', () => {
       const scroll = window.scrollY;
       if (scroll < window.innerHeight) {
-        heroBg.style.transform = `translateY(${scroll * 0.3}px)`;
+        heroBg.style.transform = `translateY(${scroll * 0.25}px)`;
+        heroBg.style.opacity = 1 - (scroll / window.innerHeight) * 0.3;
       }
     }, { passive: true });
   }
@@ -106,12 +110,16 @@ function initSkillBars() {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('animate');
+        // Small delay for a staggered effect
+        const index = Array.from(skillBars).indexOf(entry.target);
+        setTimeout(() => {
+          entry.target.classList.add('animate');
+        }, index * 80);
         observer.unobserve(entry.target);
       }
     });
   }, {
-    threshold: 0.5
+    threshold: 0.3
   });
 
   skillBars.forEach(bar => observer.observe(bar));
@@ -132,24 +140,80 @@ function initPortfolioFilters() {
 
       const filter = btn.dataset.filter;
 
-      portfolioCards.forEach(card => {
+      portfolioCards.forEach((card, i) => {
         if (filter === 'all' || card.dataset.category === filter) {
           card.style.display = '';
           card.style.opacity = '0';
-          card.style.transform = 'translateY(20px)';
-          requestAnimationFrame(() => {
-            card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+          card.style.transform = 'translateY(24px)';
+          setTimeout(() => {
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
             card.style.opacity = '1';
             card.style.transform = 'translateY(0)';
-          });
+          }, i * 60);
         } else {
           card.style.opacity = '0';
-          card.style.transform = 'translateY(20px)';
+          card.style.transform = 'translateY(24px)';
           setTimeout(() => {
             card.style.display = 'none';
           }, 400);
         }
       });
+    });
+  });
+}
+
+// --- Parallax Cards (3D tilt on hero card) ---
+function initParallaxCards() {
+  const card = document.querySelector('.hero-card-inner');
+  if (!card) return;
+
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = ((y - centerY) / centerY) * -3;
+    const rotateY = ((x - centerX) / centerX) * 3;
+    
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+  });
+
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+    card.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+  });
+
+  card.addEventListener('mouseenter', () => {
+    card.style.transition = 'transform 0.1s ease';
+  });
+}
+
+// --- Smooth Hover Effects ---
+function initSmoothHoverEffects() {
+  // Magnetic button effect
+  document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      btn.style.transform = `translateY(-3px) translate(${x * 0.1}px, ${y * 0.1}px)`;
+    });
+
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = 'translateY(0)';
+    });
+  });
+
+  // Animated border glow on feature cards
+  document.querySelectorAll('.feature-card, .portfolio-card, .blog-card, .cert-card, .skill-category').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      card.style.setProperty('--mouse-x', `${x}%`);
+      card.style.setProperty('--mouse-y', `${y}%`);
     });
   });
 }
@@ -207,7 +271,7 @@ function initContactForm() {
 
       if (response.ok && data.ok) {
         submitBtn.innerHTML = '<span>\u2713 Message Sent!</span>';
-        submitBtn.style.background = '#3A5A40';
+        submitBtn.style.background = 'linear-gradient(135deg, #2D6A4F, #3A7D5E)';
         submitBtn.style.opacity = '1';
         form.reset();
       } else {
@@ -216,7 +280,7 @@ function initContactForm() {
       }
     } catch (error) {
       submitBtn.innerHTML = '<span>\u2715 Failed to send</span>';
-      submitBtn.style.background = '#8B0000';
+      submitBtn.style.background = 'linear-gradient(135deg, #8B0000, #A52A2A)';
       submitBtn.style.opacity = '1';
       console.error('Contact form error:', error);
     }
@@ -267,5 +331,3 @@ if (statNumbers.length > 0) {
 
   statNumbers.forEach(stat => statsObserver.observe(stat));
 }
-
-
