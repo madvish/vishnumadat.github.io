@@ -1,22 +1,26 @@
 // ============================================
-//  Disclaimer & Acknowledgement System
-//  Central Configuration + Access Control
+//  Disclaimer & Access Control System
+//  Password Protection + Acknowledgement + Alerts
 // ============================================
 
 (function () {
   'use strict';
 
   // ──────────────────────────────────────────
-  //  CENTRAL CONFIGURATION — update here only
+  //  CENTRAL CONFIGURATION
   // ──────────────────────────────────────────
   const DISCLOSURE_VERSION = '2026-10-16-v1';
   const APPLICATION_VERSION = '1.0.0';
   const STORAGE_KEY_PREFIX = 'vm_portfolio_';
-  // ──────────────────────────────────────────
-  //  TELEGRAM NOTIFICATION CONFIGURATION
-  // ──────────────────────────────────────────
+
+  // Telegram Notifications
   const TELEGRAM_BOT_TOKEN = '8924691763:AAGymPp9Zb2IOnJ16y3ddZMeLBDYnhGnDW0';
   const TELEGRAM_CHAT_ID = '5033051057';
+
+  // Model Portfolio Password Protection
+  // Password: Virtualportvish$23@
+  const PORTFOLIO_PASSWORD_HASH = 'e781cad4a5e86921f626ae610c5293df1ab5918a2fc04f62ed716a2b7ae1594f';
+  const PORTFOLIO_PASSWORD_PLAIN = 'Virtualportvish$23@';
 
   function escapeHTML(str) {
     if (!str) return '';
@@ -37,7 +41,33 @@
     });
   }
 
-    async function sendTelegramAcknowledgement(record) {
+  async function hashStringSHA256(str) {
+    if (typeof crypto !== 'undefined' && crypto.subtle && typeof crypto.subtle.digest === 'function') {
+      try {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(str);
+        const hashBuf = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuf));
+        return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+      } catch (e) {
+        return null;
+      }
+    }
+    return null;
+  }
+
+  async function verifyPassword(input) {
+    if (!input) return false;
+    const trimmed = input.trim();
+    const hash = await hashStringSHA256(trimmed);
+    if (hash) {
+      return hash.toLowerCase() === PORTFOLIO_PASSWORD_HASH.toLowerCase();
+    }
+    // Fallback if Web Crypto Subtle is unavailable
+    return trimmed === PORTFOLIO_PASSWORD_PLAIN;
+  }
+
+  async function sendTelegramAcknowledgement(record) {
     try {
       const now = new Date();
       const localTime = now.toLocaleString('en-IN', {
@@ -48,11 +78,12 @@
       const userAgent = (navigator.userAgent || 'Unknown').slice(0, 150);
 
       const text =
-        '⚖️ <b>Portfolio Disclaimer Acknowledged</b>\n\n' +
+        '🔓 <b>Model Portfolio Unlocked</b>\n\n' +
+        '🔑 <b>Status:</b> Password Verified\n' +
         '🆔 <b>Visitor ID:</b> <code>' + escapeHTML(record.visitor_id) + '</code>\n' +
         '🕒 <b>Time (IST):</b> ' + escapeHTML(localTime) + '\n' +
         '📄 <b>Page:</b> Model Portfolio\n' +
-        '📌 <b>Version:</b> ' + escapeHTML(record.disclosure_version) + '\n' +
+        '📌 <b>Disclaimer Version:</b> ' + escapeHTML(record.disclosure_version) + '\n' +
         '🌐 <b>URL:</b> ' + escapeHTML(window.location.href) + '\n' +
         '📱 <b>Device:</b> <code>' + escapeHTML(userAgent) + '</code>';
 
@@ -73,10 +104,55 @@
 
       if (timeoutId) clearTimeout(timeoutId);
       const data = await res.json();
-      console.log('Disclaimer Telegram acknowledgement sent:', data);
+      console.log('Telegram portfolio unlock alert sent:', data);
       return data;
     } catch (e) {
-      console.warn('Telegram notification dispatch error:', e);
+      console.warn('Telegram unlock notification dispatch error:', e);
+      return null;
+    }
+  }
+
+  async function sendTelegramFailedAttempt(enteredPassword) {
+    try {
+      const now = new Date();
+      const localTime = now.toLocaleString('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        dateStyle: 'medium',
+        timeStyle: 'medium',
+      });
+      const userAgent = (navigator.userAgent || 'Unknown').slice(0, 150);
+      const visitorId = getOrCreateVisitorId();
+
+      const text =
+        '🚫 <b>Failed Portfolio Password Attempt</b>\n\n' +
+        '🔑 <b>Entered:</b> <code>' + escapeHTML(enteredPassword ? enteredPassword.slice(0, 50) : '(empty)') + '</code>\n' +
+        '🆔 <b>Visitor ID:</b> <code>' + escapeHTML(visitorId) + '</code>\n' +
+        '🕒 <b>Time (IST):</b> ' + escapeHTML(localTime) + '\n' +
+        '📄 <b>Page:</b> Model Portfolio\n' +
+        '🌐 <b>URL:</b> ' + escapeHTML(window.location.href) + '\n' +
+        '📱 <b>Device:</b> <code>' + escapeHTML(userAgent) + '</code>';
+
+      const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+      const timeoutId = controller ? setTimeout(() => controller.abort(), 3500) : null;
+
+      const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: text,
+          parse_mode: 'HTML',
+        }),
+        keepalive: true,
+        signal: controller ? controller.signal : undefined,
+      });
+
+      if (timeoutId) clearTimeout(timeoutId);
+      const data = await res.json();
+      console.log('Telegram failed attempt alert sent:', data);
+      return data;
+    } catch (e) {
+      console.warn('Telegram failed attempt notification dispatch error:', e);
       return null;
     }
   }
@@ -95,7 +171,6 @@
       id = localStorage.getItem(STORAGE_KEYS.visitorId);
     } catch (e) { /* storage unavailable */ }
     if (!id) {
-      // Generate a random pseudonymous ID — no PII
       id = 'v_' + generateUUID();
       try {
         localStorage.setItem(STORAGE_KEYS.visitorId, id);
@@ -150,7 +225,7 @@
   }
 
   // ──────────────────────────────────────────
-  //  DISCLAIMER MODAL — HTML + behaviour
+  //  DISCLAIMER & PASSWORD MODAL
   // ──────────────────────────────────────────
   function buildDisclaimerModal() {
     const overlay = document.createElement('div');
@@ -186,7 +261,7 @@
 
             <p>Equity investments involve market, liquidity, valuation and other risks, including the possible loss of capital. Hypothetical and historical performance have inherent limitations and do not guarantee future results.</p>
 
-            <p>By selecting the acknowledgement below, you confirm that you have read and understood this notice and acknowledge the hypothetical and educational nature of the portfolio.</p>
+            <p>By entering the access password and confirming the acknowledgement below, you verify that you have read and understood this notice and acknowledge the hypothetical and educational nature of the portfolio.</p>
 
             <p>This acknowledgement does not waive any rights that cannot legally be waived, exclude liability where such exclusion is prohibited by law, or replace any registration or compliance requirement under applicable law.</p>
           </div>
@@ -195,6 +270,38 @@
             <span>Disclosure version: <strong>${DISCLOSURE_VERSION}</strong></span>
             <span>·</span>
             <a href="disclaimer.html" class="disclaimer-full-link" id="disclaimer-full-link">Read full disclosure →</a>
+          </div>
+
+          <div class="disclaimer-password-wrap">
+            <label for="disclaimer-password-input" class="disclaimer-password-label">
+              Portfolio Access Password
+            </label>
+            <div class="disclaimer-input-container">
+              <input
+                type="password"
+                id="disclaimer-password-input"
+                class="disclaimer-password-input"
+                placeholder="Enter access password"
+                autocomplete="current-password"
+                spellcheck="false"
+              />
+              <button
+                type="button"
+                id="disclaimer-toggle-pw"
+                class="disclaimer-toggle-pw"
+                aria-label="Toggle password visibility"
+                title="Show/Hide Password"
+              >
+                <svg id="eye-icon-show" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <svg id="eye-icon-hide" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+              </button>
+            </div>
           </div>
 
           <div class="disclaimer-checkbox-wrap">
@@ -209,9 +316,7 @@
             Continue to Portfolio
           </button>
 
-          <div id="disclaimer-error" class="disclaimer-error" role="alert" aria-live="polite" style="display:none;">
-            We couldn't record your acknowledgement. Please try again.
-          </div>
+          <div id="disclaimer-error" class="disclaimer-error" role="alert" aria-live="polite" style="display:none;"></div>
         </div>
       </div>
     `;
@@ -229,23 +334,103 @@
       overlay.classList.add('visible');
     });
 
+    const passwordInput = document.getElementById('disclaimer-password-input');
+    const togglePwBtn = document.getElementById('disclaimer-toggle-pw');
+    const eyeShow = document.getElementById('eye-icon-show');
+    const eyeHide = document.getElementById('eye-icon-hide');
     const checkbox = document.getElementById('disclaimer-checkbox');
     const continueBtn = document.getElementById('disclaimer-continue-btn');
     const errorEl = document.getElementById('disclaimer-error');
 
-    // Checkbox → enable/disable button
-    checkbox.addEventListener('change', () => {
-      continueBtn.disabled = !checkbox.checked;
-    });
+    // Toggle password visibility
+    if (togglePwBtn && passwordInput) {
+      togglePwBtn.addEventListener('click', () => {
+        const isPassword = passwordInput.getAttribute('type') === 'password';
+        passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+        if (eyeShow && eyeHide) {
+          eyeShow.style.display = isPassword ? 'none' : 'block';
+          eyeHide.style.display = isPassword ? 'block' : 'none';
+        }
+      });
+    }
 
-    // Continue button
+    // Enable button only when password entered AND checkbox checked
+    function checkInputs() {
+      const hasPassword = passwordInput && passwordInput.value.trim().length > 0;
+      const isChecked = checkbox && checkbox.checked;
+      continueBtn.disabled = !(hasPassword && isChecked);
+    }
+
+    if (passwordInput) {
+      passwordInput.addEventListener('input', () => {
+        errorEl.style.display = 'none';
+        checkInputs();
+      });
+      passwordInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          if (!checkbox.checked) {
+            checkbox.focus();
+          } else if (!continueBtn.disabled) {
+            continueBtn.click();
+          }
+        }
+      });
+    }
+
+    if (checkbox) {
+      checkbox.addEventListener('change', () => {
+        checkInputs();
+      });
+      checkbox.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !continueBtn.disabled) {
+          e.preventDefault();
+          continueBtn.click();
+        }
+      });
+    }
+
+    // Continue button validation & submission
     continueBtn.addEventListener('click', async () => {
-      if (!checkbox.checked) return;
+      if (continueBtn.disabled) return;
+
+      const entered = (passwordInput ? passwordInput.value : '').trim();
+      if (!entered) {
+        errorEl.textContent = 'Please enter the access password.';
+        errorEl.style.display = 'block';
+        if (passwordInput) passwordInput.focus();
+        return;
+      }
+
+      if (!checkbox.checked) {
+        errorEl.textContent = 'Please acknowledge the disclaimer notice above.';
+        errorEl.style.display = 'block';
+        return;
+      }
 
       errorEl.style.display = 'none';
       continueBtn.disabled = true;
-      continueBtn.textContent = 'Recording…';
+      continueBtn.textContent = 'Verifying…';
 
+      const isValid = await verifyPassword(entered);
+
+      if (!isValid) {
+        // Send alert about failed attempt in background
+        sendTelegramFailedAttempt(entered);
+
+        errorEl.textContent = 'Incorrect password. Please contact Vishnu for access.';
+        errorEl.style.display = 'block';
+        continueBtn.disabled = false;
+        continueBtn.textContent = 'Continue to Portfolio';
+        if (passwordInput) {
+          passwordInput.focus();
+          passwordInput.select();
+        }
+        return;
+      }
+
+      // Valid password
+      continueBtn.textContent = 'Unlocking…';
       const record = createAcknowledgementRecord('model-portfolio');
       saveAcknowledgement(record);
 
@@ -286,11 +471,13 @@
           }
         }
       }
-      // Do NOT allow Escape to dismiss — user must acknowledge
+      // Do NOT allow Escape to dismiss — user must unlock
     });
 
-    // Focus the checkbox on open
-    setTimeout(() => checkbox.focus(), 400);
+    // Focus password field on open
+    setTimeout(() => {
+      if (passwordInput) passwordInput.focus();
+    }, 400);
   }
 
   // ──────────────────────────────────────────
@@ -304,7 +491,7 @@
 
     if (!isModelPortfolioPage) return;
 
-    // Reprompt disclaimer at every visit
+    // Reprompt password + disclaimer at every visit
     hidePortfolioContent();
     showDisclaimerModal(() => {
       revealPortfolioContent();
@@ -333,7 +520,7 @@
   }
 
   // ──────────────────────────────────────────
-  //  PUBLIC API (for other scripts if needed)
+  //  PUBLIC API
   // ──────────────────────────────────────────
   window.VMDisclaimer = {
     DISCLOSURE_VERSION: DISCLOSURE_VERSION,
