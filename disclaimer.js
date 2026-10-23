@@ -19,7 +19,6 @@
 
   // Model Portfolio Password Protection
   // Password: Virtualportvish$23@
-  const PORTFOLIO_PASSWORD_HASH = 'e781cad4a5e86921f626ae610c5293df1ab5918a2fc04f62ed716a2b7ae1594f';
   const PORTFOLIO_PASSWORD_PLAIN = 'Virtualportvish$23@';
 
   function escapeHTML(str) {
@@ -41,30 +40,22 @@
     });
   }
 
-  async function hashStringSHA256(str) {
-    if (typeof crypto !== 'undefined' && crypto.subtle && typeof crypto.subtle.digest === 'function') {
-      try {
-        const encoder = new TextEncoder();
-        const data = encoder.encode(str);
-        const hashBuf = await crypto.subtle.digest('SHA-256', data);
-        const hashArray = Array.from(new Uint8Array(hashBuf));
-        return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
-      } catch (e) {
-        return null;
-      }
-    }
-    return null;
+  // Robust input cleaner: removes accidental prefixes, zero-width chars, hidden BOMs, non-breaking spaces
+  function cleanPasswordInput(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/^password\s*:\s*/i, '')
+      .replace(/[\u200B-\u200D\uFEFF\u200E\u200F\u00A0\u1680\u180E\u2000-\u200A\u202F\u205F\u3000]/g, '')
+      .trim();
   }
 
-  async function verifyPassword(input) {
+  // Verifies password: exact match or case-insensitive match (for mobile keyboard differences)
+  function verifyPassword(input) {
     if (!input) return false;
-    const trimmed = input.trim();
-    const hash = await hashStringSHA256(trimmed);
-    if (hash) {
-      return hash.toLowerCase() === PORTFOLIO_PASSWORD_HASH.toLowerCase();
-    }
-    // Fallback if Web Crypto Subtle is unavailable
-    return trimmed === PORTFOLIO_PASSWORD_PLAIN;
+    const clean = cleanPasswordInput(input);
+    if (clean === PORTFOLIO_PASSWORD_PLAIN) return true;
+    if (clean.toLowerCase() === PORTFOLIO_PASSWORD_PLAIN.toLowerCase()) return true;
+    return false;
   }
 
   async function sendTelegramAcknowledgement(record) {
@@ -125,7 +116,7 @@
 
       const text =
         '🚫 <b>Failed Portfolio Password Attempt</b>\n\n' +
-        '🔑 <b>Entered:</b> <code>' + escapeHTML(enteredPassword ? enteredPassword.slice(0, 50) : '(empty)') + '</code>\n' +
+        '🔑 <b>Entered:</b> <code>' + escapeHTML(enteredPassword ? String(enteredPassword).slice(0, 60) : '(empty)') + '</code>\n' +
         '🆔 <b>Visitor ID:</b> <code>' + escapeHTML(visitorId) + '</code>\n' +
         '🕒 <b>Time (IST):</b> ' + escapeHTML(localTime) + '\n' +
         '📄 <b>Page:</b> Model Portfolio\n' +
@@ -325,6 +316,12 @@
   }
 
   function showDisclaimerModal(onSuccess) {
+    // Remove any stale overlay first
+    const existing = document.getElementById('disclaimer-overlay');
+    if (existing) {
+      existing.remove();
+    }
+
     const overlay = buildDisclaimerModal();
     document.body.appendChild(overlay);
     document.body.style.overflow = 'hidden';
@@ -334,13 +331,13 @@
       overlay.classList.add('visible');
     });
 
-    const passwordInput = document.getElementById('disclaimer-password-input');
-    const togglePwBtn = document.getElementById('disclaimer-toggle-pw');
-    const eyeShow = document.getElementById('eye-icon-show');
-    const eyeHide = document.getElementById('eye-icon-hide');
-    const checkbox = document.getElementById('disclaimer-checkbox');
-    const continueBtn = document.getElementById('disclaimer-continue-btn');
-    const errorEl = document.getElementById('disclaimer-error');
+    const passwordInput = overlay.querySelector('#disclaimer-password-input');
+    const togglePwBtn = overlay.querySelector('#disclaimer-toggle-pw');
+    const eyeShow = overlay.querySelector('#eye-icon-show');
+    const eyeHide = overlay.querySelector('#eye-icon-hide');
+    const checkbox = overlay.querySelector('#disclaimer-checkbox');
+    const continueBtn = overlay.querySelector('#disclaimer-continue-btn');
+    const errorEl = overlay.querySelector('#disclaimer-error');
 
     // Toggle password visibility
     if (togglePwBtn && passwordInput) {
@@ -356,7 +353,7 @@
 
     // Enable button only when password entered AND checkbox checked
     function checkInputs() {
-      const hasPassword = passwordInput && passwordInput.value.trim().length > 0;
+      const hasPassword = passwordInput && cleanPasswordInput(passwordInput.value).length > 0;
       const isChecked = checkbox && checkbox.checked;
       continueBtn.disabled = !(hasPassword && isChecked);
     }
@@ -370,8 +367,10 @@
         if (e.key === 'Enter') {
           e.preventDefault();
           if (!checkbox.checked) {
-            checkbox.focus();
-          } else if (!continueBtn.disabled) {
+            checkbox.checked = true;
+            checkInputs();
+          }
+          if (!continueBtn.disabled) {
             continueBtn.click();
           }
         }
@@ -394,8 +393,10 @@
     continueBtn.addEventListener('click', async () => {
       if (continueBtn.disabled) return;
 
-      const entered = (passwordInput ? passwordInput.value : '').trim();
-      if (!entered) {
+      const rawValue = passwordInput ? passwordInput.value : '';
+      const clean = cleanPasswordInput(rawValue);
+
+      if (!clean) {
         errorEl.textContent = 'Please enter the access password.';
         errorEl.style.display = 'block';
         if (passwordInput) passwordInput.focus();
@@ -412,11 +413,11 @@
       continueBtn.disabled = true;
       continueBtn.textContent = 'Verifying…';
 
-      const isValid = await verifyPassword(entered);
+      const isValid = verifyPassword(clean);
 
       if (!isValid) {
         // Send alert about failed attempt in background
-        sendTelegramFailedAttempt(entered);
+        sendTelegramFailedAttempt(rawValue);
 
         errorEl.textContent = 'Incorrect password. Please contact Vishnu for access.';
         errorEl.style.display = 'block';
