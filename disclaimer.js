@@ -12,6 +12,66 @@
   const DISCLOSURE_VERSION = '2026-10-16-v1';
   const APPLICATION_VERSION = '1.0.0';
   const STORAGE_KEY_PREFIX = 'vm_portfolio_';
+  // ──────────────────────────────────────────
+  //  TELEGRAM NOTIFICATION CONFIGURATION
+  // ──────────────────────────────────────────
+  const TELEGRAM_BOT_TOKEN = '8924691763:AAGymPp9Zb2IOnJ16y3ddZMeLBDYnhGnDW0';
+  const TELEGRAM_CHAT_ID = '5033051057';
+
+  function escapeHTML(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
+  function generateUUID() {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+      return crypto.randomUUID();
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      const r = (Math.random() * 16) | 0;
+      const v = c === 'x' ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
+  }
+
+  function sendTelegramAcknowledgement(record) {
+    try {
+      const now = new Date();
+      const localTime = now.toLocaleString('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        dateStyle: 'medium',
+        timeStyle: 'medium',
+      });
+      const userAgent = (navigator.userAgent || 'Unknown').slice(0, 150);
+
+      const text =
+        '⚖️ <b>Portfolio Disclaimer Acknowledged</b>\n\n' +
+        '🆔 <b>Visitor ID:</b> <code>' + escapeHTML(record.visitor_id) + '</code>\n' +
+        '🕒 <b>Time (IST):</b> ' + escapeHTML(localTime) + '\n' +
+        '📄 <b>Page:</b> Model Portfolio\n' +
+        '📌 <b>Version:</b> ' + escapeHTML(record.disclosure_version) + '\n' +
+        '🌐 <b>URL:</b> ' + escapeHTML(window.location.href) + '\n' +
+        '📱 <b>Device:</b> <code>' + escapeHTML(userAgent) + '</code>';
+
+      fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: text,
+          parse_mode: 'HTML',
+        }),
+      }).catch((err) => {
+        console.warn('Telegram disclaimer dispatch failed:', err);
+      });
+    } catch (e) {
+      console.warn('Telegram notification error:', e);
+    }
+  }
+
   const STORAGE_KEYS = {
     acknowledgements: STORAGE_KEY_PREFIX + 'acknowledgements',
     visitorId: STORAGE_KEY_PREFIX + 'visitor_id',
@@ -27,7 +87,7 @@
     } catch (e) { /* storage unavailable */ }
     if (!id) {
       // Generate a random pseudonymous ID — no PII
-      id = 'v_' + crypto.randomUUID();
+      id = 'v_' + generateUUID();
       try {
         localStorage.setItem(STORAGE_KEYS.visitorId, id);
       } catch (e) { /* storage unavailable */ }
@@ -69,7 +129,7 @@
 
   function createAcknowledgementRecord(pageContext) {
     return {
-      id: crypto.randomUUID(),
+      id: generateUUID(),
       disclosure_version: DISCLOSURE_VERSION,
       acknowledged_at: new Date().toISOString(),
       visitor_id: getOrCreateVisitorId(),
@@ -180,19 +240,16 @@
       const record = createAcknowledgementRecord('model-portfolio');
       const success = saveAcknowledgement(record);
 
-      if (success) {
-        overlay.classList.remove('visible');
-        setTimeout(() => {
-          overlay.remove();
-          document.body.style.overflow = '';
-          if (typeof onSuccess === 'function') onSuccess();
-        }, 350);
-      } else {
-        // Persistence failed — do NOT grant access
-        continueBtn.textContent = 'Continue to Portfolio';
-        continueBtn.disabled = false;
-        errorEl.style.display = 'block';
-      }
+      // Send Telegram notification
+      sendTelegramAcknowledgement(record);
+
+      // Allow access and dismiss modal
+      overlay.classList.remove('visible');
+      setTimeout(() => {
+        overlay.remove();
+        document.body.style.overflow = '';
+        if (typeof onSuccess === 'function') onSuccess();
+      }, 350);
     });
 
     // Keyboard: trap focus inside modal
@@ -234,13 +291,7 @@
 
     if (!isModelPortfolioPage) return;
 
-    if (hasAcknowledgedCurrentVersion()) {
-      // Already acknowledged — allow access, show content
-      revealPortfolioContent();
-      return;
-    }
-
-    // Hide portfolio content until acknowledged
+    // Reprompt disclaimer at every visit
     hidePortfolioContent();
     showDisclaimerModal(() => {
       revealPortfolioContent();
