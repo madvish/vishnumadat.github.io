@@ -1,0 +1,16 @@
+sector,weight_pct,target_weight_pct,sector_return_pct,contribution_pct
+Financial Services,34.13,34.0,2.66,0.9
+Consumer Services,9.53,8.0,21.92,1.75
+Information Technology,7.91,8.5,-4.92,-0.42
+Healthcare,7.48,7.0,9.31,0.65
+Automobile and Auto Components,6.83,7.5,-6.29,-0.47
+Power,5.82,7.0,-14.94,-1.05
+Services,5.14,4.0,31.19,1.25
+Telecommunication,4.89,5.0,0.04,0.0
+Realty,4.53,4.0,15.73,0.63
+Consumer Durables,3.17,3.0,8.11,0.24
+Capital Goods,3.07,4.0,-21.24,-0.85
+Construction,2.07,2.0,6.23,0.12
+Metals & Mining,2.03,2.0,3.77,0.08
+Fast Moving Consumer Goods,1.72,2.0,-11.89,-0.24
+Construction Materials,1.63,2.0,-16.92,-0.34

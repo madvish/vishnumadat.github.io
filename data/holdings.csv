@@ -1,0 +1,36 @@
+ticker,company,sector,industry,weight_pct,target_weight_pct,active_weight_pct,entry_date,entry_price,last_price,return_since_entry_pct,contribution_pct
+AXISHEALTH,Axis Nifty Healthcare ETF,Healthcare,Healthcare diversified,7.48,7.0,0.48,2026-03-20,146.65,160.3,9.31,0.65
+HDFCBANK,HDFC Bank,Financial Services,Bank - Pvt,7.27,8.0,-0.73,2026-03-20,780.45,725.15,-7.09,-0.57
+SBIN,SBI,Financial Services,Bank - PSU,6.21,7.0,-0.79,2026-03-20,1058.0,959.0,-9.36,-0.66
+MANAPPURAM,Manappuram Finance,Financial Services,NBFC - Gold & MFI,6.1,5.0,1.1,2026-03-20,259.25,323.3,24.71,1.24
+KOTAKBANK,Kotak Mahindra Bank,Financial Services,Bank - Pvt,5.94,5.0,0.94,2026-03-20,366.75,445.55,21.49,1.07
+SHRIRAMFIN,Shriram Finance,Financial Services,NBFC - Auto,4.95,5.0,-0.05,2026-03-20,938.6,950.75,1.29,0.06
+BHARTIARTL,Bharti Airtel,Telecommunication,Telecom,4.89,5.0,-0.11,2026-03-20,1846.1,1846.9,0.04,0.0
+ADANIPORTS,Adani Ports,Services,Ports,3.75,3.0,0.75,2026-03-20,1365.4,1744.6,27.77,0.83
+RECLTD,REC Ltd,Financial Services,NBFC - Power,3.67,4.0,-0.33,2026-03-20,330.5,309.95,-6.22,-0.25
+INDHOTEL,Indian Hotels,Consumer Services,Hotels,3.55,3.0,0.55,2026-03-20,615.55,745.0,21.03,0.63
+TCS,TCS,Information Technology,IT,3.39,3.5,-0.11,2026-03-20,2390.6,2356.7,-1.42,-0.05
+ETERNAL,Eternal (Zomato),Consumer Services,Q - Commerce,3.36,2.5,0.86,2026-03-20,232.29,319.6,37.59,0.94
+TITAN,Titan,Consumer Durables,Jewellery & Watches,3.17,3.0,0.17,2026-03-20,4106.6,4439.6,8.11,0.24
+WAAREEENER,Waaree Energies,Capital Goods,Solar manufacturing,3.07,4.0,-0.93,2026-03-20,3165.9,2493.4,-21.24,-0.85
+INFY,Infosys,Information Technology,IT,3.03,3.5,-0.47,2026-03-20,1255.9,1109.1,-11.69,-0.41
+TATAPOWER,Tata Power,Power,"T&D, Generation - diversified",2.76,3.25,-0.49,2026-03-20,402.4,349.75,-13.08,-0.43
+NTPC,NTPC,Power,Thermal Power generation,2.62,3.25,-0.63,2026-03-20,380.95,314.2,-17.52,-0.57
+LEMONTREE,Lemontree Hotels,Consumer Services,Hotels,2.62,2.5,0.12,2026-03-20,105.66,113.41,7.33,0.18
+LODHA,Lodha Developers,Realty,Retail & Commercial developer,2.59,2.0,0.59,2026-03-20,796.9,1054.4,32.31,0.65
+EICHERMOT,Eicher Motors,Automobile and Auto Components,2W Auto & HCV,2.55,2.5,0.05,2026-03-20,6909.0,7237.5,4.75,0.12
+M&M,Mahindra & Mahindra,Automobile and Auto Components,4W Auto LCV,2.28,2.5,-0.22,2026-03-20,3066.1,2848.4,-7.1,-0.18
+LT,Larsen & Toubro,Construction,Construction - Diversified,2.07,2.0,0.07,2026-03-20,3434.8,3648.7,6.23,0.12
+KRT,REITs (Knowledge Realty Trust),Realty,REIT,1.94,2.0,-0.06,2026-03-20,117.1,116.11,-0.84,-0.02
+ITC,ITC Ltd,Fast Moving Consumer Goods,"Cigarettes, FMCG & Paper",1.72,2.0,-0.28,2026-03-20,299.95,264.3,-11.89,-0.24
+AMBUJACEM,Ambuja Cements,Construction Materials,Cement,1.63,2.0,-0.37,2026-03-20,420.55,349.4,-16.92,-0.34
+FORCEMOT,Force Motors,Automobile and Auto Components,4W Auto HCV,1.55,2.0,-0.45,2026-03-20,21585.0,17604.0,-18.44,-0.36
+HCLTECH,HCL Tech,Information Technology,IT,1.5,1.5,0.0,2026-03-20,1333.7,1370.1,2.73,0.04
+WEWORK,Wework India,Services,Workplace Services,1.38,1.0,0.38,2026-03-20,470.0,664.75,41.44,0.41
+VEDL-AL,Vedanta Aluminium Metal,Metals & Mining,Vedanta demerged entity,1.05,0.0,1.05,2026-03-20,84.06,359.0,327.06,0.82
+VEDL,Vedanta Ltd,Metals & Mining,"Explortion, Extracting and Processing",0.72,2.0,-1.28,2026-03-20,336.25,245.4,-27.02,-0.27
+FIEMIND,Fiem Industries,Automobile and Auto Components,Auto ancilliary,0.45,0.5,-0.05,2026-03-20,2026.8,1825.0,-9.96,-0.05
+IEX,IEX,Power,Power Exchange,0.44,0.5,-0.06,2026-03-20,120.53,108.25,-10.19,-0.05
+VEDL-PWR,Talwandi Sabo Power (Vedanta Power),Metals & Mining,Vedanta demerged entity,0.09,0.0,0.09,2026-03-20,84.06,32.43,-61.42,-0.15
+VEDL-OG,Vedanta oil & gas,Metals & Mining,Vedanta demerged entity,0.09,0.0,0.09,2026-03-20,84.06,31.5,-62.53,-0.16
+VEDL-IS,Vedanta Iron & Steel,Metals & Mining,Vedanta demerged entity,0.09,0.0,0.09,2026-03-20,84.06,29.55,-64.85,-0.16

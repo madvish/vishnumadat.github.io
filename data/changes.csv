@@ -1,0 +1,36 @@
+change_id,date,ticker,action,from_weight_pct,to_weight_pct,rationale
+INIT-001,2026-03-20,KOTAKBANK,INITIAL BUY,0,5,Initial model portfolio construction. Sector thesis: Financial Services (see Theses).
+INIT-002,2026-03-20,HDFCBANK,INITIAL BUY,0,8,Initial model portfolio construction. Sector thesis: Financial Services (see Theses).
+INIT-003,2026-03-20,SBIN,INITIAL BUY,0,7,Initial model portfolio construction. Sector thesis: Financial Services (see Theses).
+INIT-004,2026-03-20,MANAPPURAM,INITIAL BUY,0,5,Initial model portfolio construction. Sector thesis: Financial Services (see Theses).
+INIT-005,2026-03-20,SHRIRAMFIN,INITIAL BUY,0,5,Initial model portfolio construction. Sector thesis: Financial Services (see Theses).
+INIT-006,2026-03-20,RECLTD,INITIAL BUY,0,4,Initial model portfolio construction. Sector thesis: Financial Services (see Theses).
+INIT-007,2026-03-20,INFY,INITIAL BUY,0,3.5,Initial model portfolio construction. Sector thesis: Information Technology (see Theses).
+INIT-008,2026-03-20,TCS,INITIAL BUY,0,3.5,Initial model portfolio construction. Sector thesis: Information Technology (see Theses).
+INIT-009,2026-03-20,HCLTECH,INITIAL BUY,0,1.5,Initial model portfolio construction. Sector thesis: Information Technology (see Theses).
+INIT-010,2026-03-20,NTPC,INITIAL BUY,0,3.25,Initial model portfolio construction. Sector thesis: Power (see Theses).
+INIT-011,2026-03-20,TATAPOWER,INITIAL BUY,0,3.25,Initial model portfolio construction. Sector thesis: Power (see Theses).
+INIT-012,2026-03-20,IEX,INITIAL BUY,0,0.5,Initial model portfolio construction. Sector thesis: Power (see Theses).
+INIT-013,2026-03-20,LODHA,INITIAL BUY,0,2,Initial model portfolio construction. Sector thesis: Realty (see Theses).
+INIT-014,2026-03-20,KRT,INITIAL BUY,0,2,Initial model portfolio construction. Sector thesis: Realty (see Theses).
+INIT-015,2026-03-20,WEWORK,INITIAL BUY,0,1,Initial model portfolio construction. Sector thesis: Services (see Theses).
+INIT-016,2026-03-20,ADANIPORTS,INITIAL BUY,0,3,Initial model portfolio construction. Sector thesis: Services (see Theses).
+INIT-017,2026-03-20,WAAREEENER,INITIAL BUY,0,4,Initial model portfolio construction. Sector thesis: Capital Goods (see Theses).
+INIT-018,2026-03-20,LEMONTREE,INITIAL BUY,0,2.5,Initial model portfolio construction. Sector thesis: Consumer Services (see Theses).
+INIT-019,2026-03-20,INDHOTEL,INITIAL BUY,0,3,Initial model portfolio construction. Sector thesis: Consumer Services (see Theses).
+INIT-020,2026-03-20,ETERNAL,INITIAL BUY,0,2.5,Initial model portfolio construction. Sector thesis: Consumer Services (see Theses).
+INIT-021,2026-03-20,BHARTIARTL,INITIAL BUY,0,5,Initial model portfolio construction. Sector thesis: Telecommunication (see Theses).
+INIT-022,2026-03-20,AXISHEALTH,INITIAL BUY,0,7,Initial model portfolio construction. Sector thesis: Healthcare (see Theses).
+INIT-023,2026-03-20,TITAN,INITIAL BUY,0,3,Initial model portfolio construction. Sector thesis: Consumer Durables (see Theses).
+INIT-024,2026-03-20,ITC,INITIAL BUY,0,2,Initial model portfolio construction. Sector thesis: Fast Moving Consumer Goods (see Theses).
+INIT-025,2026-03-20,FIEMIND,INITIAL BUY,0,0.5,Initial model portfolio construction. Sector thesis: Automobile and Auto Components (see Theses).
+INIT-026,2026-03-20,FORCEMOT,INITIAL BUY,0,2,Initial model portfolio construction. Sector thesis: Automobile and Auto Components (see Theses).
+INIT-027,2026-03-20,EICHERMOT,INITIAL BUY,0,2.5,Initial model portfolio construction. Sector thesis: Automobile and Auto Components (see Theses).
+INIT-028,2026-03-20,M&M,INITIAL BUY,0,2.5,Initial model portfolio construction. Sector thesis: Automobile and Auto Components (see Theses).
+INIT-029,2026-03-20,AMBUJACEM,INITIAL BUY,0,2,Initial model portfolio construction. Sector thesis: Construction Materials (see Theses).
+INIT-030,2026-03-20,LT,INITIAL BUY,0,2,Initial model portfolio construction. Sector thesis: Construction (see Theses).
+INIT-031,2026-03-20,VEDL,INITIAL BUY,0,2,Initial model portfolio construction. Sector thesis: Metals & Mining (see Theses).
+INIT-032,2026-03-20,VEDL-AL,INITIAL BUY,0,0,Initial model portfolio construction. Sector thesis: Metals & Mining (see Theses).
+INIT-033,2026-03-20,VEDL-PWR,INITIAL BUY,0,0,Initial model portfolio construction. Sector thesis: Metals & Mining (see Theses).
+INIT-034,2026-03-20,VEDL-OG,INITIAL BUY,0,0,Initial model portfolio construction. Sector thesis: Metals & Mining (see Theses).
+INIT-035,2026-03-20,VEDL-IS,INITIAL BUY,0,0,Initial model portfolio construction. Sector thesis: Metals & Mining (see Theses).

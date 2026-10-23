@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Long-Only Model Portfolio — Vishnu Madat | Virtual Equity Portfolio</title>
+  <meta name="description" content="Vishnu Madat's hypothetical long-only equity portfolio — a concentrated, conviction-driven model portfolio benchmarked against Nifty 500. For educational and demonstration purposes only." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=639267403871794292" />
+
+  <!-- CDN Libraries for model portfolio charts/data -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+  <style>
+    /* =============================================
+       MODEL PORTFOLIO SECTION — uses site tokens
+       ============================================= */
+
+    /* Smooth scroll anchor offset */
+    #model-portfolio { scroll-margin-top: 80px; }
+
+    /* Section divider */
+    .mp-divider {
+      border: none;
+      border-top: 1px solid var(--color-border);
+      margin: 0;
+    }
+
+    /* Section wrapper */
+    .mp-section {
+      padding: var(--space-5xl) 0;
+    }
+    .mp-section:nth-child(even) {
+      background: var(--color-bg-alt);
+    }
+
+    /* Sub-section title (reuses site styles) */
+    .mp-sub-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+    .mp-sub-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--color-border);
+    }
+
+    /* Hero meta strip */
+    .mp-hero-strip {
+      background: var(--color-deep-navy);
+      color: rgba(255,255,255,0.85);
+      padding: var(--space-xl) 0;
+    }
+    .mp-hero-strip-inner {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm) var(--space-2xl);
+      align-items: center;
+    }
+    .mp-hero-strip-inner span strong {
+      color: #fff;
+      font-weight: 600;
+    }
+    .mp-hero-strip-inner span {
+      font-size: 0.875rem;
+    }
+
+    /* Summary cards */
+    .mp-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: var(--space-lg);
+      margin-bottom: var(--space-md);
+    }
+    .mp-card {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl) var(--space-lg);
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+      transition: transform var(--duration-normal) var(--ease-out), box-shadow var(--duration-normal) var(--ease-out);
+    }
+    .mp-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--color-accent), var(--color-gold));
+    }
+    .mp-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    .mp-card-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--color-text-tertiary);
+      margin-bottom: var(--space-sm);
+    }
+    .mp-card-value {
+      font-family: var(--font-display);
+      font-size: 1.9rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .mp-positive { color: #16a34a; }
+    .mp-negative { color: #dc2626; }
+    .mp-neutral  { color: var(--color-accent); }
+    .mp-annualised {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      font-style: italic;
+      margin-top: var(--space-sm);
+    }
+
+    /* Chart */
+    .mp-chart-card {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      box-shadow: var(--shadow-sm);
+    }
+    .mp-chart-legend {
+      display: flex;
+      gap: var(--space-xl);
+      margin-bottom: var(--space-lg);
+      flex-wrap: wrap;
+    }
+    .mp-legend-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+    }
+    .mp-legend-dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* Tables */
+    .mp-table-wrap {
+      overflow-x: auto;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-sm);
+    }
+    .mp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      background: var(--color-bg-card);
+    }
+    .mp-table thead th {
+      background: var(--color-deep-navy);
+      color: #fff;
+      font-weight: 600;
+      padding: 0.85rem 1rem;
+      text-align: left;
+      white-space: nowrap;
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      user-select: none;
+      transition: background var(--duration-fast);
+    }
+    .mp-table thead th:hover { background: #244872; }
+    .mp-table thead th .sort-icon { margin-left: 4px; opacity: 0.4; font-size: 0.7rem; }
+    .mp-table thead th.sorted-asc  .sort-icon::after { content: ' ▲'; opacity: 1; }
+    .mp-table thead th.sorted-desc .sort-icon::after { content: ' ▼'; opacity: 1; }
+    .mp-table thead th:not(.sorted-asc):not(.sorted-desc) .sort-icon::after { content: ' ⇅'; }
+    .mp-table tbody tr {
+      border-bottom: 1px solid var(--color-border);
+      transition: background var(--duration-fast);
+    }
+    .mp-table tbody tr:last-child { border-bottom: none; }
+    .mp-table tbody tr:hover { background: var(--color-accent-light); }
+    .mp-table tbody td {
+      padding: 0.75rem 1rem;
+      color: var(--color-text-primary);
+    }
+    .mp-table .td-pos { color: #16a34a; font-weight: 600; }
+    .mp-table .td-neg { color: #dc2626; font-weight: 600; }
+    .mp-table .td-neu { color: var(--color-text-secondary); }
+    .td-ticker {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--color-deep-navy);
+    }
+    .td-bold { font-weight: 600; color: var(--color-text-primary); }
+
+    /* Sector layout */
+    .mp-sector-grid {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: var(--space-xl);
+      align-items: start;
+    }
+    .mp-donut-card {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .mp-donut-card canvas { max-width: 220px; max-height: 220px; }
+    .mp-donut-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--color-text-tertiary);
+      margin-bottom: var(--space-md);
+    }
+    /* Donut legend */
+    .mp-donut-legend {
+      width: 100%;
+      margin-top: var(--space-lg);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.3rem 0.75rem;
+    }
+    .mp-donut-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.73rem;
+      color: var(--color-text-secondary);
+      line-height: 1.3;
+      overflow: hidden;
+    }
+    .mp-donut-legend-swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .mp-donut-legend-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .mp-donut-legend-pct {
+      margin-left: auto;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      white-space: nowrap;
+      padding-left: 0.25rem;
+    }
+
+    /* Action badges */
+    .mp-badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-full);
+    }
+    .mp-badge-buy  { background: rgba(22,163,74,0.10); color: #16a34a; }
+    .mp-badge-sell { background: rgba(220,38,38,0.10); color: #dc2626; }
+    .mp-badge-init { background: var(--color-accent-light); color: var(--color-accent); }
+    .mp-badge-def  { background: var(--color-surface); color: var(--color-text-secondary); }
+    .mp-w-arrow    { color: var(--color-text-muted); font-size: 0.85em; margin: 0 0.3rem; }
+    .rationale-cell {
+      max-width: 360px;
+      font-size: 0.82rem;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Collapsibles */
+    .mp-collapse {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-sm);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: box-shadow var(--duration-normal);
+    }
+    .mp-collapse.open { box-shadow: var(--shadow-md); }
+    .mp-collapse-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-md) var(--space-lg);
+      cursor: pointer;
+      gap: var(--space-md);
+      background: none;
+      border: none;
+      width: 100%;
+      text-align: left;
+      transition: background var(--duration-fast);
+    }
+    .mp-collapse-header:hover { background: var(--color-accent-light); }
+    .mp-collapse-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+    .mp-collapse-sub {
+      font-size: 0.75rem;
+      color: var(--color-text-tertiary);
+      margin-top: 0.1rem;
+    }
+    .mp-chevron {
+      flex-shrink: 0;
+      width: 22px; height: 22px;
+      color: var(--color-accent);
+      transition: transform var(--duration-normal) var(--ease-out);
+    }
+    .mp-collapse.open .mp-chevron { transform: rotate(180deg); }
+    .mp-collapse-body {
+      display: none;
+      padding: 0 var(--space-lg) var(--space-lg);
+      border-top: 1px solid var(--color-border);
+    }
+    .mp-collapse.open .mp-collapse-body { display: block; }
+
+    /* Thesis */
+    .thesis-sec-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin: var(--space-md) 0 var(--space-xs);
+      border-left: 3px solid var(--color-gold);
+      padding-left: var(--space-sm);
+    }
+    .thesis-text {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      line-height: 1.8;
+      white-space: pre-line;
+    }
+    .thesis-date-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      color: var(--color-text-tertiary);
+      background: var(--color-bg-alt);
+      border-radius: var(--radius-full);
+      padding: 0.2rem 0.7rem;
+      margin-top: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+
+    /* Method / disclaimer */
+    .mp-method-box {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-left: 4px solid var(--color-deep-navy);
+      border-radius: var(--radius-md);
+      padding: var(--space-lg) var(--space-xl);
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      line-height: 1.8;
+    }
+    .mp-disc-box {
+      background: rgba(107,58,58,0.05);
+      border: 1px solid rgba(107,58,58,0.15);
+      border-radius: var(--radius-md);
+      padding: var(--space-lg) var(--space-xl);
+      font-size: 0.82rem;
+      color: var(--color-burgundy);
+      line-height: 1.75;
+    }
+
+    /* Empty / loading */
+    .mp-empty {
+      text-align: center;
+      padding: var(--space-3xl) var(--space-md);
+      color: var(--color-text-muted);
+      font-size: 0.9rem;
+    }
+    .mp-loading {
+      padding: var(--space-xl);
+      text-align: center;
+      color: var(--color-text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .mp-sector-grid { grid-template-columns: 1fr; }
+      .mp-donut-card { order: -1; }
+    }
+    @media (max-width: 640px) {
+      .mp-cards { grid-template-columns: 1fr 1fr; }
+      .mp-card-value { font-size: 1.5rem; }
+      .mp-table thead th, .mp-table tbody td { padding: 0.55rem 0.6rem; }
+      .rationale-cell { max-width: 180px; }
+    }
+    @media (max-width: 420px) {
+      .mp-cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav id="main-nav" class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo" id="nav-logo">
+        <span class="logo-text">VM</span>
+      </a>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html" class="nav-link" data-page="home">Home</a>
+        <a href="about.html" class="nav-link" data-page="about">About</a>
+        <a href="portfolio.html" class="nav-link active" data-page="portfolio">Portfolio</a>
+        <a href="blog.html" class="nav-link" data-page="blog">Articles</a>
+        <a href="skills.html" class="nav-link" data-page="skills">Skills</a>
+        <a href="contact.html" class="nav-link" data-page="contact">Contact</a>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Page Hero -->
+    <section class="page-hero">
+      <span class="section-tag animate-fade-up">Live · Data-Driven</span>
+      <h1 class="animate-fade-up delay-1">Long-Only<br />Model Portfolio</h1>
+      <p class="animate-fade-up delay-2">A concentrated, fundamental equity portfolio tracked in real time against the Nifty 500.</p>
+    </section>
+
+    <!-- Model portfolio content — hidden until disclaimer acknowledged -->
+    <div id="model-portfolio-content" style="display:none;" aria-hidden="true">
+
+      <!-- Meta strip -->
+      <div class="mp-hero-strip" id="mp-hero-strip">
+        <div class="container">
+          <div class="mp-hero-strip-inner" id="mp-meta-row">
+            <span id="mp-updated"><strong>Last updated</strong> —</span>
+            <span id="mp-as-of"><strong>Data as of</strong> —</span>
+            <span id="mp-inception"><strong>Inception</strong> —</span>
+            <span id="mp-benchmark"><strong>Benchmark</strong> —</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1. Summary Cards -->
+      <section class="mp-section">
+        <div class="container">
+          <h3 class="mp-sub-title">Performance Summary</h3>
+          <div class="mp-cards" id="mp-cards">
+            <div class="mp-loading">Loading…</div>
+          </div>
+          <p class="mp-annualised" id="mp-annualised-note"></p>
+        </div>
+      </section>
+
+      <hr class="mp-divider" />
+
+      <!-- 2. Performance Chart -->
+      <section class="mp-section">
+        <div class="container">
+          <h3 class="mp-sub-title">Performance vs Benchmark</h3>
+          <div class="mp-chart-card">
+            <div class="mp-chart-legend">
+              <div class="mp-legend-item">
+                <div class="mp-legend-dot" style="background: var(--color-deep-navy);"></div>
+                Portfolio (base 100)
+              </div>
+              <div class="mp-legend-item">
+                <div class="mp-legend-dot" style="background: var(--color-gold);"></div>
+                Nifty 500 Benchmark (base 100)
+              </div>
+            </div>
+            <canvas id="mp-nav-chart" aria-label="Portfolio vs Benchmark performance chart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <hr class="mp-divider" />
+
+      <!-- 3. Holdings Table -->
+      <section class="mp-section">
+        <div class="container">
+          <h3 class="mp-sub-title">Holdings</h3>
+          <div id="mp-holdings-wrap">
+            <div class="mp-loading">Loading…</div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="mp-divider" />
+
+      <!-- 4. Sector Allocation -->
+      <section class="mp-section">
+        <div class="container">
+          <h3 class="mp-sub-title">Sector Allocation</h3>
+          <div class="mp-sector-grid">
+            <div id="mp-sectors-wrap">
+              <div class="mp-loading">Loading…</div>
+            </div>
+            <div class="mp-donut-card">
+              <div class="mp-donut-label">Weight by Sector</div>
+              <canvas id="mp-donut" aria-label="Sector allocation donut chart"></canvas>
+              <div class="mp-donut-legend" id="mp-donut-legend"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="mp-divider" />
+
+      <!-- 5. Change Log -->
+      <section class="mp-section">
+        <div class="container">
+          <h3 class="mp-sub-title">Change Log</h3>
+          <div class="mp-collapse" id="mp-changes-collapse">
+            <button class="mp-collapse-header" aria-expanded="false" aria-controls="mp-changes-body">
+              <div>
+                <div class="mp-collapse-title">View Change Log</div>
+                <div class="mp-collapse-sub">All portfolio rebalances and position changes, newest first</div>
+              </div>
+              <svg class="mp-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="mp-collapse-body" id="mp-changes-body" role="region">
+              <div class="mp-loading">Loading…</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="mp-divider" />
+
+      <!-- 6. Transactions (collapsible) -->
+      <section class="mp-section">
+        <div class="container">
+          <h3 class="mp-sub-title">Transactions</h3>
+          <div class="mp-collapse" id="mp-tx-collapse">
+            <button class="mp-collapse-header" aria-expanded="false" aria-controls="mp-tx-body">
+              <div>
+                <div class="mp-collapse-title">View All Transactions</div>
+                <div class="mp-collapse-sub">Detailed buy/sell log since inception</div>
+              </div>
+              <svg class="mp-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="mp-collapse-body" id="mp-tx-body" role="region">
+              <div class="mp-loading">Loading…</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="mp-divider" />
+
+      <!-- 7. Sector Theses (collapsible per sector) -->
+      <section class="mp-section">
+        <div class="container">
+          <h3 class="mp-sub-title">Sector Investment Theses</h3>
+          <div id="mp-theses-container">
+            <div class="mp-loading">Loading…</div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="mp-divider" />
+
+      <!-- 8. Methodology -->
+      <section class="mp-section">
+        <div class="container">
+          <h3 class="mp-sub-title">Methodology</h3>
+          <div class="mp-method-box">
+            Returns are price returns since the inception date, based on closing prices, and exclude dividends, costs and taxes.
+            Alpha is portfolio return minus benchmark return. Benchmark: Nifty 500.
+          </div>
+        </div>
+      </section>
+
+      <hr class="mp-divider" />
+
+      <!-- 9. Disclaimer -->
+      <section class="mp-section">
+        <div class="container">
+          <h3 class="mp-sub-title">Disclaimer</h3>
+          <div class="mp-disc-box">
+            This is a model portfolio for illustrative and educational purposes only. It is not investment advice or a
+            recommendation to buy or sell any security. Past performance is not indicative of future results.
+            <em>[SEBI registration details and disclosures – to be added]</em>
+            <br /><br />
+            <a href="disclaimer.html" style="color: var(--color-accent); font-weight: 600; text-decoration: underline;">Read the full disclaimer and disclosure →</a>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /#model-portfolio-content -->
+
+    <!-- CTA -->
+    <section class="cta-banner">
+      <div class="container">
+        <div class="cta-content">
+          <h2>Interested in Collaborating?</h2>
+          <p>I'm always open to discussing new research ideas and investment opportunities.</p>
+          <a href="contact.html" class="btn btn-light">Get in Touch</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" id="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <span class="footer-logo">VM</span>
+          <p>Cleared CFA Level III · Research Associate</p>
+          <p class="footer-tagline">Translating complex data into actionable investment views.</p>
+        </div>
+        <div class="footer-nav">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="blog.html">Articles</a></li>
+            <li><a href="skills.html">Skills</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-social">
+          <h4>Connect</h4>
+          <div class="social-links">
+            <a href="https://www.linkedin.com/in/vishnumadat/" class="social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+            <a href="https://substack.com/@vishnumadat" class="social-link" aria-label="Substack" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
+            </a>
+            <a href="https://x.com/MadatVishnu" class="social-link" aria-label="X (Twitter)" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="mailto:vishnumahadevmadat@gmail.com" class="social-link" aria-label="Email">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Vishnu Madat. All rights reserved. · <a href="disclaimer.html" style="color: rgba(255,255,255,0.5); text-decoration: underline;">Disclaimer</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script src="disclaimer.js"></script>
+
+  <script>
+  // =============================================
+  //  Model Portfolio Data Loader
+  // =============================================
+  (function () {
+    'use strict';
+
+    // ---- Helpers ----
+    function fmt(n, decimals) {
+      decimals = decimals ?? 2;
+      if (n === null || n === undefined || n === '' || isNaN(Number(n))) return '—';
+      const v = Number(n);
+      return (v >= 0 ? '+' : '') + v.toFixed(decimals) + '%';
+    }
+    function fmtPlain(n, decimals) {
+      decimals = decimals ?? 2;
+      if (n === null || n === undefined || n === '' || isNaN(Number(n))) return '—';
+      return Number(n).toFixed(decimals) + '%';
+    }
+    function colorClass(n) {
+      const v = Number(n);
+      if (isNaN(v)) return 'td-neu';
+      return v > 0 ? 'td-pos' : v < 0 ? 'td-neg' : 'td-neu';
+    }
+    function cardClass(n) {
+      const v = Number(n);
+      if (isNaN(v)) return 'mp-neutral';
+      return v > 0 ? 'mp-positive' : v < 0 ? 'mp-negative' : 'mp-neutral';
+    }
+    function fmtDate(d) {
+      if (!d) return '—';
+      try { return new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }); }
+      catch(e) { return d; }
+    }
+    function emptyState(msg) {
+      return `<div class="mp-empty"><p>${msg}</p></div>`;
+    }
+    function parseCSV(url, cb) {
+      Papa.parse(url, {
+        download: true, header: true, skipEmptyLines: true,
+        complete: r => cb(null, r.data),
+        error: e => cb(e, [])
+      });
+    }
+    function actionBadge(action) {
+      if (!action) return '';
+      const a = action.toUpperCase();
+      let cls = 'mp-badge-def';
+      if (a.includes('INITIAL')) cls = 'mp-badge-init';
+      else if (a.includes('BUY') || a.includes('ADD')) cls = 'mp-badge-buy';
+      else if (a.includes('SELL') || a.includes('REDUCE')) cls = 'mp-badge-sell';
+      return `<span class="mp-badge ${cls}">${action}</span>`;
+    }
+    function setupCollapse(el) {
+      const header = el.querySelector('.mp-collapse-header');
+      if (!header) return;
+      header.addEventListener('click', () => {
+        const open = el.classList.toggle('open');
+        header.setAttribute('aria-expanded', open);
+      });
+    }
+    function makeSortable(table) {
+      const headers = table.querySelectorAll('thead th[data-col]');
+      let sortCol = null, sortDir = 1;
+      headers.forEach(th => {
+        const span = document.createElement('span');
+        span.className = 'sort-icon';
+        th.appendChild(span);
+        th.addEventListener('click', () => {
+          const col = th.dataset.col;
+          const isNum = th.dataset.type === 'num';
+          sortDir = (sortCol === col) ? sortDir * -1 : 1;
+          sortCol = col;
+          headers.forEach(h => h.classList.remove('sorted-asc','sorted-desc'));
+          th.classList.add(sortDir === 1 ? 'sorted-asc' : 'sorted-desc');
+          const tbody = table.querySelector('tbody');
+          Array.from(tbody.querySelectorAll('tr'))
+            .sort((a, b) => {
+              const ai = a.dataset[col] ?? '';
+              const bi = b.dataset[col] ?? '';
+              return isNum ? (parseFloat(ai) - parseFloat(bi)) * sortDir
+                           : ai.localeCompare(bi) * sortDir;
+            })
+            .forEach(r => tbody.appendChild(r));
+        });
+      });
+    }
+
+    // Donut colour palette (warm, site-consistent)
+    const COLORS = [
+      '#1C2A3A','#8B6F47','#3A5A40','#6B3A3A','#C4A265',
+      '#5C5347','#1C3A5E','#6B8F71','#D4B896','#244872',
+      '#8A7F72','#2A5298','#A0856E','#4A6741','#7A5C5C'
+    ];
+
+    // ---- 1. META ----
+    fetch('data/meta.json')
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(meta => {
+        document.getElementById('mp-updated').innerHTML = `<strong>Last updated</strong> ${fmtDate(meta.last_updated)}`;
+        document.getElementById('mp-as-of').innerHTML   = `<strong>Data as of</strong> ${fmtDate(meta.data_as_of)}`;
+        document.getElementById('mp-inception').innerHTML = `<strong>Inception</strong> ${fmtDate(meta.inception)}`;
+        document.getElementById('mp-benchmark').innerHTML = `<strong>Benchmark</strong> ${meta.benchmark || '—'}`;
+
+        const cards = [
+          { label: 'Portfolio Return (Since Inception)', raw: meta.since_inception_return_pct, display: fmtPlain(meta.since_inception_return_pct) },
+          { label: 'Benchmark Return (Since Inception)', raw: meta.benchmark_return_pct,       display: fmtPlain(meta.benchmark_return_pct) },
+          { label: 'Alpha (pp)',   raw: meta.alpha_pp,  display: (Number(meta.alpha_pp) >= 0 ? '+' : '') + Number(meta.alpha_pp).toFixed(2) + ' pp' },
+          { label: 'Positions',   raw: null,            display: meta.positions, forceCls: 'mp-neutral' }
+        ];
+        document.getElementById('mp-cards').innerHTML = cards.map(c =>
+          `<div class="mp-card">
+            <div class="mp-card-label">${c.label}</div>
+            <div class="mp-card-value ${c.forceCls || cardClass(c.raw)}">${c.display}</div>
+          </div>`
+        ).join('');
+
+        if (meta.annualised_note) {
+          document.getElementById('mp-annualised-note').textContent = '* ' + meta.annualised_note;
+        }
+      })
+      .catch(() => {
+        document.getElementById('mp-cards').innerHTML = emptyState('Could not load meta.json.');
+      });
+
+    // ---- 2. NAV CHART ----
+    parseCSV('data/nav.csv', (err, rows) => {
+      const canvas = document.getElementById('mp-nav-chart');
+      if (err || !rows.length) {
+        canvas.closest('.mp-chart-card').innerHTML = emptyState('No NAV data available.');
+        return;
+      }
+      const fewPts = rows.length <= 10;
+      new Chart(canvas, {
+        type: 'line',
+        data: {
+          labels: rows.map(r => r.date),
+          datasets: [
+            {
+              label: 'Portfolio',
+              data: rows.map(r => parseFloat(r.portfolio_index)),
+              borderColor: '#1C2A3A',
+              backgroundColor: 'rgba(28,42,58,0.07)',
+              borderWidth: 2.5,
+              pointRadius: fewPts ? 6 : 3,
+              pointHoverRadius: 7,
+              pointBackgroundColor: '#1C2A3A',
+              fill: true, tension: 0.35
+            },
+            {
+              label: 'Benchmark (Nifty 500)',
+              data: rows.map(r => parseFloat(r.benchmark_index)),
+              borderColor: '#C4A265',
+              backgroundColor: 'rgba(196,162,101,0.07)',
+              borderWidth: 2,
+              pointRadius: fewPts ? 6 : 3,
+              pointHoverRadius: 7,
+              pointBackgroundColor: '#C4A265',
+              fill: true, tension: 0.35
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#1C2A3A',
+              titleColor: '#fff',
+              bodyColor: 'rgba(255,255,255,0.85)',
+              padding: 12, cornerRadius: 8,
+              callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)}` }
+            }
+          },
+          scales: {
+            x: { grid: { color: 'rgba(26,22,18,0.05)' }, ticks: { font: { family: 'Inter', size: 11 }, color: '#8A7F72' } },
+            y: {
+              grid: { color: 'rgba(26,22,18,0.05)' },
+              ticks: { font: { family: 'Inter', size: 11 }, color: '#8A7F72', callback: v => v.toFixed(1) },
+              title: { display: true, text: 'Index (Base = 100)', font: { family: 'Inter', size: 11 }, color: '#B5ADA3' }
+            }
+          }
+        }
+      });
+    });
+
+    // ---- 3. HOLDINGS TABLE ----
+    parseCSV('data/holdings.csv', (err, rows) => {
+      const wrap = document.getElementById('mp-holdings-wrap');
+      if (err || !rows.length) { wrap.innerHTML = emptyState('No holdings data available.'); return; }
+      rows.sort((a,b) => parseFloat(b.weight_pct||0) - parseFloat(a.weight_pct||0));
+
+      const thead = `<thead><tr>
+        <th>#</th>
+        <th data-col="ticker" data-type="str">Ticker</th>
+        <th data-col="company" data-type="str">Company</th>
+        <th data-col="sector" data-type="str">Sector</th>
+        <th data-col="weight_pct" data-type="num">Weight %</th>
+        <th data-col="target_weight_pct" data-type="num">Target %</th>
+        <th data-col="active_weight_pct" data-type="num">Active %</th>
+        <th data-col="return_since_entry_pct" data-type="num">Return Since Entry</th>
+        <th data-col="contribution_pct" data-type="num">Contribution %</th>
+      </tr></thead>`;
+
+      const tbody = '<tbody>' + rows.map((r, i) => `<tr
+        data-ticker="${r.ticker||''}"
+        data-company="${r.company||''}"
+        data-sector="${r.sector||''}"
+        data-weight_pct="${r.weight_pct||0}"
+        data-target_weight_pct="${r.target_weight_pct||0}"
+        data-active_weight_pct="${r.active_weight_pct||0}"
+        data-return_since_entry_pct="${r.return_since_entry_pct||0}"
+        data-contribution_pct="${r.contribution_pct||0}">
+        <td class="td-neu">${i+1}</td>
+        <td class="td-ticker">${r.ticker||'—'}</td>
+        <td class="td-bold">${r.company||'—'}</td>
+        <td class="td-neu">${r.sector||'—'}</td>
+        <td>${fmtPlain(r.weight_pct)}</td>
+        <td>${fmtPlain(r.target_weight_pct)}</td>
+        <td class="${colorClass(r.active_weight_pct)}">${fmt(r.active_weight_pct)}</td>
+        <td class="${colorClass(r.return_since_entry_pct)}">${fmt(r.return_since_entry_pct)}</td>
+        <td class="${colorClass(r.contribution_pct)}">${fmt(r.contribution_pct)}</td>
+      </tr>`).join('') + '</tbody>';
+
+      const table = document.createElement('table');
+      table.className = 'mp-table';
+      table.id = 'mp-holdings-table';
+      table.innerHTML = thead + tbody;
+      const w = document.createElement('div');
+      w.className = 'mp-table-wrap';
+      w.appendChild(table);
+      wrap.innerHTML = '';
+      wrap.appendChild(w);
+      makeSortable(table);
+      table.querySelector('th[data-col="weight_pct"]')?.classList.add('sorted-desc');
+    });
+
+    // ---- 4. SECTORS TABLE + DONUT ----
+    parseCSV('data/sectors.csv', (err, rows) => {
+      const wrap = document.getElementById('mp-sectors-wrap');
+      if (err || !rows.length) {
+        wrap.innerHTML = emptyState('No sector data.');
+        document.getElementById('mp-donut').closest('.mp-donut-card').innerHTML = emptyState('No data.');
+        return;
+      }
+      rows.sort((a,b) => parseFloat(b.weight_pct||0) - parseFloat(a.weight_pct||0));
+
+      const thead = `<thead><tr>
+        <th data-col="sector" data-type="str">Sector</th>
+        <th data-col="weight_pct" data-type="num">Weight %</th>
+        <th data-col="target_weight_pct" data-type="num">Target %</th>
+        <th data-col="sector_return_pct" data-type="num">Sector Return</th>
+        <th data-col="contribution_pct" data-type="num">Contribution %</th>
+      </tr></thead>`;
+      const tbody = '<tbody>' + rows.map(r => `<tr
+        data-sector="${r.sector||''}"
+        data-weight_pct="${r.weight_pct||0}"
+        data-target_weight_pct="${r.target_weight_pct||0}"
+        data-sector_return_pct="${r.sector_return_pct||0}"
+        data-contribution_pct="${r.contribution_pct||0}">
+        <td class="td-bold">${r.sector||'—'}</td>
+        <td>${fmtPlain(r.weight_pct)}</td>
+        <td>${fmtPlain(r.target_weight_pct)}</td>
+        <td class="${colorClass(r.sector_return_pct)}">${fmt(r.sector_return_pct)}</td>
+        <td class="${colorClass(r.contribution_pct)}">${fmt(r.contribution_pct)}</td>
+      </tr>`).join('') + '</tbody>';
+
+      const table = document.createElement('table');
+      table.className = 'mp-table';
+      table.id = 'mp-sectors-table';
+      table.innerHTML = thead + tbody;
+      const w = document.createElement('div');
+      w.className = 'mp-table-wrap';
+      w.appendChild(table);
+      wrap.innerHTML = '';
+      wrap.appendChild(w);
+      makeSortable(table);
+
+      new Chart(document.getElementById('mp-donut'), {
+        type: 'doughnut',
+        data: {
+          labels: rows.map(r => r.sector),
+          datasets: [{
+            data: rows.map(r => parseFloat(r.weight_pct)||0),
+            backgroundColor: rows.map((_,i) => COLORS[i % COLORS.length]),
+            borderWidth: 2, borderColor: '#FAF8F5', hoverOffset: 8
+          }]
+        },
+        options: {
+          responsive: true, cutout: '60%',
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#1C2A3A', titleColor: '#fff',
+              bodyColor: 'rgba(255,255,255,0.85)', padding: 10, cornerRadius: 8,
+              callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed.toFixed(1)}%` }
+            }
+          }
+        }
+      });
+
+      // Populate donut legend
+      const legendEl = document.getElementById('mp-donut-legend');
+      if (legendEl) {
+        legendEl.innerHTML = rows.map((r, i) => `
+          <div class="mp-donut-legend-item" title="${r.sector}">
+            <div class="mp-donut-legend-swatch" style="background:${COLORS[i % COLORS.length]};"></div>
+            <span class="mp-donut-legend-name">${r.sector}</span>
+            <span class="mp-donut-legend-pct">${parseFloat(r.weight_pct).toFixed(1)}%</span>
+          </div>`).join('');
+      }
+    });
+
+    // ---- 5. CHANGE LOG ----
+    setupCollapse(document.getElementById('mp-changes-collapse'));
+    parseCSV('data/changes.csv', (err, rows) => {
+      const body = document.getElementById('mp-changes-body');
+      if (err || !rows.length) { body.innerHTML = emptyState('No change log data.'); return; }
+      const sorted = [...rows].sort((a,b) => (b.date||'').localeCompare(a.date||''));
+
+      const thead = `<thead><tr>
+        <th>Date</th><th>Ticker</th><th>Action</th><th>Weight Change</th><th>Rationale</th>
+      </tr></thead>`;
+      const tbody = '<tbody>' + sorted.map(r => {
+        const fw = parseFloat(r.from_weight_pct);
+        const tw = parseFloat(r.to_weight_pct);
+        const wc = `${isNaN(fw)?'—':fw.toFixed(1)}%<span class="mp-w-arrow">→</span>${isNaN(tw)?'—':tw.toFixed(1)}%`;
+        return `<tr>
+          <td class="td-neu" style="white-space:nowrap">${fmtDate(r.date)}</td>
+          <td class="td-ticker">${r.ticker||'—'}</td>
+          <td>${actionBadge(r.action)}</td>
+          <td style="white-space:nowrap">${wc}</td>
+          <td class="rationale-cell">${r.rationale||'—'}</td>
+        </tr>`;
+      }).join('') + '</tbody>';
+
+      const table = document.createElement('table');
+      table.className = 'mp-table';
+      table.id = 'mp-changes-table';
+      table.innerHTML = thead + tbody;
+      const w = document.createElement('div');
+      w.className = 'mp-table-wrap';
+      w.style.marginTop = '1rem';
+      w.appendChild(table);
+      body.innerHTML = '';
+      body.appendChild(w);
+    });
+
+    // ---- 6. TRANSACTIONS ----
+    setupCollapse(document.getElementById('mp-tx-collapse'));
+    parseCSV('data/transactions.csv', (err, rows) => {
+      const body = document.getElementById('mp-tx-body');
+      if (err || !rows.length) { body.innerHTML = emptyState('No transactions.'); return; }
+      const sorted = [...rows].sort((a,b) => (b.date||'').localeCompare(a.date||''));
+
+      const thead = `<thead><tr>
+        <th>Date</th><th>Ticker</th><th>Action</th><th>Qty</th><th>Price (₹)</th><th>Change ID</th>
+      </tr></thead>`;
+      const tbody = '<tbody>' + sorted.map(r => {
+        const p = parseFloat(r.price);
+        return `<tr>
+          <td class="td-neu" style="white-space:nowrap">${fmtDate(r.date)}</td>
+          <td class="td-ticker">${r.ticker||'—'}</td>
+          <td>${actionBadge(r.action)}</td>
+          <td>${r.qty||'—'}</td>
+          <td>₹${isNaN(p)?'—':p.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+          <td class="td-neu" style="font-size:0.78rem">${r.change_id||'—'}</td>
+        </tr>`;
+      }).join('') + '</tbody>';
+
+      const table = document.createElement('table');
+      table.className = 'mp-table';
+      table.id = 'mp-tx-table';
+      table.innerHTML = thead + tbody;
+      const w = document.createElement('div');
+      w.className = 'mp-table-wrap';
+      w.style.marginTop = '1rem';
+      w.appendChild(table);
+      body.innerHTML = '';
+      body.appendChild(w);
+    });
+
+    // ---- 7. THESES ----
+    parseCSV('data/theses.csv', (err, rows) => {
+      const container = document.getElementById('mp-theses-container');
+      if (err || !rows.length) { container.innerHTML = emptyState('No thesis data.'); return; }
+
+      const sectors = {};
+      rows.forEach(r => {
+        const s = r.sector || r.sector_sheet || 'General';
+        if (!sectors[s]) sectors[s] = { date: r.thesis_date, sections: {} };
+        if (r.thesis_date && !sectors[s].date) sectors[s].date = r.thesis_date;
+        const sec = r.section || 'Note';
+        if (!sectors[s].sections[sec]) sectors[s].sections[sec] = [];
+        if (r.text && r.text.trim()) sectors[s].sections[sec].push(r.text.trim());
+      });
+
+      const SEC_ORDER = ['Rationale for Sector weight','Risks (what could go wrong)','Target Weight','Phasing'];
+
+      container.innerHTML = Object.entries(sectors).map(([sName, data], idx) => {
+        const allSec = Object.keys(data.sections);
+        const ordered = [...SEC_ORDER.filter(s => allSec.includes(s)), ...allSec.filter(s => !SEC_ORDER.includes(s))];
+        const bodyHtml = (data.date ? `<span class="thesis-date-badge">Thesis dated: ${fmtDate(data.date)}</span>` : '') +
+          ordered.map(secName => {
+            const texts = data.sections[secName];
+            if (!texts?.length) return '';
+            return `<div class="thesis-sec-label">${secName}</div>` + texts.map(t => `<p class="thesis-text">${t}</p>`).join('');
+          }).join('');
+
+        return `
+          <div class="mp-collapse" id="thesis-${idx}">
+            <button class="mp-collapse-header" aria-expanded="false" aria-controls="thesis-body-${idx}">
+              <div>
+                <div class="mp-collapse-title">${sName}</div>
+                ${data.date ? `<div class="mp-collapse-sub">Thesis dated ${fmtDate(data.date)}</div>` : ''}
+              </div>
+              <svg class="mp-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="mp-collapse-body" id="thesis-body-${idx}" role="region">${bodyHtml}</div>
+          </div>`;
+      }).join('');
+
+      container.querySelectorAll('.mp-collapse').forEach(setupCollapse);
+    });
+
+  })();
+  </script>
+</body>
+</html>
