@@ -1,0 +1,15 @@
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environment & dependencies
+.env
+venv/
+env/
+node_modules/
+
+# OS specific files
+.DS_Store
+Thumbs.db
