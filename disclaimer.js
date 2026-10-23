@@ -37,7 +37,7 @@
     });
   }
 
-  function sendTelegramAcknowledgement(record) {
+    async function sendTelegramAcknowledgement(record) {
     try {
       const now = new Date();
       const localTime = now.toLocaleString('en-IN', {
@@ -56,7 +56,10 @@
         '🌐 <b>URL:</b> ' + escapeHTML(window.location.href) + '\n' +
         '📱 <b>Device:</b> <code>' + escapeHTML(userAgent) + '</code>';
 
-      fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+      const timeoutId = controller ? setTimeout(() => controller.abort(), 3500) : null;
+
+      const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -64,11 +67,17 @@
           text: text,
           parse_mode: 'HTML',
         }),
-      }).catch((err) => {
-        console.warn('Telegram disclaimer dispatch failed:', err);
+        keepalive: true,
+        signal: controller ? controller.signal : undefined,
       });
+
+      if (timeoutId) clearTimeout(timeoutId);
+      const data = await res.json();
+      console.log('Disclaimer Telegram acknowledgement sent:', data);
+      return data;
     } catch (e) {
-      console.warn('Telegram notification error:', e);
+      console.warn('Telegram notification dispatch error:', e);
+      return null;
     }
   }
 
@@ -230,7 +239,7 @@
     });
 
     // Continue button
-    continueBtn.addEventListener('click', () => {
+    continueBtn.addEventListener('click', async () => {
       if (!checkbox.checked) return;
 
       errorEl.style.display = 'none';
@@ -238,10 +247,14 @@
       continueBtn.textContent = 'Recording…';
 
       const record = createAcknowledgementRecord('model-portfolio');
-      const success = saveAcknowledgement(record);
+      saveAcknowledgement(record);
 
-      // Send Telegram notification
-      sendTelegramAcknowledgement(record);
+      // Await Telegram notification dispatch
+      try {
+        await sendTelegramAcknowledgement(record);
+      } catch (err) {
+        console.warn('Telegram send failed:', err);
+      }
 
       // Allow access and dismiss modal
       overlay.classList.remove('visible');
