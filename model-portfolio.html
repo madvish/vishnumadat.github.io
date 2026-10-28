@@ -967,33 +967,51 @@
     ];
 
     // ---- 1. META ----
+    function renderMetaCards(meta) {
+      if (!meta) return;
+      if (meta.last_updated) document.getElementById('mp-updated').innerHTML = `<strong>Last updated</strong> ${fmtDate(meta.last_updated)}`;
+      if (meta.data_as_of)   document.getElementById('mp-as-of').innerHTML   = `<strong>Data as of</strong> ${fmtDate(meta.data_as_of)}`;
+      if (meta.inception)    document.getElementById('mp-inception').innerHTML = `<strong>Inception</strong> ${fmtDate(meta.inception)}`;
+      if (meta.benchmark)    document.getElementById('mp-benchmark').innerHTML = `<strong>Benchmark</strong> ${meta.benchmark || '—'}`;
+
+      const isValid = (v) => v !== null && v !== undefined && !isNaN(Number(v)) && String(v).trim().toLowerCase() !== 'nan';
+      const pRet = isValid(meta.since_inception_return_pct) ? Number(meta.since_inception_return_pct) : null;
+      const bRet = isValid(meta.benchmark_return_pct) ? Number(meta.benchmark_return_pct) : null;
+      const aVal = isValid(meta.alpha_pp) ? Number(meta.alpha_pp) : null;
+
+      const cards = [
+        { label: 'Portfolio Return (Since Inception)', raw: pRet, display: pRet !== null ? fmtPlain(pRet) : '—' },
+        { label: 'Benchmark Return (Since Inception)', raw: bRet, display: bRet !== null ? fmtPlain(bRet) : '—' },
+        { label: 'Alpha (pp)',   raw: aVal,  display: aVal !== null ? (aVal >= 0 ? '+' : '') + aVal.toFixed(2) + ' pp' : '—' },
+        { label: 'Positions',   raw: null,  display: meta.positions != null ? meta.positions : '—', forceCls: 'mp-neutral' }
+      ];
+      document.getElementById('mp-cards').innerHTML = cards.map(c =>
+        `<div class="mp-card">
+          <div class="mp-card-label">${c.label}</div>
+          <div class="mp-card-value ${c.forceCls || cardClass(c.raw)}">${c.display}</div>
+        </div>`
+      ).join('');
+
+      if (meta.annualised_note) {
+        document.getElementById('mp-annualised-note').textContent = '* ' + meta.annualised_note;
+      }
+    }
+
+    let metaLoaded = false;
     fetch('data/meta.json')
-      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(r => r.ok ? r.json() : Promise.reject(new Error(r.statusText)))
       .then(meta => {
-        document.getElementById('mp-updated').innerHTML = `<strong>Last updated</strong> ${fmtDate(meta.last_updated)}`;
-        document.getElementById('mp-as-of').innerHTML   = `<strong>Data as of</strong> ${fmtDate(meta.data_as_of)}`;
-        document.getElementById('mp-inception').innerHTML = `<strong>Inception</strong> ${fmtDate(meta.inception)}`;
-        document.getElementById('mp-benchmark').innerHTML = `<strong>Benchmark</strong> ${meta.benchmark || '—'}`;
-
-        const cards = [
-          { label: 'Portfolio Return (Since Inception)', raw: meta.since_inception_return_pct, display: fmtPlain(meta.since_inception_return_pct) },
-          { label: 'Benchmark Return (Since Inception)', raw: meta.benchmark_return_pct,       display: fmtPlain(meta.benchmark_return_pct) },
-          { label: 'Alpha (pp)',   raw: meta.alpha_pp,  display: (Number(meta.alpha_pp) >= 0 ? '+' : '') + Number(meta.alpha_pp).toFixed(2) + ' pp' },
-          { label: 'Positions',   raw: null,            display: meta.positions, forceCls: 'mp-neutral' }
-        ];
-        document.getElementById('mp-cards').innerHTML = cards.map(c =>
-          `<div class="mp-card">
-            <div class="mp-card-label">${c.label}</div>
-            <div class="mp-card-value ${c.forceCls || cardClass(c.raw)}">${c.display}</div>
-          </div>`
-        ).join('');
-
-        if (meta.annualised_note) {
-          document.getElementById('mp-annualised-note').textContent = '* ' + meta.annualised_note;
-        }
+        metaLoaded = true;
+        renderMetaCards(meta);
       })
       .catch(() => {
-        document.getElementById('mp-cards').innerHTML = emptyState('Could not load meta.json.');
+        if (!metaLoaded) {
+          const isFileProtocol = window.location.protocol === 'file:';
+          const msg = isFileProtocol
+            ? 'Local file access blocked by browser security (CORS). Please serve via local HTTP server.'
+            : 'Could not load meta.json.';
+          document.getElementById('mp-cards').innerHTML = emptyState(msg);
+        }
       });
 
     // ---- 2. DAILY NAV & CUMULATIVE ALPHA CHARTS ----
@@ -1084,6 +1102,24 @@
       if (validRows.length < 2) {
         if (wrapper) wrapper.innerHTML = emptyState('Insufficient daily NAV data available.');
         return;
+      }
+
+      // If meta.json failed earlier, attempt fallback to latest row of nav_daily.csv
+      if (!metaLoaded && validRows.length > 0) {
+        const lastRow = validRows[validRows.length - 1];
+        const fallbackMeta = {
+          last_updated: lastRow.date,
+          data_as_of: lastRow.date,
+          inception: validRows[0].date,
+          benchmark: 'Nifty 500',
+          since_inception_return_pct: lastRow.portfolio_return_pct,
+          benchmark_return_pct: lastRow.benchmark_return_pct,
+          alpha_pp: lastRow.alpha_pp,
+          positions: 35,
+          annualised_note: 'Annualised figures are shown only after one year of history.'
+        };
+        renderMetaCards(fallbackMeta);
+        metaLoaded = true;
       }
 
       // Update methodology note with last_updated date

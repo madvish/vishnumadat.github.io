@@ -297,7 +297,26 @@ def main():
         try:
             existing_prices_df = pd.read_csv(PRICES_DAILY_PATH)
             existing_nav_df = pd.read_csv(NAV_DAILY_PATH)
-            if not existing_nav_df.empty and "date" in existing_nav_df.columns:
+            
+            # Prune any trailing corrupted rows with NaN values
+            valid_mask = (
+                existing_nav_df["portfolio_index"].notna() &
+                (existing_nav_df["portfolio_index"].astype(str).str.lower() != "nan") &
+                existing_nav_df["benchmark_index"].notna() &
+                (existing_nav_df["benchmark_index"].astype(str).str.lower() != "nan")
+            )
+            if not valid_mask.all():
+                corrupted_dates = existing_nav_df.loc[~valid_mask, "date"].tolist()
+                print(f"Detected corrupted row(s) with NaN on dates: {corrupted_dates}. Pruning for recomputation.")
+                existing_nav_df = existing_nav_df[valid_mask].reset_index(drop=True)
+                if not existing_nav_df.empty:
+                    max_clean_date = existing_nav_df["date"].iloc[-1]
+                    existing_prices_df = existing_prices_df[existing_prices_df["date"] <= max_clean_date].reset_index(drop=True)
+                else:
+                    existing_prices_df = None
+                    existing_nav_df = None
+
+            if existing_nav_df is not None and not existing_nav_df.empty and "date" in existing_nav_df.columns:
                 last_saved_date = dt.date.fromisoformat(str(existing_nav_df["date"].iloc[-1]).strip())
                 print(f"Found existing history up to {last_saved_date}. New runs will append subsequent dates only.")
         except Exception as e:
@@ -343,11 +362,16 @@ def main():
         current_stale = []
 
         # Benchmark price
+        bm_price = None
         if current_date in bm_hist.index:
-            bm_price = float(bm_hist.loc[current_date, "Close"])
-        elif current_date in raw_yf_df.index and BENCHMARK_SYMBOL in raw_yf_df.columns:
-            bm_price = float(raw_yf_df.loc[current_date, BENCHMARK_SYMBOL])
-        else:
+            val = bm_hist.loc[current_date, "Close"]
+            if pd.notna(val) and float(val) > 0:
+                bm_price = float(val)
+        if bm_price is None and current_date in raw_yf_df.index and BENCHMARK_SYMBOL in raw_yf_df.columns:
+            val = raw_yf_df.loc[current_date, BENCHMARK_SYMBOL]
+            if pd.notna(val) and float(val) > 0:
+                bm_price = float(val)
+        if bm_price is None or pd.isna(bm_price) or bm_price <= 0:
             bm_price = last_known_prices.get("NIFTY500", bm_incept_close)
 
         last_known_prices["NIFTY500"] = bm_price
@@ -391,6 +415,11 @@ def main():
 
             row_prices[ticker] = round(price, 4) if price is not None else None
             last_known_prices[ticker] = price
+
+        # Safety: if not inception date and 100% of held tickers had no trade, skip phantom day
+        if current_date != incept_date and len(current_stale) == len(held_tickers):
+            print(f"Warning: No new market prices available for any ticker on {current_date}. Skipping recording phantom day.")
+            continue
 
         row_prices["NIFTY500"] = round(bm_price, 2)
         row_prices["stale_tickers"] = ";".join(current_stale) if current_stale else ""
@@ -560,14 +589,23 @@ def main():
 
     # 11. Update data/meta.json
     latest_row = final_nav_df.iloc[-1]
-    meta_json["since_inception_return_pct"] = float(latest_row["portfolio_return_pct"])
-    meta_json["benchmark_return_pct"] = float(latest_row["benchmark_return_pct"])
-    meta_json["alpha_pp"] = float(latest_row["alpha_pp"])
+    p_ret = float(latest_row["portfolio_return_pct"])
+    b_ret = float(latest_row["benchmark_return_pct"])
+    a_pp = float(latest_row["alpha_pp"])
+
+    if pd.isna(p_ret) or pd.isna(b_ret) or pd.isna(a_pp):
+        raise ValueError(
+            f"FATAL: Attempted to write NaN to meta.json! (p_ret={p_ret}, b_ret={b_ret}, a_pp={a_pp})"
+        )
+
+    meta_json["since_inception_return_pct"] = round(p_ret, 2)
+    meta_json["benchmark_return_pct"] = round(b_ret, 2)
+    meta_json["alpha_pp"] = round(a_pp, 2)
     meta_json["data_as_of"] = str(latest_row["date"])
     meta_json["last_updated"] = dt.date.today().isoformat()
 
     with open(META_PATH, "w", encoding="utf-8") as f:
-        json.dump(meta_json, f, indent=2)
+        json.dump(meta_json, f, indent=2, allow_nan=False)
     print(f"Updated {META_PATH} with latest metrics from {latest_row['date']}.")
 
     # 12. Display requested summary
