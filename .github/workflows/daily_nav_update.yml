@@ -2,8 +2,13 @@ name: Daily NAV & Return Tracker
 
 on:
   schedule:
-    # Runs Monday to Friday at 13:15 UTC (18:45 IST - off-peak minute avoids GitHub top-of-hour scheduler congestion)
-    - cron: '15 13 * * 1-5'
+    # Multiple runs (Monday to Friday) to capture data as early as possible and ensure final settlement:
+    # 1. 10:45 UTC = 16:15 IST (4:15 PM IST - early run right after market closing session)
+    - cron: '45 10 * * 1-5'
+    # 2. 12:30 UTC = 18:00 IST (6:00 PM IST - primary run after official NSE Bhavcopy and Yahoo Finance settle)
+    - cron: '30 12 * * 1-5'
+    # 3. 13:45 UTC = 19:15 IST (7:15 PM IST - secondary backup run in case of scheduler delays or late vendor ingest)
+    - cron: '45 13 * * 1-5'
   workflow_dispatch:
     # Allows manual trigger at any time from GitHub Actions UI
 

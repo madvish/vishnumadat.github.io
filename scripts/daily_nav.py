@@ -13,6 +13,7 @@ import argparse
 import datetime as dt
 import json
 import sys
+import time
 from pathlib import Path
 import warnings
 
@@ -174,12 +175,25 @@ def calculate_inception_buy_prices(txn_df, inception_date):
 def check_benchmark(inception_date, wb_nifty_incept):
     """
     Fetches Nifty 500 (^CRSLDX) close on inception date and compares with workbook value.
-    If diff > 1%, stops and informs user.
+    If diff > 1%, stops and informs user. Retries on temporary vendor failure.
     """
-    bm_ticker = yf.Ticker(BENCHMARK_SYMBOL)
-    bm_hist = bm_ticker.history(start=inception_date.isoformat(), auto_adjust=False)
+    bm_hist = None
+    for attempt in range(1, 5):
+        try:
+            bm_ticker = yf.Ticker(BENCHMARK_SYMBOL)
+            hist = bm_ticker.history(start=inception_date.isoformat(), auto_adjust=False)
+            if not hist.empty:
+                bm_hist = hist
+                break
+        except Exception as e:
+            print(f"Warning: Attempt {attempt} to fetch benchmark history failed: {e}")
+        
+        if attempt < 4:
+            wait_s = attempt * 3
+            print(f"Retrying benchmark fetch in {wait_s}s (attempt {attempt}/4)...")
+            time.sleep(wait_s)
 
-    if bm_hist.empty:
+    if bm_hist is None or bm_hist.empty:
         raise SystemExit(
             f"ERROR: Could not fetch benchmark {BENCHMARK_SYMBOL} history starting from {inception_date}."
         )
@@ -331,33 +345,59 @@ def main():
         if not dates_to_compute:
             print("All trading days up to latest benchmark date are already recorded. Nothing to append.")
             return
+        download_start_date = max(incept_date, last_saved_date - dt.timedelta(days=7))
+        dates_to_run = dates_to_compute
     else:
         dates_to_compute = calendar_dates
+        download_start_date = incept_date
+        dates_to_run = calendar_dates
 
     # 4. Fetch daily closes for listed tickers + benchmark
     listed_tickers = [t for t in held_tickers if securities_map.get(t)]
     download_symbols = [securities_map[t] for t in listed_tickers] + [BENCHMARK_SYMBOL]
 
-    print(f"Fetching daily close prices from {incept_date} to {calendar_dates[-1]} for {len(download_symbols)} symbols...")
-    raw_yf_df = yf.download(
-        download_symbols,
-        start=incept_date.isoformat(),
-        auto_adjust=False,
-        progress=False,
-    )["Close"]
+    print(f"Fetching daily close prices from {download_start_date} to {calendar_dates[-1]} for {len(download_symbols)} symbols...")
+    raw_yf_df = None
+    for dl_attempt in range(1, 4):
+        try:
+            dl_res = yf.download(
+                download_symbols,
+                start=download_start_date.isoformat(),
+                auto_adjust=False,
+                threads=False,
+                progress=False,
+            )
+            if dl_res is not None and not dl_res.empty and "Close" in dl_res:
+                raw_yf_df = dl_res["Close"]
+                break
+        except Exception as e:
+            print(f"Warning: Download attempt {dl_attempt} encountered error: {e}")
+        
+        if dl_attempt < 3:
+            wait_s = dl_attempt * 3
+            print(f"Retrying price download in {wait_s}s (attempt {dl_attempt}/3)...")
+            time.sleep(wait_s)
+
+    if raw_yf_df is None or raw_yf_df.empty:
+        raise SystemExit("ERROR: Failed to download price history for portfolio symbols.")
 
     # Normalize tz and index format
     if raw_yf_df.index.tz is not None:
         raw_yf_df.index = raw_yf_df.index.tz_convert(None)
     raw_yf_df.index = pd.to_datetime(raw_yf_df.index).date
 
-    # 5. Build full daily prices matrix
-    # Columns: date, held_tickers (sorted), NIFTY500, stale_tickers
+    # 5. Build daily prices matrix
     daily_prices_rows = []
     last_known_prices = {}
+    if existing_prices_df is not None and not existing_prices_df.empty:
+        last_row_p = existing_prices_df.iloc[-1]
+        for col in held_tickers + ["NIFTY500"]:
+            if col in last_row_p and pd.notna(last_row_p[col]):
+                last_known_prices[col] = float(last_row_p[col])
+
     missing_day_counter = {t: 0 for t in held_tickers}
 
-    for current_date in calendar_dates:
+    for current_date in dates_to_run:
         row_prices = {"date": current_date.isoformat()}
         current_stale = []
 
@@ -427,7 +467,16 @@ def main():
 
     # Reorder columns: date, held_tickers (sorted), NIFTY500, stale_tickers
     price_cols = ["date"] + held_tickers + ["NIFTY500", "stale_tickers"]
-    full_prices_df = pd.DataFrame(daily_prices_rows)[price_cols]
+    new_prices_df = pd.DataFrame(daily_prices_rows)[price_cols] if daily_prices_rows else pd.DataFrame(columns=price_cols)
+
+    if existing_prices_df is not None and not existing_prices_df.empty:
+        full_prices_df = pd.concat([existing_prices_df, new_prices_df], ignore_index=True)
+    else:
+        full_prices_df = new_prices_df
+
+    if full_prices_df.empty:
+        print("Warning: No daily price rows generated. Nothing to compute.")
+        return
 
     # 6. Safety check: Check for > 25% daily price changes
     for ticker in held_tickers:
@@ -463,11 +512,18 @@ def main():
         print(f"Recorded initial live tracking start date: {live_start}")
 
     nav_rows = []
-    running_max_index = 0.0
-    prev_portfolio_index = None
-    prev_benchmark_index = None
+    if existing_nav_df is not None and not existing_nav_df.empty:
+        prev_portfolio_index = float(existing_nav_df.iloc[-1]["portfolio_index"])
+        prev_benchmark_index = float(existing_nav_df.iloc[-1]["benchmark_index"])
+        running_max_index = existing_nav_df["portfolio_index"].astype(float).max()
+    else:
+        prev_portfolio_index = None
+        prev_benchmark_index = None
+        running_max_index = 0.0
 
-    for idx, current_date in enumerate(calendar_dates):
+    valid_price_dates = [dt.date.fromisoformat(str(d).strip()) for d in new_prices_df["date"]] if not new_prices_df.empty else []
+
+    for idx, current_date in enumerate(valid_price_dates):
         # Transactions on or before current_date
         tx_up_to_now = txn_df[txn_df["date"] <= current_date]
 
@@ -484,7 +540,10 @@ def main():
         # Holdings value
         date_str = current_date.isoformat()
         holdings_val = 0.0
-        p_row = full_prices_df[full_prices_df["date"] == date_str].iloc[0]
+        matching_rows = full_prices_df[full_prices_df["date"] == date_str]
+        if matching_rows.empty:
+            continue
+        p_row = matching_rows.iloc[0]
         for ticker, qty in current_holdings.items():
             if qty > 0:
                 p = float(p_row[ticker])
@@ -502,7 +561,7 @@ def main():
         drawdown_pct = ((portfolio_index / running_max_index) - 1.0) * 100.0
 
         # Cumulative returns
-        if idx == 0:
+        if current_date == incept_date:
             portfolio_index = 100.00
             benchmark_index = 100.00
             portfolio_return_pct = 0.00
@@ -516,8 +575,8 @@ def main():
             portfolio_return_pct = portfolio_index - 100.0
             benchmark_return_pct = benchmark_index - 100.0
             alpha_pp = portfolio_index - benchmark_index
-            daily_portfolio_return_pct = ((portfolio_index / prev_portfolio_index) - 1.0) * 100.0
-            daily_benchmark_return_pct = ((benchmark_index / prev_benchmark_index) - 1.0) * 100.0
+            daily_portfolio_return_pct = ((portfolio_index / prev_portfolio_index) - 1.0) * 100.0 if prev_portfolio_index else 0.0
+            daily_benchmark_return_pct = ((benchmark_index / prev_benchmark_index) - 1.0) * 100.0 if prev_benchmark_index else 0.0
             daily_alpha_pp = daily_portfolio_return_pct - daily_benchmark_return_pct
 
         prev_portfolio_index = portfolio_index
@@ -547,15 +606,9 @@ def main():
     computed_nav_df = pd.DataFrame(nav_rows)
 
     # 8. Append-only merge
-    if existing_prices_df is not None and not existing_prices_df.empty:
-        new_prices_to_append = full_prices_df[full_prices_df["date"] > str(last_saved_date)]
-        final_prices_df = pd.concat([existing_prices_df, new_prices_to_append], ignore_index=True)
-    else:
-        final_prices_df = full_prices_df
-
+    final_prices_df = full_prices_df
     if existing_nav_df is not None and not existing_nav_df.empty:
-        new_nav_to_append = computed_nav_df[computed_nav_df["date"] > str(last_saved_date)]
-        final_nav_df = pd.concat([existing_nav_df, new_nav_to_append], ignore_index=True)
+        final_nav_df = pd.concat([existing_nav_df, computed_nav_df], ignore_index=True)
     else:
         final_nav_df = computed_nav_df
 
@@ -588,6 +641,10 @@ def main():
             warnings_list.append(f"Could not compare against nav.csv: {e}")
 
     # 11. Update data/meta.json
+    if final_nav_df.empty:
+        print("Warning: final_nav_df is empty. Skipping meta.json update.")
+        return
+
     latest_row = final_nav_df.iloc[-1]
     p_ret = float(latest_row["portfolio_return_pct"])
     b_ret = float(latest_row["benchmark_return_pct"])

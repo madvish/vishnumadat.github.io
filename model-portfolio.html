@@ -909,7 +909,8 @@
       return `<div class="mp-empty"><p>${msg}</p></div>`;
     }
     function parseCSV(url, cb) {
-      Papa.parse(url, {
+      const cacheBustUrl = url.includes('?') ? url : `${url}?v=${Date.now()}`;
+      Papa.parse(cacheBustUrl, {
         download: true, header: true, skipEmptyLines: true,
         complete: r => cb(null, r.data),
         error: e => cb(e, [])
@@ -997,8 +998,9 @@
       }
     }
 
+    const cacheKey = Date.now();
     let metaLoaded = false;
-    fetch('data/meta.json')
+    fetch(`data/meta.json?v=${cacheKey}`, { cache: 'no-store' })
       .then(r => r.ok ? r.json() : Promise.reject(new Error(r.statusText)))
       .then(meta => {
         metaLoaded = true;
@@ -1080,9 +1082,9 @@
     };
 
     Promise.all([
-      fetch('data/meta.json').then(r => r.ok ? r.json() : {}).catch(() => ({})),
+      fetch(`data/meta.json?v=${cacheKey}`, { cache: 'no-store' }).then(r => r.ok ? r.json() : {}).catch(() => ({})),
       new Promise((resolve, reject) => {
-        Papa.parse('data/nav_daily.csv', {
+        Papa.parse(`data/nav_daily.csv?v=${cacheKey}`, {
           download: true,
           header: true,
           skipEmptyLines: true,
