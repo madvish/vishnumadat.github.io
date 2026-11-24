@@ -540,8 +540,8 @@ function initQuoteRotator() {
 
   const quotes = [
     {
-      text: '"Earnings don\'t move the overall market; it\'s the Federal Reserve and liquidity that move markets."',
-      author: '— Stanley Druckenmiller'
+      text: '"Far more money has been lost by investors preparing for corrections, or trying to anticipate corrections, than has been lost in corrections themselves."',
+      author: '— Peter Lynch'
     },
     {
       text: '"You can\'t predict the future, but you can prepare for it."',
