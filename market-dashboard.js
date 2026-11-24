@@ -342,6 +342,76 @@ function renderWeeklyFlowsTable(container, sectionData) {
   container.innerHTML = html;
 }
 
+// --- Monthly Mutual Fund Flows Table Generator (Metric, This Month, Last Month, m/m Change) ---
+function renderMonthlyFlowsTable(container, sectionData) {
+  const metrics = sectionData.metrics;
+
+  let thisDate = 'This Month';
+  let lastDate = 'Last Month';
+
+  for (const m of metrics) {
+    if (m.this_date) { thisDate = formatDate(m.this_date); }
+    if (m.last_date) { lastDate = formatDate(m.last_date); }
+    if (m.this_date && m.last_date) break;
+  }
+
+  let html = `
+    <table class="md-table" role="table">
+      <thead>
+        <tr>
+          <th class="col-metric" scope="col">Metric</th>
+          <th class="col-this-th" scope="col">
+            <span class="th-title">This Month</span>
+            <span class="th-sub">${thisDate}</span>
+          </th>
+          <th scope="col">
+            <span class="th-title">Last Month</span>
+            <span class="th-sub">${lastDate}</span>
+          </th>
+          <th scope="col">
+            <span class="th-title">m/m Change</span>
+            <span class="th-sub">₹ cr</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  metrics.forEach(m => {
+    const formatMonthlyFlow = (v) => {
+      if (v === null || v === undefined || isNaN(v)) return '–';
+      return v.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    };
+
+    const formatMonthlyChange = (v) => {
+      if (v === null || v === undefined || isNaN(v)) return '–';
+      const prefix = v > 0 ? '+' : '';
+      return `${prefix}${v.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    };
+
+    const thisVal = formatMonthlyFlow(m.this_value);
+    const lastVal = formatMonthlyFlow(m.last_value);
+    const changeVal = formatMonthlyChange(m.change);
+
+    const changeClass = getPolarityClass(m.change, m.polarity);
+    const staleTag = m.stale ? '<span class="stale-tag">STALE</span>' : '';
+    const fullForm = m.full_name || US_FULL_FORMS[m.id];
+    const fullFormHtml = fullForm ? `<span class="metric-full-form">${fullForm}</span>` : '';
+
+    html += `
+      <tr>
+        <td class="col-metric"><span class="metric-title">${m.label}</span> ${staleTag}${fullFormHtml}</td>
+        <td class="num-cell col-this-td">${thisVal}</td>
+        <td class="num-cell">${lastVal}</td>
+        <td class="num-cell ${changeClass}">${changeVal}</td>
+      </tr>
+    `;
+  });
+
+  html += `</tbody></table>`;
+  container.innerHTML = html;
+}
+
 // --- Section Table Generator ---
 function renderSectionTable(containerId, sectionData) {
   const container = document.getElementById(containerId);
@@ -355,6 +425,12 @@ function renderSectionTable(containerId, sectionData) {
   // Pure weekly flows table has no w/w change and no cycle high
   if (containerId === 'sec-in-flows' || sectionData.id === 'in_flows' || sectionData.display_type === 'flow') {
     renderWeeklyFlowsTable(container, sectionData);
+    return;
+  }
+
+  // Dedicated monthly flows table (Metric, This Month, Last Month, m/m Change)
+  if (containerId === 'sec-in-monthly-flows' || sectionData.id === 'in_monthly_flows') {
+    renderMonthlyFlowsTable(container, sectionData);
     return;
   }
 
