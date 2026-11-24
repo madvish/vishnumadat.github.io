@@ -276,18 +276,16 @@ function renderDashboard(data) {
   initCsvExports(sectionsMap);
 }
 
-// --- Weekly Institutional Flows Table Generator (No w/w Change, No Cycle High) ---
+// --- Weekly Institutional Flows Table Generator (Strictly Metric, This Week, Last Week) ---
 function renderWeeklyFlowsTable(container, sectionData) {
   const metrics = sectionData.metrics;
 
   let thisDate = 'This Week';
   let lastDate = 'Last Week';
-  let baseDate = 'Base';
 
   for (const m of metrics) {
     if (m.this_date) { thisDate = formatDate(m.this_date); }
     if (m.last_date) { lastDate = formatDate(m.last_date); }
-    if (m.base_date) { baseDate = formatDate(m.base_date); }
     if (m.this_date && m.last_date) break;
   }
 
@@ -303,14 +301,6 @@ function renderWeeklyFlowsTable(container, sectionData) {
           <th scope="col">
             <span class="th-title">Last Week</span>
             <span class="th-sub">${lastDate}</span>
-          </th>
-          <th class="col-base-th" scope="col">
-            <span class="th-title">Base</span>
-            <span class="th-sub">${baseDate}</span>
-          </th>
-          <th scope="col">
-            <span class="th-title">YTD Cumulative</span>
-            <span class="th-sub">Net Flow / Level</span>
           </th>
         </tr>
       </thead>
@@ -330,14 +320,9 @@ function renderWeeklyFlowsTable(container, sectionData) {
 
     const thisVal = formatNetFlow(m.this_value, true);
     const lastVal = formatNetFlow(m.last_value, true);
-    const baseVal = formatNetFlow(m.base_value, true);
-    const ytdVal = isReserve
-      ? (m.ytd > 0 ? `+${m.ytd.toFixed(2)}` : (m.ytd !== null ? m.ytd.toFixed(2) : '–'))
-      : formatNetFlow(m.ytd, true);
 
     const thisClass = isReserve ? '' : getPolarityClass(m.this_value, m.polarity);
     const lastClass = isReserve ? '' : getPolarityClass(m.last_value, m.polarity);
-    const ytdClass = getPolarityClass(m.ytd, m.polarity);
 
     const staleTag = m.stale ? '<span class="stale-tag">STALE</span>' : '';
     const fullForm = m.full_name || US_FULL_FORMS[m.id];
@@ -348,8 +333,6 @@ function renderWeeklyFlowsTable(container, sectionData) {
         <td class="col-metric"><span class="metric-title">${m.label}</span> ${staleTag}${fullFormHtml}</td>
         <td class="num-cell col-this-td ${thisClass}">${thisVal}</td>
         <td class="num-cell ${lastClass}">${lastVal}</td>
-        <td class="num-cell col-base-td">${baseVal}</td>
-        <td class="num-cell ${ytdClass}">${ytdVal}</td>
       </tr>
     `;
   });
