@@ -1,0 +1,347 @@
+/* ============================================
+   MARKET DASHBOARD STYLESHEET
+   Extends Vishnu Madat Design System
+   ============================================ */
+
+/* Status Strip */
+.md-status-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xl);
+  margin-top: var(--space-lg);
+  font-size: 0.88rem;
+  color: var(--color-text-secondary);
+}
+
+.md-status-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.md-status-label {
+  font-weight: 500;
+  color: var(--color-text-tertiary);
+}
+
+.md-status-val {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.md-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.md-badge-ok {
+  background: rgba(58, 90, 64, 0.12);
+  color: #2D5A30;
+}
+
+.md-badge-stale {
+  background: rgba(196, 162, 101, 0.18);
+  color: #8B6F47;
+}
+
+.md-badge-error {
+  background: rgba(107, 58, 58, 0.15);
+  color: #8B3A3A;
+}
+
+/* Tab Navigation Bar */
+.md-tabs-bar {
+  background: var(--color-bg-alt);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: var(--nav-height);
+  z-index: 100;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.md-tabs-scroller {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  overflow-x: auto;
+  padding: var(--space-sm) 0;
+  scrollbar-width: none;
+}
+
+.md-tabs-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.md-tab {
+  white-space: nowrap;
+  padding: 0.6rem 1.25rem;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.md-tab:hover {
+  color: var(--color-text-primary);
+  background: var(--color-accent-light);
+}
+
+.md-tab.active {
+  color: #FFFFFF;
+  background: var(--color-accent);
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(139, 111, 71, 0.25);
+}
+
+/* Dashboard Container & Panels */
+.md-main-container {
+  padding-top: var(--space-3xl);
+  padding-bottom: var(--space-5xl);
+}
+
+.md-tab-pane {
+  display: none;
+}
+
+.md-tab-pane.active {
+  display: block;
+  animation: fadeIn 0.3s var(--ease-out);
+}
+
+.md-pane-header {
+  margin-bottom: var(--space-2xl);
+}
+
+.md-pane-header h2 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.md-pane-desc {
+  font-size: 0.95rem;
+  color: var(--color-text-tertiary);
+}
+
+/* Two-column responsive layout */
+.md-grid-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2xl);
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .md-grid-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Cards & Tables */
+.md-card {
+  background: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--space-2xl);
+  overflow: hidden;
+  transition: border-color var(--duration-fast);
+}
+
+.md-card:hover {
+  border-color: var(--color-border-hover);
+}
+
+.md-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) var(--space-xl);
+  border-bottom: 1px solid var(--color-border);
+  background: rgba(250, 248, 245, 0.5);
+}
+
+.md-card-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.md-btn-csv {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.md-btn-csv:hover {
+  background: var(--color-accent);
+  color: #FFFFFF;
+}
+
+/* Financial Table Design (Mark Meldrum / Excel Style) */
+.md-table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.md-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  text-align: right;
+  line-height: 1.4;
+}
+
+.md-table th,
+.md-table td {
+  padding: 0.55rem 0.85rem;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.md-table th {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+  background: var(--color-bg-alt);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.md-table th.col-metric {
+  text-align: left;
+}
+
+.md-table td.col-metric {
+  text-align: left;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.md-table td.num-cell {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+/* Column Tinting */
+/* This Week (Lavender Tint) */
+.col-this-th {
+  background: #E8E5F0 !important;
+  color: #382D54 !important;
+}
+
+.col-this-td {
+  background: rgba(220, 215, 235, 0.25);
+  font-weight: 600;
+}
+
+/* Base Column (Dark Column, Light Text) */
+.col-base-th,
+.col-base-td {
+  background: var(--color-deep-navy) !important;
+  color: #FAF8F5 !important;
+}
+
+.col-base-td {
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+
+/* Polarity Fill Colors */
+.cell-good {
+  background-color: rgba(58, 90, 64, 0.15) !important;
+  color: #1F4D24 !important;
+  font-weight: 600;
+}
+
+.cell-bad {
+  background-color: rgba(214, 69, 69, 0.14) !important;
+  color: #9E1F1F !important;
+  font-weight: 600;
+}
+
+/* Stale Indicator Badge */
+.stale-tag {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: rgba(214, 114, 43, 0.15);
+  color: #B55D18;
+  padding: 1px 5px;
+  border-radius: var(--radius-sm);
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.cycle-subdate {
+  display: block;
+  font-size: 0.65rem;
+  color: var(--color-text-muted);
+  font-weight: normal;
+}
+
+/* Chart Canvas Container */
+.md-chart-box {
+  padding: var(--space-lg);
+  height: 320px;
+  position: relative;
+}
+
+/* Empty Tab Banner */
+.md-empty-banner {
+  background: var(--color-bg-card);
+  border: 1px dashed var(--color-border-hover);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4xl) var(--space-2xl);
+  text-align: center;
+}
+
+.md-empty-banner h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-sm);
+}
+
+.md-empty-banner p {
+  color: var(--color-text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 0.95rem;
+}
+
+.md-empty-banner code {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  background: var(--color-surface);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}

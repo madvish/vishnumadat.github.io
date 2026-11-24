@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Market Dashboard — Vishnu Madat | CFA All Levels Cleared</title>
+  <meta name="description"
+    content="Weekly market intelligence dashboard — US & India rates, credit, equity, commodities, flows, and macro indicators." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=20261023_v5" />
+  <link rel="stylesheet" href="market-dashboard.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav id="main-nav" class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo" id="nav-logo">
+        <span class="logo-text">VM</span>
+      </a>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html" class="nav-link" data-page="home">Home</a>
+        <a href="about.html" class="nav-link" data-page="about">About</a>
+        <a href="portfolio.html" class="nav-link" data-page="portfolio">Portfolio</a>
+        <a href="blog.html" class="nav-link" data-page="blog">Articles</a>
+        <a href="skills.html" class="nav-link" data-page="skills">Skills</a>
+        <a href="market-dashboard.html" class="nav-link active" data-page="markets">Markets</a>
+        <a href="contact.html" class="nav-link" data-page="contact">Contact</a>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Page Hero -->
+    <section class="page-hero">
+      <span class="section-tag animate-fade-up">Weekly Intelligence</span>
+      <h1 class="animate-fade-up delay-1">Market Dashboard</h1>
+      <p class="animate-fade-up delay-2">Institutional-grade cross-market intelligence dashboard: rates, real yields, credit spreads, commodities, flows & macro indicators.</p>
+      <div class="md-status-strip animate-fade-up delay-3">
+        <div class="md-status-item">
+          <span class="md-status-label">Last Updated:</span>
+          <span id="md-last-updated" class="md-status-val">Loading...</span>
+        </div>
+        <div class="md-status-item">
+          <span class="md-status-label">Status:</span>
+          <span id="md-status-badge" class="md-badge md-badge-ok">● Live</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sub-navigation Tabs -->
+    <section class="md-tabs-bar">
+      <div class="container">
+        <div class="md-tabs-scroller" role="tablist" aria-label="Market Dashboard Sub-tabs">
+          <button class="md-tab active" role="tab" aria-selected="true" data-tab="tab-us-rates">US Rates &amp; Equity</button>
+          <button class="md-tab" role="tab" aria-selected="false" data-tab="tab-us-real">US Real / Credit / Cmdty</button>
+          <button class="md-tab" role="tab" aria-selected="false" data-tab="tab-india-rates">India Rates &amp; Equity</button>
+          <button class="md-tab" role="tab" aria-selected="false" data-tab="tab-india-real">India Real / Credit / Cmdty</button>
+          <button class="md-tab" role="tab" aria-selected="false" data-tab="tab-india-flows">India Flows &amp; Macro</button>
+          <button class="md-tab" role="tab" aria-selected="false" data-tab="tab-health">Data Health</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dashboard Content Area -->
+    <div class="container md-main-container">
+
+      <!-- TAB 1: US Rates & Equity -->
+      <div id="tab-us-rates" class="md-tab-pane active" role="tabpanel">
+        <div class="md-pane-header">
+          <h2>US Rates &amp; Equity Intelligence</h2>
+          <p class="md-pane-desc">Par yield curve, term premium slopes, major equity benchmarks &amp; dollar dynamics.</p>
+        </div>
+
+        <div class="md-grid-layout">
+          <!-- Left: Par Rates & Yields -->
+          <div class="md-col-left">
+            <div class="md-card" id="card-par-rates">
+              <div class="md-card-header">
+                <h3>US Treasury Par Rates (Bills)</h3>
+                <button class="md-btn-csv" data-export="sec-par-rates">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-par-rates"></div>
+            </div>
+
+            <div class="md-card" id="card-par-yields">
+              <div class="md-card-header">
+                <h3>US Treasury Par Yields (Coupons)</h3>
+                <button class="md-btn-csv" data-export="sec-par-yields">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-par-yields"></div>
+            </div>
+
+            <!-- Yield Curve Chart -->
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>US Treasury Yield Curve (This Week vs. Base)</h3>
+              </div>
+              <div class="md-chart-box">
+                <canvas id="chart-ust-curve"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Slopes & Equity / Volatility -->
+          <div class="md-col-right">
+            <div class="md-card" id="card-slopes">
+              <div class="md-card-header">
+                <h3>Yield Curve Slopes</h3>
+                <button class="md-btn-csv" data-export="sec-slopes">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-slopes"></div>
+            </div>
+
+            <div class="md-card" id="card-us-equity">
+              <div class="md-card-header">
+                <h3>US Equity, Dollar &amp; Fixed Income Proxies</h3>
+                <button class="md-btn-csv" data-export="sec-us-equity">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-us-equity"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: US Real Yields, Credit, Commodities -->
+      <div id="tab-us-real" class="md-tab-pane" role="tabpanel">
+        <div class="md-pane-header">
+          <h2>US Real Yields, Breakevens, Credit &amp; Commodities</h2>
+          <p class="md-pane-desc">TIPS yields, inflation compensation breakevens, ICE BofA credit OAS spreads, mortgage rates &amp; global raw commodities.</p>
+        </div>
+
+        <div class="md-grid-layout">
+          <!-- Left: Real Yields, Breakevens & Credit -->
+          <div class="md-col-left">
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>US Real Yields (TIPS)</h3>
+                <button class="md-btn-csv" data-export="sec-real-yields">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-real-yields"></div>
+            </div>
+
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>US Breakeven Inflation Rates (Nominal − TIPS)</h3>
+                <button class="md-btn-csv" data-export="sec-breakevens">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-breakevens"></div>
+            </div>
+
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>ICE BofA US Corporate Credit OAS Spreads</h3>
+                <button class="md-btn-csv" data-export="sec-credit-oas">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-credit-oas"></div>
+            </div>
+
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>US Housing &amp; Mortgage Spreads</h3>
+                <button class="md-btn-csv" data-export="sec-housing">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-housing"></div>
+            </div>
+          </div>
+
+          <!-- Right: Commodities & Mortgage REITs -->
+          <div class="md-col-right">
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>Commodities (Spot / Front-Month)</h3>
+                <button class="md-btn-csv" data-export="sec-commodities">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-commodities"></div>
+            </div>
+
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>Mortgage REITs &amp; Agency MBS</h3>
+                <button class="md-btn-csv" data-export="sec-mortgage-reits">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-mortgage-reits"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: India Rates & Equity (Ready for Phase B ingestion) -->
+      <div id="tab-india-rates" class="md-tab-pane" role="tabpanel">
+        <div class="md-pane-header">
+          <h2>India Rates &amp; Equity Intelligence</h2>
+          <p class="md-pane-desc">RBI policy rates, G-Sec benchmark curve, Nifty sectoral indices &amp; domestic currency / volatility gauges.</p>
+        </div>
+        <div class="md-empty-banner">
+          <h3>India Rates &amp; Equity Integration Active</h3>
+          <p>Scrapers and manual templates configured. Data pipeline automatically rolls domestic yields and equities when refreshed.</p>
+        </div>
+      </div>
+
+      <!-- TAB 4: India Real/Credit/Commodities -->
+      <div id="tab-india-real" class="md-tab-pane" role="tabpanel">
+        <div class="md-pane-header">
+          <h2>India Real Yields, Credit, Commodities &amp; Housing</h2>
+          <p class="md-pane-desc">Real rates, corporate bond spreads, domestic housing finance &amp; commodity benchmarks.</p>
+        </div>
+        <div class="md-empty-banner">
+          <h3>India Real Yields &amp; Credit Configured</h3>
+          <p>Manual entry templates ready in <code>data/market/manual/india_credit.csv</code>. Automated FBIL/CCIL scrapers run in Phase C.</p>
+        </div>
+      </div>
+
+      <!-- TAB 5: India Flows & Macro -->
+      <div id="tab-india-flows" class="md-tab-pane" role="tabpanel">
+        <div class="md-pane-header">
+          <h2>India Flows, Liquidity &amp; Macroeconomic Intelligence</h2>
+          <p class="md-pane-desc">FPI/DII flows, banking liquidity, Nifty valuation multiples, RBI forex reserves &amp; high-frequency macro prints.</p>
+        </div>
+        <div class="md-empty-banner">
+          <h3>Macro &amp; Flows Intelligence Engine Ready</h3>
+          <p>Template configuration mapped across NSDL FPI, AMFI SIPs, MoSPI CPI, and Banking Liquidity.</p>
+        </div>
+      </div>
+
+      <!-- TAB 6: Data Health -->
+      <div id="tab-health" class="md-tab-pane" role="tabpanel">
+        <div class="md-pane-header">
+          <h2>Dashboard Data Health &amp; Pipeline Audit</h2>
+          <p class="md-pane-desc">Comprehensive status audit of every tracked metric, latency metrics, freshness stamps &amp; data sources.</p>
+        </div>
+
+        <div class="md-card">
+          <div class="md-card-header">
+            <h3>Metric Registry &amp; Staleness Monitor</h3>
+          </div>
+          <div class="md-table-wrapper" id="sec-health-table"></div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" id="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <span class="footer-logo">VM</span>
+          <p>CFA All Levels Cleared · NISM Certified Research Analyst</p>
+          <p class="footer-tagline">Translating complex data into actionable investment views.</p>
+        </div>
+        <div class="footer-nav">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="blog.html">Articles</a></li>
+            <li><a href="skills.html">Skills</a></li>
+            <li><a href="market-dashboard.html">Markets</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-social">
+          <h4>Connect</h4>
+          <div class="social-links" id="social-links">
+            <a href="https://www.linkedin.com/in/vishnumadat/" class="social-link" id="social-linkedin"
+              aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+              </svg>
+            </a>
+            <a href="https://substack.com/@vishnumadat" class="social-link" id="social-substack" aria-label="Substack"
+              target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z" />
+              </svg>
+            </a>
+            <a href="https://x.com/MadatVishnu" class="social-link" aria-label="X (Twitter)" target="_blank"
+              rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+            </a>
+            <a href="mailto:vishnumahadevmadat@gmail.com" class="social-link" aria-label="Email">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="4" width="20" height="16" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Vishnu Madat. All rights reserved. · <em>Not investment advice; data may be delayed.</em> · Data Attributions: FRED, Yahoo Finance, NSE, RBI, FBIL.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script src="market-dashboard.js"></script>
+</body>
+
+</html>
