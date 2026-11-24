@@ -54,6 +54,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: Standard & Poor's 500 Index
 - id: gm_ndx
   label: Nasdaq 100 (NDX)
   tab: global_markets
@@ -65,6 +66,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: Nasdaq-100 Technology Index
 - id: gm_nikkei
   label: Nikkei 225
   tab: global_markets
@@ -131,6 +133,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: rate
+  full_name: United States 10-Year Treasury Benchmark Note
 - id: gm_in10y
   label: India 10Y Benchmark G-Sec
   tab: global_markets
@@ -153,6 +156,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: rate
+  full_name: Merrill Lynch Option Volatility Estimate (US Bond Volatility)
 - id: gm_dxy
   label: US Dollar Index (DXY)
   tab: global_markets
@@ -164,6 +168,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: Intercontinental Exchange U.S. Dollar Index
 - id: gm_gold
   label: Gold (XAU/USD)
   tab: global_markets
@@ -175,6 +180,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: Gold Spot / COMEX Continuous ($/oz)
 - id: gm_brent
   label: Brent Crude Oil
   tab: global_markets
@@ -186,6 +192,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: ICE Brent Crude Oil Futures ($/bbl)
 - id: gm_btcusd
   label: Bitcoin (BTC/USD)
   tab: global_markets
@@ -197,6 +204,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: Bitcoin Crypto Asset in US Dollars
 - id: gm_usdinr
   label: USD / INR
   tab: global_markets
@@ -208,6 +216,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: United States Dollar / Indian Rupee
 - id: gm_eurusd
   label: EUR / USD
   tab: global_markets
@@ -219,6 +228,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: Euro / United States Dollar
 - id: gm_gbpusd
   label: GBP / USD
   tab: global_markets
@@ -230,6 +240,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: British Pound Sterling / United States Dollar
 - id: gm_usdchf
   label: USD / CHF
   tab: global_markets
@@ -241,6 +252,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: United States Dollar / Swiss Franc
 - id: gm_usdjpy
   label: USD / JPY
   tab: global_markets
@@ -252,6 +264,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: United States Dollar / Japanese Yen
 - id: gm_usdcad
   label: USD / CAD
   tab: global_markets
@@ -263,6 +276,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: United States Dollar / Canadian Dollar
 - id: gm_audusd
   label: AUD / USD
   tab: global_markets
@@ -274,6 +288,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: Australian Dollar / United States Dollar
 - id: gm_usdcny
   label: USD / CNY
   tab: global_markets
@@ -285,6 +300,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: United States Dollar / Chinese Yuan Renminbi
 - id: ust_1m
   label: 1M
   tab: us_rates_equity
@@ -296,6 +312,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: rate
+  full_name: 1-Month US Treasury Bill
 - id: ust_2m
   label: 2M
   tab: us_rates_equity
@@ -307,6 +324,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: rate
+  full_name: 2-Month US Treasury Bill
 - id: ust_3m
   label: 3M
   tab: us_rates_equity
@@ -318,6 +336,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: rate
+  full_name: 3-Month US Treasury Bill
 - id: ust_4m
   label: 4M
   tab: us_rates_equity
@@ -329,6 +348,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: rate
+  full_name: 4-Month US Treasury Bill
 - id: ust_6m
   label: 6M
   tab: us_rates_equity
@@ -340,6 +360,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: rate
+  full_name: 6-Month US Treasury Bill
 - id: ust_1y
   label: 1Y
   tab: us_rates_equity
@@ -351,6 +372,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: rate
+  full_name: 1-Year US Treasury Bill
 - id: ust_2y
   label: 2Y
   tab: us_rates_equity
@@ -362,6 +384,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: rate
+  full_name: 2-Year US Treasury Note
 - id: ust_3y
   label: 3Y
   tab: us_rates_equity
@@ -373,6 +396,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: rate
+  full_name: 3-Year US Treasury Note
 - id: ust_5y
   label: 5Y
   tab: us_rates_equity
@@ -384,6 +408,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: rate
+  full_name: 5-Year US Treasury Note
 - id: ust_7y
   label: 7Y
   tab: us_rates_equity
@@ -395,6 +420,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: rate
+  full_name: 7-Year US Treasury Note
 - id: ust_10y
   label: 10Y
   tab: us_rates_equity
@@ -406,6 +432,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: rate
+  full_name: 10-Year US Treasury Note
 - id: ust_20y
   label: 20Y
   tab: us_rates_equity
@@ -417,6 +444,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: rate
+  full_name: 20-Year US Treasury Bond
 - id: ust_30y
   label: 30Y
   tab: us_rates_equity
@@ -428,6 +456,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: rate
+  full_name: 30-Year US Treasury Bond
 - id: slope_2s10s
   label: 2s10s
   tab: us_rates_equity
@@ -440,6 +469,7 @@ metrics:
   stale_after_days: 5
   display_type: rate
   compute_formula: ust_10y - ust_2y
+  full_name: US Treasury 10Y minus 2Y Yield Spread
 - id: slope_3m10y
   label: 3m10y
   tab: us_rates_equity
@@ -452,6 +482,7 @@ metrics:
   stale_after_days: 5
   display_type: rate
   compute_formula: ust_10y - ust_3m
+  full_name: US Treasury 10Y minus 3M Yield Spread
 - id: us_kre
   label: KRE
   tab: us_rates_equity
@@ -463,6 +494,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: SPDR S&P Regional Banking ETF
 - id: us_dxy
   label: DXY
   tab: us_rates_equity
@@ -474,6 +506,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: Intercontinental Exchange U.S. Dollar Index
 - id: us_xlu
   label: XLU
   tab: us_rates_equity
@@ -485,6 +518,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: Utilities Select Sector SPDR Fund
 - id: us_iyr
   label: IYR
   tab: us_rates_equity
@@ -496,6 +530,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: iShares U.S. Real Estate ETF
 - id: us_xlp
   label: XLP
   tab: us_rates_equity
@@ -507,6 +542,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: Consumer Staples Select Sector SPDR Fund
 - id: us_spy
   label: SPY
   tab: us_rates_equity
@@ -518,6 +554,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: SPDR S&P 500 ETF Trust
 - id: us_iwm
   label: IWM
   tab: us_rates_equity
@@ -529,6 +566,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: iShares Russell 2000 ETF
 - id: us_qqq
   label: QQQ
   tab: us_rates_equity
@@ -540,6 +578,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: Invesco QQQ Trust (Nasdaq-100)
 - id: us_tlt
   label: TLT
   tab: us_rates_equity
@@ -551,6 +590,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: iShares 20+ Year Treasury Bond ETF
 - id: real_5y
   label: 5Y TIPS
   tab: us_real_credit_commodities
@@ -562,6 +602,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: rate
+  full_name: 5-Year Treasury Inflation-Protected Security
 - id: real_7y
   label: 7Y TIPS
   tab: us_real_credit_commodities
@@ -573,6 +614,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: rate
+  full_name: 7-Year Treasury Inflation-Protected Security
 - id: real_10y
   label: 10Y TIPS
   tab: us_real_credit_commodities
@@ -584,6 +626,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: rate
+  full_name: 10-Year Treasury Inflation-Protected Security
 - id: real_20y
   label: 20Y TIPS
   tab: us_real_credit_commodities
@@ -595,6 +638,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: rate
+  full_name: 20-Year Treasury Inflation-Protected Security
 - id: real_30y
   label: 30Y TIPS
   tab: us_real_credit_commodities
@@ -606,6 +650,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: rate
+  full_name: 30-Year Treasury Inflation-Protected Security
 - id: real_f5y5y
   label: Fwd 5Y5Y Real
   tab: us_real_credit_commodities
@@ -618,6 +663,7 @@ metrics:
   stale_after_days: 5
   display_type: rate
   compute_formula: 2 * real_10y - real_5y
+  full_name: Forward 5-Year, 5-Year Real Rate
 - id: be_5y
   label: 5Y BE
   tab: us_real_credit_commodities
@@ -630,6 +676,7 @@ metrics:
   stale_after_days: 5
   display_type: rate
   compute_formula: ust_5y - real_5y
+  full_name: 5-Year Breakeven Inflation Rate
 - id: be_7y
   label: 7Y BE
   tab: us_real_credit_commodities
@@ -642,6 +689,7 @@ metrics:
   stale_after_days: 5
   display_type: rate
   compute_formula: ust_7y - real_7y
+  full_name: 7-Year Breakeven Inflation Rate
 - id: be_10y
   label: 10Y BE
   tab: us_real_credit_commodities
@@ -654,6 +702,7 @@ metrics:
   stale_after_days: 5
   display_type: rate
   compute_formula: ust_10y - real_10y
+  full_name: 10-Year Breakeven Inflation Rate
 - id: be_20y
   label: 20Y BE
   tab: us_real_credit_commodities
@@ -666,6 +715,7 @@ metrics:
   stale_after_days: 5
   display_type: rate
   compute_formula: ust_20y - real_20y
+  full_name: 20-Year Breakeven Inflation Rate
 - id: be_30y
   label: 30Y BE
   tab: us_real_credit_commodities
@@ -678,6 +728,7 @@ metrics:
   stale_after_days: 5
   display_type: rate
   compute_formula: ust_30y - real_30y
+  full_name: 30-Year Breakeven Inflation Rate
 - id: be_f5y5y
   label: Fwd 5Y5Y BE
   tab: us_real_credit_commodities
@@ -690,6 +741,7 @@ metrics:
   stale_after_days: 5
   display_type: rate
   compute_formula: 2 * be_10y - be_5y
+  full_name: Forward 5-Year, 5-Year Breakeven Inflation Rate
 - id: oas_ig
   label: IG OAS
   tab: us_real_credit_commodities
@@ -701,6 +753,7 @@ metrics:
   frequency: daily
   stale_after_days: 3
   display_type: rate
+  full_name: Investment Grade Option-Adjusted Spread (ICE BofA)
 - id: oas_aa
   label: AA OAS
   tab: us_real_credit_commodities
@@ -712,6 +765,7 @@ metrics:
   frequency: daily
   stale_after_days: 3
   display_type: rate
+  full_name: AA-Rated Corporate Option-Adjusted Spread
 - id: oas_bbb
   label: BBB OAS
   tab: us_real_credit_commodities
@@ -723,6 +777,7 @@ metrics:
   frequency: daily
   stale_after_days: 3
   display_type: rate
+  full_name: BBB-Rated Corporate Option-Adjusted Spread
 - id: oas_hy
   label: HY OAS
   tab: us_real_credit_commodities
@@ -734,6 +789,7 @@ metrics:
   frequency: daily
   stale_after_days: 3
   display_type: rate
+  full_name: High Yield Corporate Option-Adjusted Spread (ICE BofA)
 - id: oas_bb
   label: BB OAS
   tab: us_real_credit_commodities
@@ -745,6 +801,7 @@ metrics:
   frequency: daily
   stale_after_days: 3
   display_type: rate
+  full_name: BB-Rated High Yield Option-Adjusted Spread
 - id: oas_ccc
   label: CCC OAS
   tab: us_real_credit_commodities
@@ -756,6 +813,7 @@ metrics:
   frequency: daily
   stale_after_days: 3
   display_type: rate
+  full_name: CCC & Lower High Yield Option-Adjusted Spread
 - id: mortgage_30y
   label: 30Y Mortgage
   tab: us_real_credit_commodities
@@ -767,6 +825,7 @@ metrics:
   frequency: weekly
   stale_after_days: 8
   display_type: rate
+  full_name: Freddie Mac Primary Mortgage Market Survey 30Y Fixed
 - id: mortgage_spread
   label: Mortgage−10Y Spread
   tab: us_real_credit_commodities
@@ -779,6 +838,7 @@ metrics:
   stale_after_days: 8
   display_type: rate
   compute_formula: mortgage_30y - ust_10y
+  full_name: 30Y Conventional Mortgage Spread vs 10Y US Treasury
 - id: cmd_gold
   label: Gold ($/oz)
   tab: us_real_credit_commodities
@@ -790,6 +850,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: COMEX Gold Futures (GC)
 - id: cmd_silver
   label: Silver ($/oz)
   tab: us_real_credit_commodities
@@ -801,6 +862,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: COMEX Silver Futures (SI)
 - id: cmd_copper
   label: Copper ($/lb)
   tab: us_real_credit_commodities
@@ -812,6 +874,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: COMEX Copper Futures (HG)
 - id: cmd_aluminum
   label: Aluminum (LME $/MT)
   tab: us_real_credit_commodities
@@ -823,6 +886,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: London Metal Exchange Aluminum Cash/Futures
 - id: cmd_zinc
   label: Zinc ($/lb)
   tab: us_real_credit_commodities
@@ -834,6 +898,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: Global Zinc Futures (ZN)
 - id: cmd_platinum
   label: Platinum ($/oz)
   tab: us_real_credit_commodities
@@ -845,6 +910,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: NYMEX Platinum Futures (PL)
 - id: cmd_palladium
   label: Palladium ($/oz)
   tab: us_real_credit_commodities
@@ -856,6 +922,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: NYMEX Palladium Futures (PA)
 - id: cmd_wti
   label: WTI Crude Oil ($/bbl)
   tab: us_real_credit_commodities
@@ -867,6 +934,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: 'West Texas Intermediate Light Sweet Crude (NYMEX: CL)'
 - id: cmd_brent
   label: Brent Crude Oil ($/bbl)
   tab: us_real_credit_commodities
@@ -878,6 +946,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: ICE Brent Crude Oil Futures (BZ)
 - id: cmd_natgas
   label: Natural Gas ($/MMBtu)
   tab: us_real_credit_commodities
@@ -889,6 +958,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: 'Henry Hub Natural Gas Futures (NYMEX: NG)'
 - id: cmd_gasoline
   label: RBOB Gasoline ($/gal)
   tab: us_real_credit_commodities
@@ -900,6 +970,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: 'Reformulated Blendstock for Oxygenate Blending (NYMEX: RB)'
 - id: cmd_heatingoil
   label: Heating Oil ($/gal)
   tab: us_real_credit_commodities
@@ -911,6 +982,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: NYMEX Heating Oil Futures (HO)
 - id: cmd_wheat
   label: Wheat (CBOT)
   tab: us_real_credit_commodities
@@ -922,6 +994,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: 'Chicago Board of Trade Wheat Futures (CBOT: ZW)'
 - id: cmd_corn
   label: Corn (CBOT)
   tab: us_real_credit_commodities
@@ -933,6 +1006,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: 'Chicago Board of Trade Corn Futures (CBOT: ZC)'
 - id: cmd_soybeans
   label: Soybeans (CBOT)
   tab: us_real_credit_commodities
@@ -944,6 +1018,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: 'Chicago Board of Trade Soybean Futures (CBOT: ZS)'
 - id: cmd_soyoil
   label: Soybean Oil (CBOT)
   tab: us_real_credit_commodities
@@ -955,6 +1030,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: 'Chicago Board of Trade Soybean Oil Futures (CBOT: ZL)'
 - id: cmd_coffee
   label: Coffee (ICE)
   tab: us_real_credit_commodities
@@ -966,6 +1042,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: ICE Coffee 'C' Arabica Futures (KC)
 - id: cmd_sugar
   label: 'Sugar #11 (ICE)'
   tab: us_real_credit_commodities
@@ -977,6 +1054,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: ICE Sugar No. 11 World Raw Sugar (SB)
 - id: cmd_cotton
   label: 'Cotton #2 (ICE)'
   tab: us_real_credit_commodities
@@ -988,6 +1066,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: ICE Cotton No. 2 Futures (CT)
 - id: cmd_livecattle
   label: Live Cattle (CME)
   tab: us_real_credit_commodities
@@ -999,6 +1078,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: 'Chicago Mercantile Exchange Live Cattle Futures (CME: LE)'
 - id: cmd_leanhogs
   label: Lean Hogs (CME)
   tab: us_real_credit_commodities
@@ -1010,6 +1090,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: 'Chicago Mercantile Exchange Lean Hogs Futures (CME: HE)'
 - id: mbs_mbb
   label: MBB
   tab: us_real_credit_commodities
@@ -1021,6 +1102,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: iShares MBS ETF (Mortgage-Backed Securities)
 - id: mbs_agnc
   label: AGNC
   tab: us_real_credit_commodities
@@ -1032,6 +1114,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: AGNC Investment Corp (Agency Mortgage REIT)
 - id: mbs_nly
   label: NLY
   tab: us_real_credit_commodities
@@ -1043,6 +1126,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+  full_name: Annaly Capital Management (Agency Mortgage REIT)
 - id: in_repo
   label: RBI Repo Rate
   tab: india_rates_equity
@@ -1978,6 +2062,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: rate
+  full_name: 10Y Indian Government Bond vs 10Y US Treasury Note
 - id: fed_funds_target
   label: Fed Funds Target Upper
   tab: india_flows_macro
@@ -1989,6 +2074,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: rate
+  full_name: Federal Reserve Policy Target Rate (Upper Limit)
 - id: cross_repo_fed_spread
   label: Policy Rate Differential (Repo − Fed)
   tab: india_flows_macro
@@ -2000,6 +2086,7 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: rate
+  full_name: RBI Policy Repo Rate vs US Fed Funds Rate
 - id: in_fpi_equity
   label: FPI Net Equity Flow
   tab: india_flows_macro

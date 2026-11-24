@@ -287,8 +287,28 @@
   color: var(--color-text-primary);
   white-space: normal;
   min-width: 120px;
-  max-width: 210px;
+  max-width: 220px;
   line-height: 1.25;
+}
+
+.metric-title {
+  display: inline;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.metric-full-form {
+  display: block;
+  font-size: 0.69rem;
+  font-style: italic;
+  font-weight: 400;
+  color: #8C8C96;
+  margin-top: 2px;
+  line-height: 1.25;
+}
+
+[data-theme="dark"] .metric-full-form {
+  color: #A0A0AA;
 }
 
 .md-table td.num-cell {

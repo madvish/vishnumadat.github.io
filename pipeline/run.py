@@ -305,7 +305,7 @@ def run_pipeline():
     now_ist = datetime.now(ist_tz)
 
     output_payload = {
-        "generated_at_ist": now_ist.strftime("%Y-%m-%d %H:%M:%S IST"),
+        "generated_at_ist": now_ist.strftime("%d/%m/%Y %H:%M:%S IST"),
         "summary": {
             "total": total_metrics,
             "ok": ok_metrics,

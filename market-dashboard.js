@@ -13,6 +13,113 @@ let marketDataPayload = null;
 let yieldCurveChart = null;
 let gsecCurveChart = null;
 
+// US-related tickers and shortforms full form lookup (light grey italic subtitle)
+const US_FULL_FORMS = {
+  // US Rates & Slopes
+  'ust_1m': '1-Month US Treasury Bill',
+  'ust_2m': '2-Month US Treasury Bill',
+  'ust_3m': '3-Month US Treasury Bill',
+  'ust_4m': '4-Month US Treasury Bill',
+  'ust_6m': '6-Month US Treasury Bill',
+  'ust_1y': '1-Year US Treasury Bill',
+  'ust_2y': '2-Year US Treasury Note',
+  'ust_3y': '3-Year US Treasury Note',
+  'ust_5y': '5-Year US Treasury Note',
+  'ust_7y': '7-Year US Treasury Note',
+  'ust_10y': '10-Year US Treasury Note',
+  'ust_20y': '20-Year US Treasury Bond',
+  'ust_30y': '30-Year US Treasury Bond',
+  'slope_2s10s': 'US Treasury 10Y minus 2Y Yield Spread',
+  'slope_3m10y': 'US Treasury 10Y minus 3M Yield Spread',
+
+  // US Equities & ETFs
+  'us_kre': 'SPDR S&P Regional Banking ETF',
+  'us_dxy': 'Intercontinental Exchange U.S. Dollar Index',
+  'us_xlu': 'Utilities Select Sector SPDR Fund',
+  'us_iyr': 'iShares U.S. Real Estate ETF',
+  'us_xlp': 'Consumer Staples Select Sector SPDR Fund',
+  'us_spy': 'SPDR S&P 500 ETF Trust',
+  'us_iwm': 'iShares Russell 2000 ETF',
+  'us_qqq': 'Invesco QQQ Trust (Nasdaq-100)',
+  'us_tlt': 'iShares 20+ Year Treasury Bond ETF',
+  'fed_futures': '30-Day Federal Funds Futures (CME: ZQ)',
+
+  // US Real / TIPS / Breakevens
+  'real_5y': '5-Year Treasury Inflation-Protected Security',
+  'real_7y': '7-Year Treasury Inflation-Protected Security',
+  'real_10y': '10-Year Treasury Inflation-Protected Security',
+  'real_20y': '20-Year Treasury Inflation-Protected Security',
+  'real_30y': '30-Year Treasury Inflation-Protected Security',
+  'real_f5y5y': 'Forward 5-Year, 5-Year Real Rate',
+  'be_5y': '5-Year Breakeven Inflation Rate',
+  'be_7y': '7-Year Breakeven Inflation Rate',
+  'be_10y': '10-Year Breakeven Inflation Rate',
+  'be_20y': '20-Year Breakeven Inflation Rate',
+  'be_30y': '30-Year Breakeven Inflation Rate',
+  'be_f5y5y': 'Forward 5-Year, 5-Year Breakeven Inflation Rate',
+
+  // US Credit OAS & Mortgage
+  'oas_ig': 'Investment Grade Option-Adjusted Spread (ICE BofA)',
+  'oas_aa': 'AA-Rated Corporate Option-Adjusted Spread',
+  'oas_bbb': 'BBB-Rated Corporate Option-Adjusted Spread',
+  'oas_hy': 'High Yield Corporate Option-Adjusted Spread (ICE BofA)',
+  'oas_bb': 'BB-Rated High Yield Option-Adjusted Spread',
+  'oas_ccc': 'CCC & Lower High Yield Option-Adjusted Spread',
+  'mortgage_30y': 'Freddie Mac Primary Mortgage Market Survey 30Y Fixed',
+  'mortgage_spread': '30Y Conventional Mortgage Spread vs 10Y US Treasury',
+
+  // MBS / Agency REITs
+  'mbs_mbb': 'iShares MBS ETF (Mortgage-Backed Securities)',
+  'mbs_agnc': 'AGNC Investment Corp (Agency Mortgage REIT)',
+  'mbs_nly': 'Annaly Capital Management (Agency Mortgage REIT)',
+
+  // US Traded Commodities
+  'cmd_gold': 'COMEX Gold Futures (GC)',
+  'cmd_silver': 'COMEX Silver Futures (SI)',
+  'cmd_copper': 'COMEX Copper Futures (HG)',
+  'cmd_aluminum': 'London Metal Exchange Aluminum Cash/Futures',
+  'cmd_zinc': 'Global Zinc Futures (ZN)',
+  'cmd_platinum': 'NYMEX Platinum Futures (PL)',
+  'cmd_palladium': 'NYMEX Palladium Futures (PA)',
+  'cmd_wti': 'West Texas Intermediate Light Sweet Crude (NYMEX: CL)',
+  'cmd_brent': 'ICE Brent Crude Oil Futures (BZ)',
+  'cmd_natgas': 'Henry Hub Natural Gas Futures (NYMEX: NG)',
+  'cmd_gasoline': 'Reformulated Blendstock for Oxygenate Blending (NYMEX: RB)',
+  'cmd_heatingoil': 'NYMEX Heating Oil Futures (HO)',
+  'cmd_wheat': 'Chicago Board of Trade Wheat Futures (CBOT: ZW)',
+  'cmd_corn': 'Chicago Board of Trade Corn Futures (CBOT: ZC)',
+  'cmd_soybeans': 'Chicago Board of Trade Soybean Futures (CBOT: ZS)',
+  'cmd_soyoil': 'Chicago Board of Trade Soybean Oil Futures (CBOT: ZL)',
+  'cmd_coffee': "ICE Coffee 'C' Arabica Futures (KC)",
+  'cmd_sugar': 'ICE Sugar No. 11 World Raw Sugar (SB)',
+  'cmd_cotton': 'ICE Cotton No. 2 Futures (CT)',
+  'cmd_livecattle': 'Chicago Mercantile Exchange Live Cattle Futures (CME: LE)',
+  'cmd_leanhogs': 'Chicago Mercantile Exchange Lean Hogs Futures (CME: HE)',
+
+  // Global Markets Tab (US Assets, Global Tickers & FX)
+  'gm_spx': "Standard & Poor's 500 Index",
+  'gm_ndx': 'Nasdaq-100 Technology Index',
+  'gm_us10y': 'United States 10-Year Treasury Benchmark Note',
+  'gm_move': 'Merrill Lynch Option Volatility Estimate (US Bond Volatility)',
+  'gm_dxy': 'Intercontinental Exchange U.S. Dollar Index',
+  'gm_gold': 'Gold Spot / COMEX Continuous ($/oz)',
+  'gm_brent': 'ICE Brent Crude Oil Futures ($/bbl)',
+  'gm_btcusd': 'Bitcoin Crypto Asset in US Dollars',
+  'gm_usdinr': 'United States Dollar / Indian Rupee',
+  'gm_eurusd': 'Euro / United States Dollar',
+  'gm_gbpusd': 'British Pound Sterling / United States Dollar',
+  'gm_usdchf': 'United States Dollar / Swiss Franc',
+  'gm_usdjpy': 'United States Dollar / Japanese Yen',
+  'gm_usdcad': 'United States Dollar / Canadian Dollar',
+  'gm_audusd': 'Australian Dollar / United States Dollar',
+  'gm_usdcny': 'United States Dollar / Chinese Yuan Renminbi',
+
+  // Tab 5 Cross Market Spreads
+  'cross_10y_spread': '10Y Indian Government Bond vs 10Y US Treasury Note',
+  'fed_funds_target': 'Federal Reserve Policy Target Rate (Upper Limit)',
+  'cross_repo_fed_spread': 'RBI Policy Repo Rate vs US Fed Funds Rate'
+};
+
 // --- Tab Switching ---
 function initDashboardTabs() {
   const tabs = document.querySelectorAll('.md-tab');
@@ -88,7 +195,7 @@ function renderDashboard(data) {
   const statusBadgeEl = document.getElementById('md-status-badge');
 
   if (lastUpdatedEl && data.generated_at_ist) {
-    lastUpdatedEl.textContent = data.generated_at_ist;
+    lastUpdatedEl.textContent = formatDateTime(data.generated_at_ist);
   }
 
   if (statusBadgeEl && data.summary) {
@@ -235,7 +342,7 @@ function renderSectionTable(containerId, sectionData) {
 
   metrics.forEach(m => {
     const cycleVal = formatVal(m.cycle_high, isPrice);
-    const cycleDateStr = m.cycle_high_date ? `<span class="cycle-subdate">${m.cycle_high_date}</span>` : '';
+    const cycleDateStr = m.cycle_high_date ? `<span class="cycle-subdate">${formatDate(m.cycle_high_date)}</span>` : '';
     const thisVal = formatVal(m.this_value, isPrice);
     const lastVal = formatVal(m.last_value, isPrice);
     const baseVal = formatVal(m.base_value, isPrice);
@@ -246,10 +353,12 @@ function renderSectionTable(containerId, sectionData) {
     const changeClass = getPolarityClass(m.change, m.polarity);
     const ytdClass = getPolarityClass(m.ytd, m.polarity);
     const staleTag = m.stale ? '<span class="stale-tag">STALE</span>' : '';
+    const fullForm = m.full_name || US_FULL_FORMS[m.id];
+    const fullFormHtml = fullForm ? `<span class="metric-full-form">${fullForm}</span>` : '';
 
     html += `
       <tr>
-        <td class="col-metric">${m.label} ${staleTag}</td>
+        <td class="col-metric"><span class="metric-title">${m.label}</span> ${staleTag}${fullFormHtml}</td>
         <td class="num-cell">${cycleVal}${cycleDateStr}</td>
         <td class="num-cell col-this-td">${thisVal}</td>
         <td class="num-cell">${lastVal}</td>
@@ -322,7 +431,7 @@ function renderDataHealthTable(data) {
         <td class="col-metric">${m.tab}</td>
         <td class="col-metric"><strong>${m.metric}</strong></td>
         <td><code>${m.source}</code></td>
-        <td class="num-cell">${m.updated}</td>
+        <td class="num-cell">${formatDate(m.updated)}</td>
         <td><span class="md-badge ${badgeClass}">${statusText}</span></td>
         <td>${m.status.toUpperCase()}</td>
       </tr>
@@ -363,11 +472,23 @@ function formatChange(v, isPrice) {
 }
 
 function formatDate(dateStr) {
-  if (!dateStr) return '';
-  const parts = dateStr.split('-');
-  if (parts.length < 3) return dateStr;
-  const d = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]));
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
+  if (!dateStr || dateStr === '–' || dateStr === '-') return '–';
+  const m = String(dateStr).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (m) {
+    const [, yyyy, mm, dd] = m;
+    return `${dd}/${mm}/${yyyy}`;
+  }
+  return dateStr;
+}
+
+function formatDateTime(str) {
+  if (!str) return 'Pending automated pipeline run';
+  const m = String(str).match(/^(\d{4})-(\d{2})-(\d{2})(.*)$/);
+  if (m) {
+    const [, yyyy, mm, dd, rest] = m;
+    return `${dd}/${mm}/${yyyy}${rest}`;
+  }
+  return str;
 }
 
 // --- Chart.js Yield Curve ---
@@ -389,6 +510,17 @@ function renderYieldCurveChart(parRatesSec, parYieldsSec) {
   collect(parRatesSec);
   collect(parYieldsSec);
 
+  let thisDate = '';
+  let baseDate = '';
+  for (const k of maturities) {
+    if (metricMap[k]) {
+      if (metricMap[k].this_date && !thisDate) thisDate = formatDate(metricMap[k].this_date);
+      if (metricMap[k].base_date && !baseDate) baseDate = formatDate(metricMap[k].base_date);
+    }
+  }
+  const thisLabel = thisDate ? `This Week (${thisDate})` : 'This Week';
+  const baseLabel = baseDate ? `Base (${baseDate})` : 'Base';
+
   const thisVals = maturities.map(m => metricMap[m] ? metricMap[m].this_value : null);
   const baseVals = maturities.map(m => metricMap[m] ? metricMap[m].base_value : null);
 
@@ -403,7 +535,7 @@ function renderYieldCurveChart(parRatesSec, parYieldsSec) {
       labels: maturities,
       datasets: [
         {
-          label: 'This Week',
+          label: thisLabel,
           data: thisVals,
           borderColor: '#8B6F47',
           backgroundColor: 'rgba(139, 111, 71, 0.1)',
@@ -414,7 +546,7 @@ function renderYieldCurveChart(parRatesSec, parYieldsSec) {
           fill: false,
         },
         {
-          label: 'Base (1-Jan)',
+          label: baseLabel,
           data: baseVals,
           borderColor: '#1C2A3A',
           borderDash: [5, 5],
@@ -474,6 +606,17 @@ function renderGSecCurveChart(gsecSec) {
     });
   }
 
+  let thisDate = '';
+  let baseDate = '';
+  for (const k of maturities) {
+    if (metricMap[k]) {
+      if (metricMap[k].this_date && !thisDate) thisDate = formatDate(metricMap[k].this_date);
+      if (metricMap[k].base_date && !baseDate) baseDate = formatDate(metricMap[k].base_date);
+    }
+  }
+  const thisLabel = thisDate ? `This Week (${thisDate})` : 'This Week';
+  const baseLabel = baseDate ? `Base (${baseDate})` : 'Base';
+
   const thisVals = maturities.map(m => metricMap[m] ? metricMap[m].this_value : null);
   const baseVals = maturities.map(m => metricMap[m] ? metricMap[m].base_value : null);
 
@@ -488,7 +631,7 @@ function renderGSecCurveChart(gsecSec) {
       labels: maturities,
       datasets: [
         {
-          label: 'This Week',
+          label: thisLabel,
           data: thisVals,
           borderColor: '#8B6F47',
           backgroundColor: 'rgba(139, 111, 71, 0.1)',
@@ -499,7 +642,7 @@ function renderGSecCurveChart(gsecSec) {
           fill: false,
         },
         {
-          label: 'Base (1-Jan)',
+          label: baseLabel,
           data: baseVals,
           borderColor: '#1C2A3A',
           borderDash: [5, 5],

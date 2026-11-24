@@ -105,6 +105,7 @@ def compute_metric_stats(
     res = {
         "id": metric_id,
         "label": metric_cfg.get("label", metric_id),
+        "full_name": metric_cfg.get("full_name"),
         "unit": metric_cfg.get("unit", "%"),
         "polarity": metric_cfg.get("polarity", "neutral"),
         "display_type": display_type,
