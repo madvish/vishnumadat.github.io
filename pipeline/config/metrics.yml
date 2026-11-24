@@ -318,7 +318,7 @@ metrics:
   tab: us_rates_equity
   section: par_rates
   unit: '%'
-  source: manual
+  source: investing
   ticker: ''
   polarity: down_good
   frequency: daily
@@ -342,7 +342,7 @@ metrics:
   tab: us_rates_equity
   section: par_rates
   unit: '%'
-  source: manual
+  source: investing
   ticker: ''
   polarity: down_good
   frequency: daily
@@ -751,7 +751,7 @@ metrics:
   ticker: BAMLC0A0CM
   polarity: down_good
   frequency: daily
-  stale_after_days: 3
+  stale_after_days: 7
   display_type: rate
   full_name: Investment Grade Option-Adjusted Spread (ICE BofA)
 - id: oas_aa
@@ -763,7 +763,7 @@ metrics:
   ticker: BAMLC0A2CAA
   polarity: down_good
   frequency: daily
-  stale_after_days: 3
+  stale_after_days: 7
   display_type: rate
   full_name: AA-Rated Corporate Option-Adjusted Spread
 - id: oas_bbb
@@ -775,7 +775,7 @@ metrics:
   ticker: BAMLC0A4CBBB
   polarity: down_good
   frequency: daily
-  stale_after_days: 3
+  stale_after_days: 7
   display_type: rate
   full_name: BBB-Rated Corporate Option-Adjusted Spread
 - id: oas_hy
@@ -787,7 +787,7 @@ metrics:
   ticker: BAMLH0A0HYM2
   polarity: down_good
   frequency: daily
-  stale_after_days: 3
+  stale_after_days: 7
   display_type: rate
   full_name: High Yield Corporate Option-Adjusted Spread (ICE BofA)
 - id: oas_bb
@@ -799,7 +799,7 @@ metrics:
   ticker: BAMLH0A1HYBB
   polarity: down_good
   frequency: daily
-  stale_after_days: 3
+  stale_after_days: 7
   display_type: rate
   full_name: BB-Rated High Yield Option-Adjusted Spread
 - id: oas_ccc
@@ -811,7 +811,7 @@ metrics:
   ticker: BAMLH0A3HYC
   polarity: down_good
   frequency: daily
-  stale_after_days: 3
+  stale_after_days: 7
   display_type: rate
   full_name: CCC & Lower High Yield Option-Adjusted Spread
 - id: mortgage_30y
@@ -2253,7 +2253,7 @@ metrics:
   ticker: ''
   polarity: up_good
   frequency: monthly
-  stale_after_days: 45
+  stale_after_days: 60
   display_type: rate
 - id: in_macro_gdp
   label: Real GDP YoY

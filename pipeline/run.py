@@ -24,6 +24,7 @@ from fetchers.yahoo import fetch_yahoo_series
 from fetchers.rbi import fetch_latest_rbi_mmo
 from fetchers.ncdex import fetch_ncdex_live
 from fetchers.moneycontrol import fetch_moneycontrol_commodities
+from fetchers.investing import fetch_investing_us_bonds
 from validate import validate_all_manual_inputs
 
 CONFIG_PATH = PIPELINE_DIR / "config" / "metrics.yml"
@@ -167,6 +168,7 @@ def run_pipeline():
     yahoo_metrics = [m for m in metrics_cfg if m.get("source") == "yahoo" and m.get("ticker")]
     rbi_metrics = [m for m in metrics_cfg if m.get("source") == "rbi"]
     moneycontrol_metrics = [m for m in metrics_cfg if m.get("source") == "moneycontrol"]
+    investing_metrics = [m for m in metrics_cfg if m.get("source") == "investing"]
     ncdex_metrics = [m for m in metrics_cfg if m.get("source") == "ncdex"]
     computed_metrics = [m for m in metrics_cfg if m.get("source") == "computed"]
     manual_metrics = [m for m in metrics_cfg if m.get("source") == "manual"]
@@ -235,6 +237,19 @@ def run_pipeline():
             elif mid in mc_data:
                 # Moneycontrol official NCDEX fallback
                 obs = mc_data[mid]
+                new_data = pd.DataFrame([{"date": obs["date"], "value": obs["value"]}])
+                metric_histories[mid] = save_history(mid, new_data)
+            else:
+                metric_histories[mid] = load_existing_history(mid)
+
+    # 5e. Fetch Investing.com / US Treasury Yields
+    if investing_metrics:
+        print(f"\n--- Scraping Investing.com & US Treasury ({len(investing_metrics)} series) ---")
+        inv_data = fetch_investing_us_bonds()
+        for m in investing_metrics:
+            mid = m["id"]
+            if mid in inv_data:
+                obs = inv_data[mid]
                 new_data = pd.DataFrame([{"date": obs["date"], "value": obs["value"]}])
                 metric_histories[mid] = save_history(mid, new_data)
             else:
