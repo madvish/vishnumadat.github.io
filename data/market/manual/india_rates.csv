@@ -1,1 +1,43 @@
 metric_id,date,value,note
+in_tbill_91d,2026-01-01,6.85,Base 2026
+in_tbill_91d,2026-11-13,6.48,Weekly Auction
+in_tbill_91d,2026-11-20,6.45,Weekly Auction
+in_tbill_182d,2026-01-01,7.05,Base 2026
+in_tbill_182d,2026-11-13,6.62,Weekly Auction
+in_tbill_182d,2026-11-20,6.60,Weekly Auction
+in_tbill_364d,2026-01-01,7.10,Base 2026
+in_tbill_364d,2026-11-13,6.70,Weekly Auction
+in_tbill_364d,2026-11-20,6.68,Weekly Auction
+in_cd_3m,2026-01-01,7.45,Base 2026
+in_cd_3m,2026-11-13,7.18,Market Close
+in_cd_3m,2026-11-20,7.15,Market Close
+in_cd_12m,2026-01-01,7.80,Base 2026
+in_cd_12m,2026-11-13,7.58,Market Close
+in_cd_12m,2026-11-20,7.55,Market Close
+in_gsec_1y,2026-01-01,7.05,Base 2026
+in_gsec_1y,2026-11-13,6.72,FBIL/CCIL
+in_gsec_1y,2026-11-20,6.70,FBIL/CCIL
+in_gsec_2y,2026-01-01,7.08,Base 2026
+in_gsec_2y,2026-11-13,6.77,FBIL/CCIL
+in_gsec_2y,2026-11-20,6.75,FBIL/CCIL
+in_gsec_3y,2026-01-01,7.12,Base 2026
+in_gsec_3y,2026-11-13,6.80,FBIL/CCIL
+in_gsec_3y,2026-11-20,6.78,FBIL/CCIL
+in_gsec_5y,2026-01-01,7.15,Base 2026
+in_gsec_5y,2026-11-13,6.84,FBIL/CCIL
+in_gsec_5y,2026-11-20,6.82,FBIL/CCIL
+in_gsec_7y,2026-01-01,7.18,Base 2026
+in_gsec_7y,2026-11-13,6.87,FBIL/CCIL
+in_gsec_7y,2026-11-20,6.85,FBIL/CCIL
+in_gsec_10y,2026-01-01,7.18,Base 2026
+in_gsec_10y,2026-11-13,6.86,Benchmark 10Y
+in_gsec_10y,2026-11-20,6.84,Benchmark 10Y
+in_gsec_15y,2026-01-01,7.25,Base 2026
+in_gsec_15y,2026-11-13,6.97,FBIL/CCIL
+in_gsec_15y,2026-11-20,6.95,FBIL/CCIL
+in_gsec_20y,2026-01-01,7.35,Base 2026
+in_gsec_20y,2026-11-13,7.08,FBIL/CCIL
+in_gsec_20y,2026-11-20,7.05,FBIL/CCIL
+in_gsec_30y,2026-01-01,7.45,Base 2026
+in_gsec_30y,2026-11-13,7.18,FBIL/CCIL
+in_gsec_30y,2026-11-20,7.15,FBIL/CCIL

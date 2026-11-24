@@ -196,15 +196,61 @@
         </div>
       </div>
 
-      <!-- TAB 3: India Rates & Equity (Ready for Phase B ingestion) -->
+      <!-- TAB 3: India Rates & Equity -->
       <div id="tab-india-rates" class="md-tab-pane" role="tabpanel">
         <div class="md-pane-header">
           <h2>India Rates &amp; Equity Intelligence</h2>
           <p class="md-pane-desc">RBI policy rates, G-Sec benchmark curve, Nifty sectoral indices &amp; domestic currency / volatility gauges.</p>
         </div>
-        <div class="md-empty-banner">
-          <h3>India Rates &amp; Equity Integration Active</h3>
-          <p>Scrapers and manual templates configured. Data pipeline automatically rolls domestic yields and equities when refreshed.</p>
+
+        <div class="md-grid-layout">
+          <!-- Left: Policy Rates & G-Sec Curve -->
+          <div class="md-col-left">
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>Policy &amp; Money Market Rates</h3>
+                <button class="md-btn-csv" data-export="sec-in-policy">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-in-policy"></div>
+            </div>
+
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>G-Sec Benchmark Yield Curve</h3>
+                <button class="md-btn-csv" data-export="sec-in-gsec-yields">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-in-gsec-yields"></div>
+            </div>
+
+            <!-- G-Sec Yield Curve Chart -->
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>G-Sec Benchmark Curve (This Week vs. Base)</h3>
+              </div>
+              <div class="md-chart-box">
+                <canvas id="chart-gsec-curve"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Slopes & Equity / Sectors -->
+          <div class="md-col-right">
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>Curve Slopes &amp; Liquidity Gauges</h3>
+                <button class="md-btn-csv" data-export="sec-in-slopes">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-in-slopes"></div>
+            </div>
+
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>India Equity Benchmarks &amp; Sector Indices</h3>
+                <button class="md-btn-csv" data-export="sec-in-equity">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-in-equity"></div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -214,9 +260,45 @@
           <h2>India Real Yields, Credit, Commodities &amp; Housing</h2>
           <p class="md-pane-desc">Real rates, corporate bond spreads, domestic housing finance &amp; commodity benchmarks.</p>
         </div>
-        <div class="md-empty-banner">
-          <h3>India Real Yields &amp; Credit Configured</h3>
-          <p>Manual entry templates ready in <code>data/market/manual/india_credit.csv</code>. Automated FBIL/CCIL scrapers run in Phase C.</p>
+
+        <div class="md-grid-layout">
+          <!-- Left: Real Yields & Credit -->
+          <div class="md-col-left">
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>India Real Yields &amp; Inflation Compensation</h3>
+                <button class="md-btn-csv" data-export="sec-in-real-yields">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-in-real-yields"></div>
+            </div>
+
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>Corporate Credit &amp; SDL Spreads over G-Sec (bps)</h3>
+                <button class="md-btn-csv" data-export="sec-in-credit-spreads">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-in-credit-spreads"></div>
+            </div>
+
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>Retail Home Loan Rates &amp; Housing REITs</h3>
+                <button class="md-btn-csv" data-export="sec-in-housing-reits">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-in-housing-reits"></div>
+            </div>
+          </div>
+
+          <!-- Right: Domestic & Global Commodities -->
+          <div class="md-col-right">
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>Commodities (MCX &amp; Global Benchmarks)</h3>
+                <button class="md-btn-csv" data-export="sec-in-commodities">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-in-commodities"></div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -226,9 +308,45 @@
           <h2>India Flows, Liquidity &amp; Macroeconomic Intelligence</h2>
           <p class="md-pane-desc">FPI/DII flows, banking liquidity, Nifty valuation multiples, RBI forex reserves &amp; high-frequency macro prints.</p>
         </div>
-        <div class="md-empty-banner">
-          <h3>Macro &amp; Flows Intelligence Engine Ready</h3>
-          <p>Template configuration mapped across NSDL FPI, AMFI SIPs, MoSPI CPI, and Banking Liquidity.</p>
+
+        <div class="md-grid-layout">
+          <!-- Left: Cross-market, Flows, Valuation -->
+          <div class="md-col-left">
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>Cross-Market Spreads &amp; Policy Differentials</h3>
+                <button class="md-btn-csv" data-export="sec-in-cross-market">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-in-cross-market"></div>
+            </div>
+
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>Institutional Capital Flows &amp; System Liquidity</h3>
+                <button class="md-btn-csv" data-export="sec-in-flows">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-in-flows"></div>
+            </div>
+
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>Valuation Multiples &amp; Equity Risk Premium</h3>
+                <button class="md-btn-csv" data-export="sec-in-valuation">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-in-valuation"></div>
+            </div>
+          </div>
+
+          <!-- Right: Macro Prints -->
+          <div class="md-col-right">
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>High-Frequency Macroeconomic Intelligence</h3>
+                <button class="md-btn-csv" data-export="sec-in-macro">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-in-macro"></div>
+            </div>
+          </div>
         </div>
       </div>
 

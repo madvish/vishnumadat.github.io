@@ -1,1 +1,58 @@
 metric_id,date,value,note
+in_fpi_equity,2026-01-01,-3500,Base 2026
+in_fpi_equity,2026-11-13,-1850,NSDL Monitor
+in_fpi_equity,2026-11-20,1240,NSDL Monitor
+in_fpi_debt,2026-01-01,1200,Base 2026
+in_fpi_debt,2026-11-13,2450,NSDL FAR
+in_fpi_debt,2026-11-20,3120,NSDL FAR
+in_dii_equity,2026-01-01,4200,Base 2026
+in_dii_equity,2026-11-13,2850,NSE DII Net
+in_dii_equity,2026-11-20,1950,NSE DII Net
+in_sip_inflows,2026-01-01,21500,Base 2026
+in_sip_inflows,2026-10-31,25320,AMFI Oct Print
+in_bank_liquidity,2026-01-01,-1.25,Base 2026
+in_bank_liquidity,2026-11-20,0.85,RBI Net Liquidity
+in_forex_reserves,2026-01-01,645.0,Base 2026
+in_forex_reserves,2026-11-13,695.5,RBI WSS
+in_forex_reserves,2026-11-20,701.2,RBI WSS
+in_nifty_pe,2026-01-01,23.5,Base 2026
+in_nifty_pe,2026-11-13,22.8,Nifty Indices
+in_nifty_pe,2026-11-20,22.6,Nifty Indices
+in_nifty_pb,2026-01-01,3.95,Base 2026
+in_nifty_pb,2026-11-20,3.82,Nifty Indices
+in_nifty_div_yield,2026-01-01,1.22,Base 2026
+in_nifty_div_yield,2026-11-20,1.25,Nifty Indices
+in_midcap_pe,2026-01-01,31.2,Base 2026
+in_midcap_pe,2026-11-20,29.4,Nifty Indices
+in_smallcap_pe,2026-01-01,26.8,Base 2026
+in_smallcap_pe,2026-11-20,25.1,Nifty Indices
+in_mcap_gdp,2026-01-01,135,Base 2026
+in_mcap_gdp,2026-10-31,138,Buffett Indicator
+in_macro_cpi,2026-01-01,5.2,Base 2026
+in_macro_cpi,2026-10-31,4.85,MoSPI
+in_macro_core_cpi,2026-01-01,3.8,Base 2026
+in_macro_core_cpi,2026-10-31,3.65,MoSPI
+in_macro_wpi,2026-01-01,2.1,Base 2026
+in_macro_wpi,2026-10-31,2.35,Ministry of Commerce
+in_macro_iip,2026-01-01,4.2,Base 2026
+in_macro_iip,2026-09-30,3.8,MoSPI
+in_macro_gdp,2026-01-01,7.2,Base 2026
+in_macro_gdp,2026-09-30,6.9,NSO Q2
+in_macro_mfg_pmi,2026-01-01,56.5,Base 2026
+in_macro_mfg_pmi,2026-10-31,57.2,S&P Global / HSBC
+in_macro_srv_pmi,2026-01-01,58.2,Base 2026
+in_macro_srv_pmi,2026-10-31,58.8,S&P Global / HSBC
+in_macro_gst,2026-01-01,1.75,Base 2026
+in_macro_gst,2026-10-31,1.87,Ministry of Finance
+in_macro_trade_deficit,2026-01-01,21.5,Base 2026
+in_macro_trade_deficit,2026-10-31,24.2,Ministry of Commerce
+in_macro_cab,2026-01-01,-1.2,Base 2026
+in_macro_cab,2026-09-30,-1.1,RBI CAD
+in_macro_fiscal_deficit,2026-01-01,55.0,Base 2026
+in_macro_fiscal_deficit,2026-10-31,39.5,CGA FYTD
+in_credit_growth,2026-01-01,14.8,Base 2026
+in_credit_growth,2026-11-13,12.5,RBI Fortnightly
+in_credit_growth,2026-11-20,12.4,RBI Fortnightly
+in_deposit_growth,2026-01-01,12.2,Base 2026
+in_deposit_growth,2026-11-13,11.6,RBI Fortnightly
+in_deposit_growth,2026-11-20,11.5,RBI Fortnightly

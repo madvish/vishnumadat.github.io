@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 let marketDataPayload = null;
 let yieldCurveChart = null;
+let gsecCurveChart = null;
 
 // --- Tab Switching ---
 function initDashboardTabs() {
@@ -31,6 +32,9 @@ function initDashboardTabs() {
     // Lazy re-render or resize charts if active tab has chart
     if (tabId === 'tab-us-rates' && yieldCurveChart) {
       setTimeout(() => yieldCurveChart.resize(), 50);
+    }
+    if (tabId === 'tab-india-rates' && gsecCurveChart) {
+      setTimeout(() => gsecCurveChart.resize(), 50);
     }
   }
 
@@ -126,11 +130,30 @@ function renderDashboard(data) {
   renderSectionTable('sec-commodities', sectionsMap['commodities']);
   renderSectionTable('sec-mortgage-reits', sectionsMap['mortgage_reits']);
 
+  // Render India Rates & Equity sections
+  renderSectionTable('sec-in-policy', sectionsMap['in_policy']);
+  renderSectionTable('sec-in-gsec-yields', sectionsMap['in_gsec_yields']);
+  renderSectionTable('sec-in-slopes', sectionsMap['in_slopes']);
+  renderSectionTable('sec-in-equity', sectionsMap['in_equity']);
+
+  // Render India Real / Credit / Cmdty sections
+  renderSectionTable('sec-in-real-yields', sectionsMap['in_real_yields']);
+  renderSectionTable('sec-in-credit-spreads', sectionsMap['in_credit_spreads']);
+  renderSectionTable('sec-in-housing-reits', sectionsMap['in_housing_reits']);
+  renderSectionTable('sec-in-commodities', sectionsMap['in_commodities']);
+
+  // Render India Flows & Macro sections
+  renderSectionTable('sec-in-cross-market', sectionsMap['in_cross_market']);
+  renderSectionTable('sec-in-flows', sectionsMap['in_flows']);
+  renderSectionTable('sec-in-valuation', sectionsMap['in_valuation']);
+  renderSectionTable('sec-in-macro', sectionsMap['in_macro']);
+
   // Render Data Health Table
   renderDataHealthTable(data);
 
-  // Render UST Yield Curve Chart
+  // Render Yield Curve Charts
   renderYieldCurveChart(sectionsMap['par_rates'], sectionsMap['par_yields']);
+  renderGSecCurveChart(sectionsMap['in_gsec_yields']);
 
   // Setup CSV exports
   initCsvExports(sectionsMap);
@@ -342,6 +365,91 @@ function renderYieldCurveChart(parRatesSec, parYieldsSec) {
 
   const ctx = canvas.getContext('2d');
   yieldCurveChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: maturities,
+      datasets: [
+        {
+          label: 'This Week',
+          data: thisVals,
+          borderColor: '#8B6F47',
+          backgroundColor: 'rgba(139, 111, 71, 0.1)',
+          borderWidth: 2.5,
+          tension: 0.25,
+          pointRadius: 4,
+          pointBackgroundColor: '#8B6F47',
+          fill: false,
+        },
+        {
+          label: 'Base (1-Jan)',
+          data: baseVals,
+          borderColor: '#1C2A3A',
+          borderDash: [5, 5],
+          borderWidth: 1.8,
+          tension: 0.25,
+          pointRadius: 3,
+          pointBackgroundColor: '#1C2A3A',
+          fill: false,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'top',
+          labels: {
+            boxWidth: 14,
+            font: { family: "'Inter', sans-serif", size: 12 }
+          }
+        },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y ? ctx.parsed.y.toFixed(2) + '%' : '–'}`
+          }
+        }
+      },
+      scales: {
+        y: {
+          title: { display: true, text: 'Yield (%)', font: { size: 11 } },
+          ticks: { font: { family: "'JetBrains Mono', monospace", size: 11 } },
+          grid: { color: 'rgba(26, 22, 18, 0.06)' }
+        },
+        x: {
+          ticks: { font: { family: "'Inter', sans-serif", size: 11, weight: '500' } },
+          grid: { display: false }
+        }
+      }
+    }
+  });
+}
+
+// --- Chart.js G-Sec Yield Curve ---
+function renderGSecCurveChart(gsecSec) {
+  const canvas = document.getElementById('chart-gsec-curve');
+  if (!canvas || typeof Chart === 'undefined') return;
+
+  const maturities = ['1Y', '2Y', '3Y', '5Y', '7Y', '10Y', '15Y', '20Y', '30Y'];
+  const metricMap = {};
+
+  if (gsecSec && gsecSec.metrics) {
+    gsecSec.metrics.forEach(m => {
+      // Map '10Y G-Sec (Benchmark)' -> '10Y'
+      const labelClean = m.label.split(' ')[0].trim();
+      metricMap[labelClean] = m;
+    });
+  }
+
+  const thisVals = maturities.map(m => metricMap[m] ? metricMap[m].this_value : null);
+  const baseVals = maturities.map(m => metricMap[m] ? metricMap[m].base_value : null);
+
+  if (gsecCurveChart) {
+    gsecCurveChart.destroy();
+  }
+
+  const ctx = canvas.getContext('2d');
+  gsecCurveChart = new Chart(ctx, {
     type: 'line',
     data: {
       labels: maturities,

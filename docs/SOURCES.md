@@ -79,14 +79,124 @@ This document records the exact endpoint, ticker, or manual input mechanism for 
 
 ---
 
-## Tabs 3–5: India Intelligence (Integration Roadmap)
+## Tab 3: India Rates & Equity
 
-| Metric Category | Target Sources | Auto Status | Fallback File |
-|---|---|---|---|
-| Policy & Money Market (Repo, SDF, MSF, WACR, T-Bills) | FBIL / RBI DBIE / WSS | Best-effort scraper | `data/market/manual/india_rates.csv` |
-| Benchmark G-Sec Yields (1Y–30Y) | FBIL / CCIL | Best-effort scraper | `data/market/manual/india_rates.csv` |
-| Equity Indices (Nifty 50, Bank, Sectors) | Yahoo Finance (`^NSEI`, `^NSEBANK`, etc.) | Auto | Yahoo Finance |
-| Corporate Credit Spreads (AAA, AA, A, BBB, SDL) | FBIL / FIMMDA / CRISIL | Best-effort scraper | `data/market/manual/india_credit.csv` |
-| Domestic Commodities (MCX Gold, Silver, Crude) | MCX API / Yahoo | Best-effort scraper | `data/market/manual/india_commodities.csv` |
-| FPI / DII Flows | NSDL FPI Monitor / NSE | Best-effort scraper | `data/market/manual/india_macro.csv` |
-| High-Frequency Macro (CPI, IIP, GST, SIP) | MoSPI / AMFI / Ministry of Finance | Manual (monthly prints) | `data/market/manual/india_macro.csv` |
+| Metric ID | Label | Source | Series / Ticker / Formula | Status | Verified Endpoint |
+|---|---|---|---|---|---|
+| `in_repo` | RBI Policy Repo Rate | RBI | Scraper | Auto | RBI Press Release LAF corridor |
+| `in_sdf` | Standing Deposit Facility | RBI | Scraper | Auto | RBI Press Release LAF corridor |
+| `in_msf` | Marginal Standing Facility | RBI | Scraper | Auto | RBI Press Release LAF corridor |
+| `in_wacr` | Weighted Avg Call Rate | RBI | Scraper | Auto | RBI Press Release Overnight Segment |
+| `in_tbill_91d` | 91D T-Bill Rate | Manual | `in_tbill_91d` | Manual | RBI weekly auction result |
+| `in_tbill_182d`| 182D T-Bill Rate | Manual | `in_tbill_182d` | Manual | RBI weekly auction result |
+| `in_tbill_364d`| 364D T-Bill Rate | Manual | `in_tbill_364d` | Manual | RBI weekly auction result |
+| `in_cd_3m` | 3M CD Rate | Manual | `in_cd_3m` | Manual | FIMMDA / FBIL Money Market |
+| `in_cd_12m` | 12M CD Rate | Manual | `in_cd_12m` | Manual | FIMMDA / FBIL Money Market |
+| `in_gsec_1y` | 1Y G-Sec Yield | Manual | `in_gsec_1y` | Manual | FBIL G-Sec Par Yield Curve |
+| `in_gsec_2y` | 2Y G-Sec Yield | Manual | `in_gsec_2y` | Manual | FBIL G-Sec Par Yield Curve |
+| `in_gsec_3y` | 3Y G-Sec Yield | Manual | `in_gsec_3y` | Manual | FBIL G-Sec Par Yield Curve |
+| `in_gsec_5y` | 5Y G-Sec Yield | Manual | `in_gsec_5y` | Manual | FBIL G-Sec Par Yield Curve |
+| `in_gsec_7y` | 7Y G-Sec Yield | Manual | `in_gsec_7y` | Manual | FBIL G-Sec Par Yield Curve |
+| `in_gsec_10y`| 10Y Benchmark G-Sec | Manual | `in_gsec_10y` | Manual | FBIL Benchmark G-Sec Close |
+| `in_gsec_15y`| 15Y G-Sec Yield | Manual | `in_gsec_15y` | Manual | FBIL G-Sec Par Yield Curve |
+| `in_gsec_20y`| 20Y G-Sec Yield | Manual | `in_gsec_20y` | Manual | FBIL G-Sec Par Yield Curve |
+| `in_gsec_30y`| 30Y G-Sec Yield | Manual | `in_gsec_30y` | Manual | FBIL G-Sec Par Yield Curve |
+| `in_slope_10y2y`| 10Y − 2Y Slope | Derived | `in_gsec_10y - in_gsec_2y` | Auto | Derived G-Sec term premium |
+| `in_slope_10y91d`| 10Y − 91D Slope | Derived | `in_gsec_10y - in_tbill_91d` | Auto | Derived G-Sec short curve slope |
+| `in_slope_wacr_repo`| WACR − Repo Spread | Derived | `in_wacr - in_repo` | Auto | Liquidity friction indicator |
+| `in_nifty50` | Nifty 50 Index | Yahoo Finance | `^NSEI` | Auto | NSE Nifty 50 Index Close |
+| `in_sensex` | BSE Sensex Index | Yahoo Finance | `^BSESN` | Auto | BSE S&P Sensex Index Close |
+| `in_nifty_next50`| Nifty Next 50 (Junior BeES)| Yahoo Finance | `JUNIORBEES.NS` | Auto | Nippon India Junior BeES ETF |
+| `in_midcap150` | Nifty Midcap 150 | Yahoo Finance | `NIFTYMIDCAP150.NS` | Auto | NSE Nifty Midcap 150 Index |
+| `in_smallcap250`| Nifty Smallcap 250 | Yahoo Finance | `NIFTYSMLCAP250.NS` | Auto | NSE Nifty Smallcap 250 Index |
+| `in_nifty_bank`| Nifty Bank Index | Yahoo Finance | `^NSEBANK` | Auto | NSE Nifty Bank Index |
+| `in_nifty_pvt_bank`| Nifty Private Bank | Yahoo Finance | `NIFTY_PVT_BANK.NS` | Auto | NSE Nifty Private Bank Index |
+| `in_nifty_psu_bank`| Nifty PSU Bank | Yahoo Finance | `^CNXPSUBANK` | Auto | NSE Nifty PSU Bank Index |
+| `in_nifty_fin` | Nifty Financial Services | Yahoo Finance | `^CNXFIN` | Auto | NSE Nifty Financial Services |
+| `in_nifty_it` | Nifty IT Index | Yahoo Finance | `^CNXIT` | Auto | NSE Nifty IT Index |
+| `in_nifty_pharma`| Nifty Pharma Index | Yahoo Finance | `^CNXPHARMA` | Auto | NSE Nifty Pharma Index |
+| `in_nifty_fmcg`| Nifty FMCG Index | Yahoo Finance | `^CNXFMCG` | Auto | NSE Nifty FMCG Index |
+| `in_nifty_auto`| Nifty Auto Index | Yahoo Finance | `^CNXAUTO` | Auto | NSE Nifty Auto Index |
+| `in_nifty_metal`| Nifty Metal Index | Yahoo Finance | `^CNXMETAL` | Auto | NSE Nifty Metal Index |
+| `in_nifty_energy`| Nifty Energy Index | Yahoo Finance | `^CNXENERGY` | Auto | NSE Nifty Energy Index |
+| `in_nifty_realty`| Nifty Realty Index | Yahoo Finance | `^CNXREALTY` | Auto | NSE Nifty Realty Index |
+| `in_nifty_infra`| Nifty Infra Index | Yahoo Finance | `^CNXINFRA` | Auto | NSE Nifty Infrastructure Index |
+| `in_usdinr` | USD / INR Spot | Yahoo Finance | `INR=X` | Auto | Interbank Spot Exchange Rate |
+| `in_vix` | India VIX | Yahoo Finance | `^INDIAVIX` | Auto | NSE India Volatility Index |
+| `in_gilt_proxy`| Gilt ETF (5Y Proxy) | Yahoo Finance | `GILT5YBEES.NS` | Auto | Nippon India ETF Nifty Gilt |
+
+---
+
+## Tab 4: India Real Yields, Credit, Commodities & Housing
+
+| Metric ID | Label | Source | Series / Ticker / Formula | Status | Verified Endpoint |
+|---|---|---|---|---|---|
+| `in_cpi_latest`| CPI YoY Inflation (Latest) | Manual | `in_cpi_latest` | Manual | MoSPI Headline CPI Print |
+| `in_inf_exp_1y`| RBI 1Y Inflation Exp | Manual | `in_inf_exp_1y` | Manual | RBI Household Survey (IESH) |
+| `in_real_5y` | 5Y G-Sec Real Yield | Derived | `in_gsec_5y - in_cpi_latest` | Auto | Ex-Post Real Yield |
+| `in_real_10y` | 10Y G-Sec Real Yield | Derived | `in_gsec_10y - in_cpi_latest` | Auto | Ex-Post Real Yield |
+| `in_real_10y_exante`| 10Y Ex-Ante Real Yield | Derived | `in_gsec_10y - in_inf_exp_1y` | Auto | Ex-Ante Real Yield |
+| `in_iib_10y` | 10Y IIB Real Yield | Manual | `in_iib_10y` | Manual | Inflation Indexed Bond yield |
+| `in_be_10y` | 10Y Breakeven Inflation | Derived | `in_gsec_10y - in_iib_10y` | Auto | Derived inflation compensation |
+| `in_spread_aaa_3y`| AAA 3Y Spread (bps) | Manual | `in_spread_aaa_3y` | Manual | CRISIL / FIMMDA Corporate Bond |
+| `in_spread_aaa_5y`| AAA 5Y Spread (bps) | Manual | `in_spread_aaa_5y` | Manual | CRISIL / FIMMDA Corporate Bond |
+| `in_spread_aaa_10y`| AAA 10Y Spread (bps)| Manual | `in_spread_aaa_10y` | Manual | CRISIL / FIMMDA Corporate Bond |
+| `in_spread_aa_3y`| AA 3Y Spread (bps) | Manual | `in_spread_aa_3y` | Manual | CRISIL / FIMMDA Corporate Bond |
+| `in_spread_a_3y` | A 3Y Spread (bps) | Manual | `in_spread_a_3y` | Manual | CRISIL / FIMMDA Corporate Bond |
+| `in_spread_bbb_3y`| BBB 3Y Spread (bps)| Manual | `in_spread_bbb_3y` | Manual | CRISIL / FIMMDA Corporate Bond |
+| `in_spread_sdl_10y`| SDL 10Y Spread (bps)| Manual | `in_spread_sdl_10y` | Manual | State Development Loan vs G-Sec |
+| `in_sbi_home_loan`| SBI Home Loan Floor | Manual | `in_sbi_home_loan` | Manual | SBI EBLR + Base Spread |
+| `in_hdfc_home_loan`| HDFC Home Loan Floor| Manual | `in_hdfc_home_loan` | Manual | HDFC Bank Retail Prime Floor |
+| `in_spread_hl_repo`| Home Loan over Repo | Derived | `in_sbi_home_loan - in_repo` | Auto | Retail mortgage banking margin |
+| `in_lichsgfin` | LIC Housing Finance | Yahoo Finance | `LICHSGFIN.NS` | Auto | NSE traded close |
+| `in_pnbhousing`| PNB Housing Finance | Yahoo Finance | `PNBHOUSING.NS` | Auto | NSE traded close |
+| `in_bajajhfl` | Bajaj Housing Finance | Yahoo Finance | `BAJAJHFL.NS` | Auto | NSE traded close |
+| `in_canfinhome`| Can Fin Homes | Yahoo Finance | `CANFINHOME.NS` | Auto | NSE traded close |
+| `in_reit_embassy`| Embassy REIT | Yahoo Finance | `EMBASSY.NS` | Auto | NSE traded close |
+| `in_reit_mindspace`| Mindspace REIT | Yahoo Finance | `MINDSPACE.NS` | Auto | NSE traded close |
+| `in_reit_biret`| Brookfield REIT | Yahoo Finance | `BIRET.NS` | Auto | NSE traded close |
+| `in_brent` | Brent Crude Oil | Yahoo Finance | `BZ=F` | Auto | ICE Brent Crude Futures |
+| `in_mcx_gold` | MCX Gold (₹/10g) | Manual | `in_mcx_gold` | Manual | MCX Near Month Contract |
+| `in_mcx_silver`| MCX Silver (₹/kg) | Manual | `in_mcx_silver` | Manual | MCX Near Month Contract |
+| `in_mcx_crude` | MCX Crude Oil | Manual | `in_mcx_crude` | Manual | MCX Near Month Contract |
+| `in_mcx_copper`| MCX Copper | Manual | `in_mcx_copper` | Manual | MCX Near Month Contract |
+| `in_ncdex_soybean`| NCDEX Soybean | Manual | `in_ncdex_soybean` | Manual | NCDEX Near Month Contract |
+| `in_ncdex_turmeric`| NCDEX Turmeric | Manual | `in_ncdex_turmeric` | Manual | NCDEX Near Month Contract |
+
+---
+
+## Tab 5: India Flows, Liquidity & Macro
+
+| Metric ID | Label | Source | Series / Ticker / Formula | Status | Verified Endpoint |
+|---|---|---|---|---|---|
+| `cross_10y_spread`| India 10Y vs US 10Y | Derived | `in_gsec_10y - ust_10y` | Auto | Cross-market Sovereign Spread |
+| `fed_funds_target`| Fed Funds Target Upper | FRED | `DFEDTARU` | Auto | Federal Reserve Target Rate |
+| `cross_repo_fed_spread`| Repo vs Fed Funds | Derived | `in_repo - fed_funds_target` | Auto | Cross-border Monetary Policy Spread |
+| `in_fpi_equity`| FPI Net Equity Flow | Manual | `in_fpi_equity` | Manual | NSDL FPI Monitor (Daily) |
+| `in_fpi_debt` | FPI Net Debt Flow | Manual | `in_fpi_debt` | Manual | NSDL FPI Monitor (Daily) |
+| `in_dii_equity` | DII Net Equity Flow | Manual | `in_dii_equity` | Manual | NSE Daily Trading Activity Report |
+| `in_sip_inflows`| MF SIP Inflows (AMFI) | Manual | `in_sip_inflows` | Manual | AMFI Monthly Industry Data |
+| `in_bank_liquidity`| System Liquidity | Manual | `in_bank_liquidity` | Manual | RBI LAF Net Liquidity Position |
+| `in_forex_reserves`| Forex Reserves ($ bn) | Manual | `in_forex_reserves` | Manual | RBI Weekly Statistical Supplement |
+| `in_nifty_pe` | Nifty 50 Trailing P/E | Manual | `in_nifty_pe` | Manual | niftyindices.com / NSE |
+| `in_nifty_pb` | Nifty 50 P/B | Manual | `in_nifty_pb` | Manual | niftyindices.com / NSE |
+| `in_nifty_div_yield`| Nifty 50 Div Yield | Manual | `in_nifty_div_yield` | Manual | niftyindices.com / NSE |
+| `in_nifty_earnings_yield`| Earnings Yield | Derived | `100.0 / in_nifty_pe` | Auto | Calculated E/P |
+| `in_nifty_erp` | Equity Risk Premium | Derived | `in_nifty_earnings_yield - in_gsec_10y` | Auto | Earnings Yield minus 10Y G-Sec |
+| `in_midcap_pe` | Midcap 150 P/E | Manual | `in_midcap_pe` | Manual | niftyindices.com |
+| `in_smallcap_pe`| Smallcap 250 P/E | Manual | `in_smallcap_pe` | Manual | niftyindices.com |
+| `in_mcap_gdp` | Market-Cap to GDP | Manual | `in_mcap_gdp` | Manual | Buffett Indicator |
+| `in_macro_cpi` | Headline CPI YoY | Manual | `in_macro_cpi` | Manual | MoSPI CPI Monthly Release |
+| `in_macro_core_cpi`| Core CPI YoY | Manual | `in_macro_core_cpi` | Manual | Headline minus Food & Energy |
+| `in_macro_wpi` | Headline WPI YoY | Manual | `in_macro_wpi` | Manual | Office of Economic Adviser |
+| `in_macro_iip` | IIP YoY | Manual | `in_macro_iip` | Manual | MoSPI Industrial Output |
+| `in_macro_gdp` | Real GDP Growth YoY | Manual | `in_macro_gdp` | Manual | National Statistical Office (NSO) |
+| `in_macro_mfg_pmi`| HSBC Mfg PMI | Manual | `in_macro_mfg_pmi` | Manual | S&P Global / HSBC |
+| `in_macro_srv_pmi`| HSBC Services PMI | Manual | `in_macro_srv_pmi` | Manual | S&P Global / HSBC |
+| `in_macro_gst` | GST Collections | Manual | `in_macro_gst` | Manual | Ministry of Finance Monthly |
+| `in_macro_trade_deficit`| Trade Deficit | Manual | `in_macro_trade_deficit`| Manual | Department of Commerce |
+| `in_macro_cab` | Current Account Balance| Manual | `in_macro_cab` | Manual | RBI Balance of Payments |
+| `in_macro_fiscal_deficit`| Fiscal Deficit (% BE)| Manual | `in_macro_fiscal_deficit`| Manual | Controller General of Accounts |
+| `in_credit_growth`| Bank Credit Growth | Manual | `in_credit_growth` | Manual | RBI Fortnightly WSS |
+| `in_deposit_growth`| Bank Deposit Growth | Manual | `in_deposit_growth` | Manual | RBI Fortnightly WSS |
+| `in_cd_gap` | Credit − Deposit Gap | Derived | `in_credit_growth - in_deposit_growth`| Auto | Liquidity growth divergence |

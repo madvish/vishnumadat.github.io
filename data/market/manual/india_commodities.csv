@@ -1,1 +1,19 @@
 metric_id,date,value,note
+in_mcx_gold,2026-01-01,74500,Base 2026
+in_mcx_gold,2026-11-13,76800,MCX Near Month
+in_mcx_gold,2026-11-20,77250,MCX Near Month
+in_mcx_silver,2026-01-01,88500,Base 2026
+in_mcx_silver,2026-11-13,91200,MCX Near Month
+in_mcx_silver,2026-11-20,92400,MCX Near Month
+in_mcx_crude,2026-01-01,6200,Base 2026
+in_mcx_crude,2026-11-13,5950,MCX Near Month
+in_mcx_crude,2026-11-20,6050,MCX Near Month
+in_mcx_copper,2026-01-01,820,Base 2026
+in_mcx_copper,2026-11-13,845,MCX Near Month
+in_mcx_copper,2026-11-20,852,MCX Near Month
+in_ncdex_soybean,2026-01-01,4650,Base 2026
+in_ncdex_soybean,2026-11-13,4420,NCDEX Near Month
+in_ncdex_soybean,2026-11-20,4480,NCDEX Near Month
+in_ncdex_turmeric,2026-01-01,13500,Base 2026
+in_ncdex_turmeric,2026-11-13,14200,NCDEX Near Month
+in_ncdex_turmeric,2026-11-20,14600,NCDEX Near Month

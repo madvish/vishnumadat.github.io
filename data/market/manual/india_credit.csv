@@ -1,1 +1,32 @@
 metric_id,date,value,note
+in_cpi_latest,2026-01-01,5.20,Base 2026
+in_cpi_latest,2026-10-31,4.85,MoSPI CPI
+in_inf_exp_1y,2026-01-01,5.60,Base 2026
+in_inf_exp_1y,2026-10-31,5.40,RBI Survey
+in_iib_10y,2026-01-01,2.30,Base 2026
+in_iib_10y,2026-11-20,2.10,Market Close
+in_spread_aaa_3y,2026-01-01,48,Base 2026
+in_spread_aaa_3y,2026-11-13,44,CRISIL/FIMMDA
+in_spread_aaa_3y,2026-11-20,42,CRISIL/FIMMDA
+in_spread_aaa_5y,2026-01-01,52,Base 2026
+in_spread_aaa_5y,2026-11-13,46,CRISIL/FIMMDA
+in_spread_aaa_5y,2026-11-20,45,CRISIL/FIMMDA
+in_spread_aaa_10y,2026-01-01,55,Base 2026
+in_spread_aaa_10y,2026-11-13,50,CRISIL/FIMMDA
+in_spread_aaa_10y,2026-11-20,48,CRISIL/FIMMDA
+in_spread_aa_3y,2026-01-01,95,Base 2026
+in_spread_aa_3y,2026-11-13,87,CRISIL/FIMMDA
+in_spread_aa_3y,2026-11-20,85,CRISIL/FIMMDA
+in_spread_a_3y,2026-01-01,155,Base 2026
+in_spread_a_3y,2026-11-13,142,CRISIL/FIMMDA
+in_spread_a_3y,2026-11-20,140,CRISIL/FIMMDA
+in_spread_bbb_3y,2026-01-01,310,Base 2026
+in_spread_bbb_3y,2026-11-13,285,CRISIL/FIMMDA
+in_spread_bbb_3y,2026-11-20,280,CRISIL/FIMMDA
+in_spread_sdl_10y,2026-01-01,50,Base 2026
+in_spread_sdl_10y,2026-11-13,46,State Loan Spread
+in_spread_sdl_10y,2026-11-20,45,State Loan Spread
+in_sbi_home_loan,2026-01-01,8.75,Base 2026
+in_sbi_home_loan,2026-11-20,8.50,SBI EBLR
+in_hdfc_home_loan,2026-01-01,8.80,Base 2026
+in_hdfc_home_loan,2026-11-20,8.55,HDFC Floor

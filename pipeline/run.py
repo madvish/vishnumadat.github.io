@@ -21,6 +21,7 @@ if str(PIPELINE_DIR) not in sys.path:
 from compute import compute_derived_history, compute_metric_stats
 from fetchers.fred import fetch_fred_series
 from fetchers.yahoo import fetch_yahoo_series
+from fetchers.rbi import fetch_latest_rbi_mmo
 from validate import validate_all_manual_inputs
 
 CONFIG_PATH = PIPELINE_DIR / "config" / "metrics.yml"
@@ -48,6 +49,18 @@ SECTION_LABELS = {
     "housing": "US Housing / Mortgage",
     "commodities": "Commodities",
     "mortgage_reits": "Mortgage REITs / MBS",
+    "in_policy": "Policy & Money Market Rates",
+    "in_gsec_yields": "G-Sec Benchmark Yield Curve",
+    "in_slopes": "Curve Slopes & Liquidity Gauges",
+    "in_equity": "India Equity Benchmarks & Sector Indices",
+    "in_real_yields": "India Real Yields & Inflation",
+    "in_credit_spreads": "Corporate Credit & SDL Spreads",
+    "in_housing_reits": "Housing Finance & REITs",
+    "in_commodities": "Domestic & Global Commodities",
+    "in_cross_market": "Cross-Market Spreads & Policy Differentials",
+    "in_flows": "Flows & System Liquidity",
+    "in_valuation": "Valuation Multiples & Equity Risk Premium",
+    "in_macro": "High-Frequency Macroeconomic Prints",
 }
 
 
@@ -142,6 +155,7 @@ def run_pipeline():
     # Group metrics by source
     fred_metrics = [m for m in metrics_cfg if m.get("source") == "fred" and m.get("ticker")]
     yahoo_metrics = [m for m in metrics_cfg if m.get("source") == "yahoo" and m.get("ticker")]
+    rbi_metrics = [m for m in metrics_cfg if m.get("source") == "rbi"]
     computed_metrics = [m for m in metrics_cfg if m.get("source") == "computed"]
     manual_metrics = [m for m in metrics_cfg if m.get("source") == "manual"]
 
@@ -168,6 +182,19 @@ def run_pipeline():
             ticker = m["ticker"]
             new_data = fetched_yahoo.get(ticker, pd.DataFrame(columns=["date", "value"]))
             metric_histories[mid] = save_history(mid, new_data)
+
+    # 5b. Fetch RBI Money Market Operations Data
+    if rbi_metrics:
+        print(f"\n--- Scraping RBI Money Market Operations ({len(rbi_metrics)} series) ---")
+        rbi_data = fetch_latest_rbi_mmo()
+        for m in rbi_metrics:
+            mid = m["id"]
+            if mid in rbi_data:
+                obs = rbi_data[mid]
+                new_data = pd.DataFrame([{"date": obs["date"], "value": obs["value"]}])
+                metric_histories[mid] = save_history(mid, new_data)
+            else:
+                metric_histories[mid] = load_existing_history(mid)
 
     # 6. Load Manual Inputs
     print("\n--- Loading Manual Inputs ---")

@@ -1,752 +1,1804 @@
-# Market Dashboard Metrics Configuration - Phase A (US Only)
-# Each metric defines: id, label, tab, section, unit, source, ticker,
-# polarity, frequency, stale_after_days, display_type, compute_formula (optional)
-
 metrics:
-  # ============================================================
-  # TAB: us_rates_equity — US Rates & Equity
-  # ============================================================
-
-  # --- Section: par_rates ---
-  - id: ust_1m
-    label: "1M"
-    tab: us_rates_equity
-    section: par_rates
-    unit: "%"
-    source: fred
-    ticker: DGS1MO
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-
-  - id: ust_2m
-    label: "2M"
-    tab: us_rates_equity
-    section: par_rates
-    unit: "%"
-    source: manual
-    ticker: ""
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-
-  - id: ust_3m
-    label: "3M"
-    tab: us_rates_equity
-    section: par_rates
-    unit: "%"
-    source: fred
-    ticker: DGS3MO
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-
-  - id: ust_4m
-    label: "4M"
-    tab: us_rates_equity
-    section: par_rates
-    unit: "%"
-    source: manual
-    ticker: ""
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-
-  - id: ust_6m
-    label: "6M"
-    tab: us_rates_equity
-    section: par_rates
-    unit: "%"
-    source: fred
-    ticker: DGS6MO
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-
-  - id: ust_1y
-    label: "1Y"
-    tab: us_rates_equity
-    section: par_rates
-    unit: "%"
-    source: fred
-    ticker: DGS1
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-
-  # --- Section: par_yields ---
-  - id: ust_2y
-    label: "2Y"
-    tab: us_rates_equity
-    section: par_yields
-    unit: "%"
-    source: fred
-    ticker: DGS2
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-
-  - id: ust_3y
-    label: "3Y"
-    tab: us_rates_equity
-    section: par_yields
-    unit: "%"
-    source: fred
-    ticker: DGS3
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-
-  - id: ust_5y
-    label: "5Y"
-    tab: us_rates_equity
-    section: par_yields
-    unit: "%"
-    source: fred
-    ticker: DGS5
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-
-  - id: ust_7y
-    label: "7Y"
-    tab: us_rates_equity
-    section: par_yields
-    unit: "%"
-    source: fred
-    ticker: DGS7
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-
-  - id: ust_10y
-    label: "10Y"
-    tab: us_rates_equity
-    section: par_yields
-    unit: "%"
-    source: fred
-    ticker: DGS10
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-
-  - id: ust_20y
-    label: "20Y"
-    tab: us_rates_equity
-    section: par_yields
-    unit: "%"
-    source: fred
-    ticker: DGS20
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-
-  - id: ust_30y
-    label: "30Y"
-    tab: us_rates_equity
-    section: par_yields
-    unit: "%"
-    source: fred
-    ticker: DGS30
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-
-  # --- Section: slopes ---
-  - id: slope_2s10s
-    label: "2s10s"
-    tab: us_rates_equity
-    section: slopes
-    unit: pp
-    source: computed
-    ticker: ""
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-    compute_formula: "ust_10y - ust_2y"
-
-  - id: slope_3m10y
-    label: "3m10y"
-    tab: us_rates_equity
-    section: slopes
-    unit: pp
-    source: computed
-    ticker: ""
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-    compute_formula: "ust_10y - ust_3m"
-
-  # --- Section: us_equity ---
-  - id: us_kre
-    label: "KRE"
-    tab: us_rates_equity
-    section: us_equity
-    unit: "$"
-    source: yahoo
-    ticker: KRE
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
-
-  - id: us_dxy
-    label: "DXY"
-    tab: us_rates_equity
-    section: us_equity
-    unit: index
-    source: yahoo
-    ticker: DX-Y.NYB
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
-
-  - id: us_xlu
-    label: "XLU"
-    tab: us_rates_equity
-    section: us_equity
-    unit: "$"
-    source: yahoo
-    ticker: XLU
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
-
-  - id: us_iyr
-    label: "IYR"
-    tab: us_rates_equity
-    section: us_equity
-    unit: "$"
-    source: yahoo
-    ticker: IYR
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
-
-  - id: us_xlp
-    label: "XLP"
-    tab: us_rates_equity
-    section: us_equity
-    unit: "$"
-    source: yahoo
-    ticker: XLP
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
-
-  - id: us_spy
-    label: "SPY"
-    tab: us_rates_equity
-    section: us_equity
-    unit: "$"
-    source: yahoo
-    ticker: SPY
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
-
-  - id: us_iwm
-    label: "IWM"
-    tab: us_rates_equity
-    section: us_equity
-    unit: "$"
-    source: yahoo
-    ticker: IWM
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
-
-  - id: us_qqq
-    label: "QQQ"
-    tab: us_rates_equity
-    section: us_equity
-    unit: "$"
-    source: yahoo
-    ticker: QQQ
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
-
-  - id: us_tlt
-    label: "TLT"
-    tab: us_rates_equity
-    section: us_equity
-    unit: "$"
-    source: yahoo
-    ticker: TLT
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
-
-  # ============================================================
-  # TAB: us_real_credit_commodities — US Real Yield / Credit / Commodities
-  # ============================================================
-
-  # --- Section: real_yields ---
-  - id: real_5y
-    label: "5Y TIPS"
-    tab: us_real_credit_commodities
-    section: real_yields
-    unit: "%"
-    source: fred
-    ticker: DFII5
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-
-  - id: real_7y
-    label: "7Y TIPS"
-    tab: us_real_credit_commodities
-    section: real_yields
-    unit: "%"
-    source: fred
-    ticker: DFII7
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-
-  - id: real_10y
-    label: "10Y TIPS"
-    tab: us_real_credit_commodities
-    section: real_yields
-    unit: "%"
-    source: fred
-    ticker: DFII10
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-
-  - id: real_20y
-    label: "20Y TIPS"
-    tab: us_real_credit_commodities
-    section: real_yields
-    unit: "%"
-    source: fred
-    ticker: DFII20
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-
-  - id: real_30y
-    label: "30Y TIPS"
-    tab: us_real_credit_commodities
-    section: real_yields
-    unit: "%"
-    source: fred
-    ticker: DFII30
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-
-  - id: real_f5y5y
-    label: "Fwd 5Y5Y Real"
-    tab: us_real_credit_commodities
-    section: real_yields
-    unit: "%"
-    source: computed
-    ticker: ""
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-    compute_formula: "2 * real_10y - real_5y"
-
-  # --- Section: breakevens ---
-  - id: be_5y
-    label: "5Y BE"
-    tab: us_real_credit_commodities
-    section: breakevens
-    unit: "%"
-    source: computed
-    ticker: ""
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-    compute_formula: "ust_5y - real_5y"
-
-  - id: be_7y
-    label: "7Y BE"
-    tab: us_real_credit_commodities
-    section: breakevens
-    unit: "%"
-    source: computed
-    ticker: ""
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-    compute_formula: "ust_7y - real_7y"
-
-  - id: be_10y
-    label: "10Y BE"
-    tab: us_real_credit_commodities
-    section: breakevens
-    unit: "%"
-    source: computed
-    ticker: ""
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-    compute_formula: "ust_10y - real_10y"
-
-  - id: be_20y
-    label: "20Y BE"
-    tab: us_real_credit_commodities
-    section: breakevens
-    unit: "%"
-    source: computed
-    ticker: ""
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-    compute_formula: "ust_20y - real_20y"
-
-  - id: be_30y
-    label: "30Y BE"
-    tab: us_real_credit_commodities
-    section: breakevens
-    unit: "%"
-    source: computed
-    ticker: ""
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-    compute_formula: "ust_30y - real_30y"
-
-  - id: be_f5y5y
-    label: "Fwd 5Y5Y BE"
-    tab: us_real_credit_commodities
-    section: breakevens
-    unit: "%"
-    source: computed
-    ticker: ""
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: rate
-    compute_formula: "2 * be_10y - be_5y"
-
-  # --- Section: credit_oas ---
-  - id: oas_ig
-    label: "IG OAS"
-    tab: us_real_credit_commodities
-    section: credit_oas
-    unit: "%"
-    source: fred
-    ticker: BAMLC0A0CM
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 3
-    display_type: rate
-
-  - id: oas_aa
-    label: "AA OAS"
-    tab: us_real_credit_commodities
-    section: credit_oas
-    unit: "%"
-    source: fred
-    ticker: BAMLC0A2CAA
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 3
-    display_type: rate
-
-  - id: oas_bbb
-    label: "BBB OAS"
-    tab: us_real_credit_commodities
-    section: credit_oas
-    unit: "%"
-    source: fred
-    ticker: BAMLC0A4CBBB
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 3
-    display_type: rate
-
-  - id: oas_hy
-    label: "HY OAS"
-    tab: us_real_credit_commodities
-    section: credit_oas
-    unit: "%"
-    source: fred
-    ticker: BAMLH0A0HYM2
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 3
-    display_type: rate
-
-  - id: oas_bb
-    label: "BB OAS"
-    tab: us_real_credit_commodities
-    section: credit_oas
-    unit: "%"
-    source: fred
-    ticker: BAMLH0A1HYBB
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 3
-    display_type: rate
-
-  - id: oas_ccc
-    label: "CCC OAS"
-    tab: us_real_credit_commodities
-    section: credit_oas
-    unit: "%"
-    source: fred
-    ticker: BAMLH0A3HYC
-    polarity: down_good
-    frequency: daily
-    stale_after_days: 3
-    display_type: rate
-
-  # --- Section: housing ---
-  - id: mortgage_30y
-    label: "30Y Mortgage"
-    tab: us_real_credit_commodities
-    section: housing
-    unit: "%"
-    source: fred
-    ticker: MORTGAGE30US
-    polarity: down_good
-    frequency: weekly
-    stale_after_days: 8
-    display_type: rate
-
-  - id: mortgage_spread
-    label: "Mortgage−10Y Spread"
-    tab: us_real_credit_commodities
-    section: housing
-    unit: pp
-    source: computed
-    ticker: ""
-    polarity: down_good
-    frequency: weekly
-    stale_after_days: 8
-    display_type: rate
-    compute_formula: "mortgage_30y - ust_10y"
-
-  # --- Section: commodities ---
-  - id: cmd_gold
-    label: "Gold"
-    tab: us_real_credit_commodities
-    section: commodities
-    unit: "$"
-    source: yahoo
-    ticker: GC=F
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
-
-  - id: cmd_silver
-    label: "Silver"
-    tab: us_real_credit_commodities
-    section: commodities
-    unit: "$"
-    source: yahoo
-    ticker: SI=F
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
-
-  - id: cmd_copper
-    label: "Copper"
-    tab: us_real_credit_commodities
-    section: commodities
-    unit: "$"
-    source: yahoo
-    ticker: HG=F
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
-
-  - id: cmd_aluminum
-    label: "Aluminum"
-    tab: us_real_credit_commodities
-    section: commodities
-    unit: "$"
-    source: yahoo
-    ticker: ALI=F
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
-
-  - id: cmd_platinum
-    label: "Platinum"
-    tab: us_real_credit_commodities
-    section: commodities
-    unit: "$"
-    source: yahoo
-    ticker: PL=F
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
-
-  - id: cmd_palladium
-    label: "Palladium"
-    tab: us_real_credit_commodities
-    section: commodities
-    unit: "$"
-    source: yahoo
-    ticker: PA=F
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
-
-  - id: cmd_wti
-    label: "WTI Crude"
-    tab: us_real_credit_commodities
-    section: commodities
-    unit: "$"
-    source: yahoo
-    ticker: CL=F
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
-
-  - id: cmd_natgas
-    label: "Natural Gas"
-    tab: us_real_credit_commodities
-    section: commodities
-    unit: "$"
-    source: yahoo
-    ticker: NG=F
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
-
-  - id: cmd_wheat
-    label: "Wheat"
-    tab: us_real_credit_commodities
-    section: commodities
-    unit: "$"
-    source: yahoo
-    ticker: ZW=F
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
-
-  - id: cmd_corn
-    label: "Corn"
-    tab: us_real_credit_commodities
-    section: commodities
-    unit: "$"
-    source: yahoo
-    ticker: ZC=F
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
-
-  - id: cmd_soybeans
-    label: "Soybeans"
-    tab: us_real_credit_commodities
-    section: commodities
-    unit: "$"
-    source: yahoo
-    ticker: ZS=F
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
-
-  - id: cmd_leanhogs
-    label: "Lean Hogs"
-    tab: us_real_credit_commodities
-    section: commodities
-    unit: "$"
-    source: yahoo
-    ticker: HE=F
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
-
-  - id: cmd_livecattle
-    label: "Live Cattle"
-    tab: us_real_credit_commodities
-    section: commodities
-    unit: "$"
-    source: yahoo
-    ticker: LE=F
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
-
-  # --- Section: mortgage_reits ---
-  - id: mbs_mbb
-    label: "MBB"
-    tab: us_real_credit_commodities
-    section: mortgage_reits
-    unit: "$"
-    source: yahoo
-    ticker: MBB
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
-
-  - id: mbs_agnc
-    label: "AGNC"
-    tab: us_real_credit_commodities
-    section: mortgage_reits
-    unit: "$"
-    source: yahoo
-    ticker: AGNC
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
-
-  - id: mbs_nly
-    label: "NLY"
-    tab: us_real_credit_commodities
-    section: mortgage_reits
-    unit: "$"
-    source: yahoo
-    ticker: NLY
-    polarity: up_good
-    frequency: daily
-    stale_after_days: 5
-    display_type: price
+- id: ust_1m
+  label: 1M
+  tab: us_rates_equity
+  section: par_rates
+  unit: '%'
+  source: fred
+  ticker: DGS1MO
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: ust_2m
+  label: 2M
+  tab: us_rates_equity
+  section: par_rates
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: ust_3m
+  label: 3M
+  tab: us_rates_equity
+  section: par_rates
+  unit: '%'
+  source: fred
+  ticker: DGS3MO
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: ust_4m
+  label: 4M
+  tab: us_rates_equity
+  section: par_rates
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: ust_6m
+  label: 6M
+  tab: us_rates_equity
+  section: par_rates
+  unit: '%'
+  source: fred
+  ticker: DGS6MO
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: ust_1y
+  label: 1Y
+  tab: us_rates_equity
+  section: par_rates
+  unit: '%'
+  source: fred
+  ticker: DGS1
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: ust_2y
+  label: 2Y
+  tab: us_rates_equity
+  section: par_yields
+  unit: '%'
+  source: fred
+  ticker: DGS2
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: ust_3y
+  label: 3Y
+  tab: us_rates_equity
+  section: par_yields
+  unit: '%'
+  source: fred
+  ticker: DGS3
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: ust_5y
+  label: 5Y
+  tab: us_rates_equity
+  section: par_yields
+  unit: '%'
+  source: fred
+  ticker: DGS5
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: ust_7y
+  label: 7Y
+  tab: us_rates_equity
+  section: par_yields
+  unit: '%'
+  source: fred
+  ticker: DGS7
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: ust_10y
+  label: 10Y
+  tab: us_rates_equity
+  section: par_yields
+  unit: '%'
+  source: fred
+  ticker: DGS10
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: ust_20y
+  label: 20Y
+  tab: us_rates_equity
+  section: par_yields
+  unit: '%'
+  source: fred
+  ticker: DGS20
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: ust_30y
+  label: 30Y
+  tab: us_rates_equity
+  section: par_yields
+  unit: '%'
+  source: fred
+  ticker: DGS30
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: slope_2s10s
+  label: 2s10s
+  tab: us_rates_equity
+  section: slopes
+  unit: pp
+  source: computed
+  ticker: ''
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+  compute_formula: ust_10y - ust_2y
+- id: slope_3m10y
+  label: 3m10y
+  tab: us_rates_equity
+  section: slopes
+  unit: pp
+  source: computed
+  ticker: ''
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+  compute_formula: ust_10y - ust_3m
+- id: us_kre
+  label: KRE
+  tab: us_rates_equity
+  section: us_equity
+  unit: $
+  source: yahoo
+  ticker: KRE
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: us_dxy
+  label: DXY
+  tab: us_rates_equity
+  section: us_equity
+  unit: index
+  source: yahoo
+  ticker: DX-Y.NYB
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: us_xlu
+  label: XLU
+  tab: us_rates_equity
+  section: us_equity
+  unit: $
+  source: yahoo
+  ticker: XLU
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: us_iyr
+  label: IYR
+  tab: us_rates_equity
+  section: us_equity
+  unit: $
+  source: yahoo
+  ticker: IYR
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: us_xlp
+  label: XLP
+  tab: us_rates_equity
+  section: us_equity
+  unit: $
+  source: yahoo
+  ticker: XLP
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: us_spy
+  label: SPY
+  tab: us_rates_equity
+  section: us_equity
+  unit: $
+  source: yahoo
+  ticker: SPY
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: us_iwm
+  label: IWM
+  tab: us_rates_equity
+  section: us_equity
+  unit: $
+  source: yahoo
+  ticker: IWM
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: us_qqq
+  label: QQQ
+  tab: us_rates_equity
+  section: us_equity
+  unit: $
+  source: yahoo
+  ticker: QQQ
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: us_tlt
+  label: TLT
+  tab: us_rates_equity
+  section: us_equity
+  unit: $
+  source: yahoo
+  ticker: TLT
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: real_5y
+  label: 5Y TIPS
+  tab: us_real_credit_commodities
+  section: real_yields
+  unit: '%'
+  source: fred
+  ticker: DFII5
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: real_7y
+  label: 7Y TIPS
+  tab: us_real_credit_commodities
+  section: real_yields
+  unit: '%'
+  source: fred
+  ticker: DFII7
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: real_10y
+  label: 10Y TIPS
+  tab: us_real_credit_commodities
+  section: real_yields
+  unit: '%'
+  source: fred
+  ticker: DFII10
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: real_20y
+  label: 20Y TIPS
+  tab: us_real_credit_commodities
+  section: real_yields
+  unit: '%'
+  source: fred
+  ticker: DFII20
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: real_30y
+  label: 30Y TIPS
+  tab: us_real_credit_commodities
+  section: real_yields
+  unit: '%'
+  source: fred
+  ticker: DFII30
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: real_f5y5y
+  label: Fwd 5Y5Y Real
+  tab: us_real_credit_commodities
+  section: real_yields
+  unit: '%'
+  source: computed
+  ticker: ''
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+  compute_formula: 2 * real_10y - real_5y
+- id: be_5y
+  label: 5Y BE
+  tab: us_real_credit_commodities
+  section: breakevens
+  unit: '%'
+  source: computed
+  ticker: ''
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+  compute_formula: ust_5y - real_5y
+- id: be_7y
+  label: 7Y BE
+  tab: us_real_credit_commodities
+  section: breakevens
+  unit: '%'
+  source: computed
+  ticker: ''
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+  compute_formula: ust_7y - real_7y
+- id: be_10y
+  label: 10Y BE
+  tab: us_real_credit_commodities
+  section: breakevens
+  unit: '%'
+  source: computed
+  ticker: ''
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+  compute_formula: ust_10y - real_10y
+- id: be_20y
+  label: 20Y BE
+  tab: us_real_credit_commodities
+  section: breakevens
+  unit: '%'
+  source: computed
+  ticker: ''
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+  compute_formula: ust_20y - real_20y
+- id: be_30y
+  label: 30Y BE
+  tab: us_real_credit_commodities
+  section: breakevens
+  unit: '%'
+  source: computed
+  ticker: ''
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+  compute_formula: ust_30y - real_30y
+- id: be_f5y5y
+  label: Fwd 5Y5Y BE
+  tab: us_real_credit_commodities
+  section: breakevens
+  unit: '%'
+  source: computed
+  ticker: ''
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+  compute_formula: 2 * be_10y - be_5y
+- id: oas_ig
+  label: IG OAS
+  tab: us_real_credit_commodities
+  section: credit_oas
+  unit: '%'
+  source: fred
+  ticker: BAMLC0A0CM
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 3
+  display_type: rate
+- id: oas_aa
+  label: AA OAS
+  tab: us_real_credit_commodities
+  section: credit_oas
+  unit: '%'
+  source: fred
+  ticker: BAMLC0A2CAA
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 3
+  display_type: rate
+- id: oas_bbb
+  label: BBB OAS
+  tab: us_real_credit_commodities
+  section: credit_oas
+  unit: '%'
+  source: fred
+  ticker: BAMLC0A4CBBB
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 3
+  display_type: rate
+- id: oas_hy
+  label: HY OAS
+  tab: us_real_credit_commodities
+  section: credit_oas
+  unit: '%'
+  source: fred
+  ticker: BAMLH0A0HYM2
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 3
+  display_type: rate
+- id: oas_bb
+  label: BB OAS
+  tab: us_real_credit_commodities
+  section: credit_oas
+  unit: '%'
+  source: fred
+  ticker: BAMLH0A1HYBB
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 3
+  display_type: rate
+- id: oas_ccc
+  label: CCC OAS
+  tab: us_real_credit_commodities
+  section: credit_oas
+  unit: '%'
+  source: fred
+  ticker: BAMLH0A3HYC
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 3
+  display_type: rate
+- id: mortgage_30y
+  label: 30Y Mortgage
+  tab: us_real_credit_commodities
+  section: housing
+  unit: '%'
+  source: fred
+  ticker: MORTGAGE30US
+  polarity: down_good
+  frequency: weekly
+  stale_after_days: 8
+  display_type: rate
+- id: mortgage_spread
+  label: Mortgage−10Y Spread
+  tab: us_real_credit_commodities
+  section: housing
+  unit: pp
+  source: computed
+  ticker: ''
+  polarity: down_good
+  frequency: weekly
+  stale_after_days: 8
+  display_type: rate
+  compute_formula: mortgage_30y - ust_10y
+- id: cmd_gold
+  label: Gold
+  tab: us_real_credit_commodities
+  section: commodities
+  unit: $
+  source: yahoo
+  ticker: GC=F
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: cmd_silver
+  label: Silver
+  tab: us_real_credit_commodities
+  section: commodities
+  unit: $
+  source: yahoo
+  ticker: SI=F
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: cmd_copper
+  label: Copper
+  tab: us_real_credit_commodities
+  section: commodities
+  unit: $
+  source: yahoo
+  ticker: HG=F
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: cmd_aluminum
+  label: Aluminum
+  tab: us_real_credit_commodities
+  section: commodities
+  unit: $
+  source: yahoo
+  ticker: ALI=F
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: cmd_platinum
+  label: Platinum
+  tab: us_real_credit_commodities
+  section: commodities
+  unit: $
+  source: yahoo
+  ticker: PL=F
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: cmd_palladium
+  label: Palladium
+  tab: us_real_credit_commodities
+  section: commodities
+  unit: $
+  source: yahoo
+  ticker: PA=F
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: cmd_wti
+  label: WTI Crude
+  tab: us_real_credit_commodities
+  section: commodities
+  unit: $
+  source: yahoo
+  ticker: CL=F
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: cmd_natgas
+  label: Natural Gas
+  tab: us_real_credit_commodities
+  section: commodities
+  unit: $
+  source: yahoo
+  ticker: NG=F
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: cmd_wheat
+  label: Wheat
+  tab: us_real_credit_commodities
+  section: commodities
+  unit: $
+  source: yahoo
+  ticker: ZW=F
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: cmd_corn
+  label: Corn
+  tab: us_real_credit_commodities
+  section: commodities
+  unit: $
+  source: yahoo
+  ticker: ZC=F
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: cmd_soybeans
+  label: Soybeans
+  tab: us_real_credit_commodities
+  section: commodities
+  unit: $
+  source: yahoo
+  ticker: ZS=F
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: cmd_leanhogs
+  label: Lean Hogs
+  tab: us_real_credit_commodities
+  section: commodities
+  unit: $
+  source: yahoo
+  ticker: HE=F
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: cmd_livecattle
+  label: Live Cattle
+  tab: us_real_credit_commodities
+  section: commodities
+  unit: $
+  source: yahoo
+  ticker: LE=F
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: mbs_mbb
+  label: MBB
+  tab: us_real_credit_commodities
+  section: mortgage_reits
+  unit: $
+  source: yahoo
+  ticker: MBB
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: mbs_agnc
+  label: AGNC
+  tab: us_real_credit_commodities
+  section: mortgage_reits
+  unit: $
+  source: yahoo
+  ticker: AGNC
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: mbs_nly
+  label: NLY
+  tab: us_real_credit_commodities
+  section: mortgage_reits
+  unit: $
+  source: yahoo
+  ticker: NLY
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_repo
+  label: RBI Repo Rate
+  tab: india_rates_equity
+  section: in_policy
+  unit: '%'
+  source: rbi
+  ticker: ''
+  polarity: neutral
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_sdf
+  label: Standing Deposit Facility (SDF)
+  tab: india_rates_equity
+  section: in_policy
+  unit: '%'
+  source: rbi
+  ticker: ''
+  polarity: neutral
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_msf
+  label: Marginal Standing Facility (MSF)
+  tab: india_rates_equity
+  section: in_policy
+  unit: '%'
+  source: rbi
+  ticker: ''
+  polarity: neutral
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_wacr
+  label: Weighted Avg Call Rate (WACR)
+  tab: india_rates_equity
+  section: in_policy
+  unit: '%'
+  source: rbi
+  ticker: ''
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_tbill_91d
+  label: 91D T-Bill Rate
+  tab: india_rates_equity
+  section: in_policy
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: weekly
+  stale_after_days: 10
+  display_type: rate
+- id: in_tbill_182d
+  label: 182D T-Bill Rate
+  tab: india_rates_equity
+  section: in_policy
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: weekly
+  stale_after_days: 10
+  display_type: rate
+- id: in_tbill_364d
+  label: 364D T-Bill Rate
+  tab: india_rates_equity
+  section: in_policy
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: weekly
+  stale_after_days: 10
+  display_type: rate
+- id: in_cd_3m
+  label: 3M CD Rate
+  tab: india_rates_equity
+  section: in_policy
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: weekly
+  stale_after_days: 10
+  display_type: rate
+- id: in_cd_12m
+  label: 12M CD Rate
+  tab: india_rates_equity
+  section: in_policy
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: weekly
+  stale_after_days: 10
+  display_type: rate
+- id: in_gsec_1y
+  label: 1Y G-Sec
+  tab: india_rates_equity
+  section: in_gsec_yields
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_gsec_2y
+  label: 2Y G-Sec
+  tab: india_rates_equity
+  section: in_gsec_yields
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_gsec_3y
+  label: 3Y G-Sec
+  tab: india_rates_equity
+  section: in_gsec_yields
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_gsec_5y
+  label: 5Y G-Sec
+  tab: india_rates_equity
+  section: in_gsec_yields
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_gsec_7y
+  label: 7Y G-Sec
+  tab: india_rates_equity
+  section: in_gsec_yields
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_gsec_10y
+  label: 10Y G-Sec (Benchmark)
+  tab: india_rates_equity
+  section: in_gsec_yields
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_gsec_15y
+  label: 15Y G-Sec
+  tab: india_rates_equity
+  section: in_gsec_yields
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_gsec_20y
+  label: 20Y G-Sec
+  tab: india_rates_equity
+  section: in_gsec_yields
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_gsec_30y
+  label: 30Y G-Sec
+  tab: india_rates_equity
+  section: in_gsec_yields
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_slope_10y2y
+  label: 10Y − 2Y G-Sec Slope
+  tab: india_rates_equity
+  section: in_slopes
+  unit: pp
+  source: computed
+  compute_formula: in_gsec_10y - in_gsec_2y
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_slope_10y91d
+  label: 10Y − 91D T-Bill Slope
+  tab: india_rates_equity
+  section: in_slopes
+  unit: pp
+  source: computed
+  compute_formula: in_gsec_10y - in_tbill_91d
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_slope_wacr_repo
+  label: WACR − Repo Spread (Liquidity)
+  tab: india_rates_equity
+  section: in_slopes
+  unit: pp
+  source: computed
+  compute_formula: in_wacr - in_repo
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_nifty50
+  label: Nifty 50
+  tab: india_rates_equity
+  section: in_equity
+  unit: pts
+  source: yahoo
+  ticker: ^NSEI
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_sensex
+  label: BSE Sensex
+  tab: india_rates_equity
+  section: in_equity
+  unit: pts
+  source: yahoo
+  ticker: ^BSESN
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_nifty_next50
+  label: Nifty Next 50 (Junior BeES)
+  tab: india_rates_equity
+  section: in_equity
+  unit: ₹
+  source: yahoo
+  ticker: JUNIORBEES.NS
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_midcap150
+  label: Nifty Midcap 150
+  tab: india_rates_equity
+  section: in_equity
+  unit: pts
+  source: yahoo
+  ticker: NIFTYMIDCAP150.NS
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_smallcap250
+  label: Nifty Smallcap 250
+  tab: india_rates_equity
+  section: in_equity
+  unit: pts
+  source: yahoo
+  ticker: NIFTYSMLCAP250.NS
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_nifty_bank
+  label: Nifty Bank
+  tab: india_rates_equity
+  section: in_equity
+  unit: pts
+  source: yahoo
+  ticker: ^NSEBANK
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_nifty_pvt_bank
+  label: Nifty Private Bank
+  tab: india_rates_equity
+  section: in_equity
+  unit: pts
+  source: yahoo
+  ticker: NIFTY_PVT_BANK.NS
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_nifty_psu_bank
+  label: Nifty PSU Bank
+  tab: india_rates_equity
+  section: in_equity
+  unit: pts
+  source: yahoo
+  ticker: ^CNXPSUBANK
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_nifty_fin
+  label: Nifty Financial Services
+  tab: india_rates_equity
+  section: in_equity
+  unit: pts
+  source: yahoo
+  ticker: ^CNXFIN
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_nifty_it
+  label: Nifty IT
+  tab: india_rates_equity
+  section: in_equity
+  unit: pts
+  source: yahoo
+  ticker: ^CNXIT
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_nifty_pharma
+  label: Nifty Pharma
+  tab: india_rates_equity
+  section: in_equity
+  unit: pts
+  source: yahoo
+  ticker: ^CNXPHARMA
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_nifty_fmcg
+  label: Nifty FMCG
+  tab: india_rates_equity
+  section: in_equity
+  unit: pts
+  source: yahoo
+  ticker: ^CNXFMCG
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_nifty_auto
+  label: Nifty Auto
+  tab: india_rates_equity
+  section: in_equity
+  unit: pts
+  source: yahoo
+  ticker: ^CNXAUTO
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_nifty_metal
+  label: Nifty Metal
+  tab: india_rates_equity
+  section: in_equity
+  unit: pts
+  source: yahoo
+  ticker: ^CNXMETAL
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_nifty_energy
+  label: Nifty Energy
+  tab: india_rates_equity
+  section: in_equity
+  unit: pts
+  source: yahoo
+  ticker: ^CNXENERGY
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_nifty_realty
+  label: Nifty Realty
+  tab: india_rates_equity
+  section: in_equity
+  unit: pts
+  source: yahoo
+  ticker: ^CNXREALTY
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_nifty_infra
+  label: Nifty Infrastructure
+  tab: india_rates_equity
+  section: in_equity
+  unit: pts
+  source: yahoo
+  ticker: ^CNXINFRA
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_usdinr
+  label: USD/INR
+  tab: india_rates_equity
+  section: in_equity
+  unit: ₹
+  source: yahoo
+  ticker: INR=X
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_vix
+  label: India VIX
+  tab: india_rates_equity
+  section: in_equity
+  unit: pts
+  source: yahoo
+  ticker: ^INDIAVIX
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_gilt_proxy
+  label: Gilt 5Y ETF (Proxy)
+  tab: india_rates_equity
+  section: in_equity
+  unit: ₹
+  source: yahoo
+  ticker: GILT5YBEES.NS
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_cpi_latest
+  label: CPI Inflation YoY (Latest)
+  tab: india_real_credit_commodities
+  section: in_real_yields
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: monthly
+  stale_after_days: 45
+  display_type: rate
+- id: in_inf_exp_1y
+  label: RBI 1Y Inflation Expectation
+  tab: india_real_credit_commodities
+  section: in_real_yields
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: quarterly
+  stale_after_days: 100
+  display_type: rate
+- id: in_real_5y
+  label: 5Y G-Sec Real Yield (Ex-Post)
+  tab: india_real_credit_commodities
+  section: in_real_yields
+  unit: '%'
+  source: computed
+  compute_formula: in_gsec_5y - in_cpi_latest
+  polarity: down_good
+  frequency: monthly
+  stale_after_days: 45
+  display_type: rate
+- id: in_real_10y
+  label: 10Y G-Sec Real Yield (Ex-Post)
+  tab: india_real_credit_commodities
+  section: in_real_yields
+  unit: '%'
+  source: computed
+  compute_formula: in_gsec_10y - in_cpi_latest
+  polarity: down_good
+  frequency: monthly
+  stale_after_days: 45
+  display_type: rate
+- id: in_real_10y_exante
+  label: 10Y G-Sec Real Yield (Ex-Ante)
+  tab: india_real_credit_commodities
+  section: in_real_yields
+  unit: '%'
+  source: computed
+  compute_formula: in_gsec_10y - in_inf_exp_1y
+  polarity: down_good
+  frequency: quarterly
+  stale_after_days: 100
+  display_type: rate
+- id: in_iib_10y
+  label: 10Y IIB Real Yield
+  tab: india_real_credit_commodities
+  section: in_real_yields
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: monthly
+  stale_after_days: 45
+  display_type: rate
+- id: in_be_10y
+  label: 10Y Breakeven Inflation (G-Sec − IIB)
+  tab: india_real_credit_commodities
+  section: in_real_yields
+  unit: '%'
+  source: computed
+  compute_formula: in_gsec_10y - in_iib_10y
+  polarity: down_good
+  frequency: monthly
+  stale_after_days: 45
+  display_type: rate
+- id: in_spread_aaa_3y
+  label: AAA 3Y Spread (bps)
+  tab: india_real_credit_commodities
+  section: in_credit_spreads
+  unit: bps
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: weekly
+  stale_after_days: 14
+  display_type: rate
+- id: in_spread_aaa_5y
+  label: AAA 5Y Spread (bps)
+  tab: india_real_credit_commodities
+  section: in_credit_spreads
+  unit: bps
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: weekly
+  stale_after_days: 14
+  display_type: rate
+- id: in_spread_aaa_10y
+  label: AAA 10Y Spread (bps)
+  tab: india_real_credit_commodities
+  section: in_credit_spreads
+  unit: bps
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: weekly
+  stale_after_days: 14
+  display_type: rate
+- id: in_spread_aa_3y
+  label: AA 3Y Spread (bps)
+  tab: india_real_credit_commodities
+  section: in_credit_spreads
+  unit: bps
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: weekly
+  stale_after_days: 14
+  display_type: rate
+- id: in_spread_a_3y
+  label: A 3Y Spread (bps)
+  tab: india_real_credit_commodities
+  section: in_credit_spreads
+  unit: bps
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: weekly
+  stale_after_days: 14
+  display_type: rate
+- id: in_spread_bbb_3y
+  label: BBB 3Y Spread (bps)
+  tab: india_real_credit_commodities
+  section: in_credit_spreads
+  unit: bps
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: weekly
+  stale_after_days: 14
+  display_type: rate
+- id: in_spread_sdl_10y
+  label: SDL 10Y − G-Sec 10Y Spread (bps)
+  tab: india_real_credit_commodities
+  section: in_credit_spreads
+  unit: bps
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: weekly
+  stale_after_days: 14
+  display_type: rate
+- id: in_sbi_home_loan
+  label: SBI Home Loan Floor Rate
+  tab: india_real_credit_commodities
+  section: in_housing_reits
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: monthly
+  stale_after_days: 60
+  display_type: rate
+- id: in_hdfc_home_loan
+  label: HDFC Bank Home Loan Floor Rate
+  tab: india_real_credit_commodities
+  section: in_housing_reits
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: monthly
+  stale_after_days: 60
+  display_type: rate
+- id: in_spread_hl_repo
+  label: Home Loan Spread over Repo
+  tab: india_real_credit_commodities
+  section: in_housing_reits
+  unit: pp
+  source: computed
+  compute_formula: in_sbi_home_loan - in_repo
+  polarity: down_good
+  frequency: monthly
+  stale_after_days: 60
+  display_type: rate
+- id: in_lichsgfin
+  label: LIC Housing Finance
+  tab: india_real_credit_commodities
+  section: in_housing_reits
+  unit: ₹
+  source: yahoo
+  ticker: LICHSGFIN.NS
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_pnbhousing
+  label: PNB Housing Finance
+  tab: india_real_credit_commodities
+  section: in_housing_reits
+  unit: ₹
+  source: yahoo
+  ticker: PNBHOUSING.NS
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_bajajhfl
+  label: Bajaj Housing Finance
+  tab: india_real_credit_commodities
+  section: in_housing_reits
+  unit: ₹
+  source: yahoo
+  ticker: BAJAJHFL.NS
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_canfinhome
+  label: Can Fin Homes
+  tab: india_real_credit_commodities
+  section: in_housing_reits
+  unit: ₹
+  source: yahoo
+  ticker: CANFINHOME.NS
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_reit_embassy
+  label: Embassy Office Parks REIT
+  tab: india_real_credit_commodities
+  section: in_housing_reits
+  unit: ₹
+  source: yahoo
+  ticker: EMBASSY.NS
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_reit_mindspace
+  label: Mindspace Business Parks REIT
+  tab: india_real_credit_commodities
+  section: in_housing_reits
+  unit: ₹
+  source: yahoo
+  ticker: MINDSPACE.NS
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_reit_biret
+  label: Brookfield India Real Estate Trust
+  tab: india_real_credit_commodities
+  section: in_housing_reits
+  unit: ₹
+  source: yahoo
+  ticker: BIRET.NS
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_brent
+  label: Brent Crude (ICE)
+  tab: india_real_credit_commodities
+  section: in_commodities
+  unit: $
+  source: yahoo
+  ticker: BZ=F
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_mcx_gold
+  label: MCX Gold (₹/10g)
+  tab: india_real_credit_commodities
+  section: in_commodities
+  unit: ₹
+  source: manual
+  ticker: ''
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_mcx_silver
+  label: MCX Silver (₹/kg)
+  tab: india_real_credit_commodities
+  section: in_commodities
+  unit: ₹
+  source: manual
+  ticker: ''
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_mcx_crude
+  label: MCX Crude Oil
+  tab: india_real_credit_commodities
+  section: in_commodities
+  unit: ₹
+  source: manual
+  ticker: ''
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_mcx_copper
+  label: MCX Copper
+  tab: india_real_credit_commodities
+  section: in_commodities
+  unit: ₹
+  source: manual
+  ticker: ''
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_ncdex_soybean
+  label: NCDEX Soybean
+  tab: india_real_credit_commodities
+  section: in_commodities
+  unit: ₹
+  source: manual
+  ticker: ''
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: in_ncdex_turmeric
+  label: NCDEX Turmeric
+  tab: india_real_credit_commodities
+  section: in_commodities
+  unit: ₹
+  source: manual
+  ticker: ''
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: cross_10y_spread
+  label: India 10Y vs US 10Y Spread
+  tab: india_flows_macro
+  section: in_cross_market
+  unit: pp
+  source: computed
+  compute_formula: in_gsec_10y - ust_10y
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: fed_funds_target
+  label: Fed Funds Target Upper
+  tab: india_flows_macro
+  section: in_cross_market
+  unit: '%'
+  source: fred
+  ticker: DFEDTARU
+  polarity: neutral
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: cross_repo_fed_spread
+  label: Policy Rate Differential (Repo − Fed)
+  tab: india_flows_macro
+  section: in_cross_market
+  unit: pp
+  source: computed
+  compute_formula: in_repo - fed_funds_target
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_fpi_equity
+  label: FPI Net Equity Flow
+  tab: india_flows_macro
+  section: in_flows
+  unit: ₹ cr
+  source: manual
+  ticker: ''
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_fpi_debt
+  label: FPI Net Debt Flow (incl. FAR)
+  tab: india_flows_macro
+  section: in_flows
+  unit: ₹ cr
+  source: manual
+  ticker: ''
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_dii_equity
+  label: DII Net Equity Flow
+  tab: india_flows_macro
+  section: in_flows
+  unit: ₹ cr
+  source: manual
+  ticker: ''
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_sip_inflows
+  label: MF SIP Inflows (AMFI Monthly)
+  tab: india_flows_macro
+  section: in_flows
+  unit: ₹ cr
+  source: manual
+  ticker: ''
+  polarity: up_good
+  frequency: monthly
+  stale_after_days: 45
+  display_type: rate
+- id: in_bank_liquidity
+  label: Banking System Net Liquidity
+  tab: india_flows_macro
+  section: in_flows
+  unit: ₹ lakh cr
+  source: manual
+  ticker: ''
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_forex_reserves
+  label: Forex Reserves (US$ bn)
+  tab: india_flows_macro
+  section: in_flows
+  unit: $ bn
+  source: manual
+  ticker: ''
+  polarity: up_good
+  frequency: weekly
+  stale_after_days: 10
+  display_type: rate
+- id: in_nifty_pe
+  label: Nifty 50 Trailing P/E
+  tab: india_flows_macro
+  section: in_valuation
+  unit: ratio
+  source: manual
+  ticker: ''
+  polarity: neutral
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_nifty_pb
+  label: Nifty 50 P/B
+  tab: india_flows_macro
+  section: in_valuation
+  unit: ratio
+  source: manual
+  ticker: ''
+  polarity: neutral
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_nifty_div_yield
+  label: Nifty 50 Dividend Yield
+  tab: india_flows_macro
+  section: in_valuation
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: neutral
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_nifty_earnings_yield
+  label: Nifty 50 Earnings Yield
+  tab: india_flows_macro
+  section: in_valuation
+  unit: '%'
+  source: computed
+  compute_formula: 100.0 / in_nifty_pe
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_nifty_erp
+  label: Equity Risk Premium (EY − 10Y G-Sec)
+  tab: india_flows_macro
+  section: in_valuation
+  unit: pp
+  source: computed
+  compute_formula: in_nifty_earnings_yield - in_gsec_10y
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_midcap_pe
+  label: Midcap 150 P/E
+  tab: india_flows_macro
+  section: in_valuation
+  unit: ratio
+  source: manual
+  ticker: ''
+  polarity: neutral
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_smallcap_pe
+  label: Smallcap 250 P/E
+  tab: india_flows_macro
+  section: in_valuation
+  unit: ratio
+  source: manual
+  ticker: ''
+  polarity: neutral
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: in_mcap_gdp
+  label: India Market-Cap to GDP
+  tab: india_flows_macro
+  section: in_valuation
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: neutral
+  frequency: monthly
+  stale_after_days: 60
+  display_type: rate
+- id: in_macro_cpi
+  label: Headline CPI YoY
+  tab: india_flows_macro
+  section: in_macro
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: monthly
+  stale_after_days: 45
+  display_type: rate
+- id: in_macro_core_cpi
+  label: Core CPI YoY
+  tab: india_flows_macro
+  section: in_macro
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: monthly
+  stale_after_days: 45
+  display_type: rate
+- id: in_macro_wpi
+  label: Headline WPI YoY
+  tab: india_flows_macro
+  section: in_macro
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: monthly
+  stale_after_days: 45
+  display_type: rate
+- id: in_macro_iip
+  label: Index of Industrial Production (IIP)
+  tab: india_flows_macro
+  section: in_macro
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: up_good
+  frequency: monthly
+  stale_after_days: 45
+  display_type: rate
+- id: in_macro_gdp
+  label: Real GDP YoY
+  tab: india_flows_macro
+  section: in_macro
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: up_good
+  frequency: quarterly
+  stale_after_days: 100
+  display_type: rate
+- id: in_macro_mfg_pmi
+  label: HSBC Manufacturing PMI
+  tab: india_flows_macro
+  section: in_macro
+  unit: index
+  source: manual
+  ticker: ''
+  polarity: up_good
+  frequency: monthly
+  stale_after_days: 45
+  display_type: rate
+- id: in_macro_srv_pmi
+  label: HSBC Services PMI
+  tab: india_flows_macro
+  section: in_macro
+  unit: index
+  source: manual
+  ticker: ''
+  polarity: up_good
+  frequency: monthly
+  stale_after_days: 45
+  display_type: rate
+- id: in_macro_gst
+  label: GST Revenue Collection
+  tab: india_flows_macro
+  section: in_macro
+  unit: ₹ lakh cr
+  source: manual
+  ticker: ''
+  polarity: up_good
+  frequency: monthly
+  stale_after_days: 45
+  display_type: rate
+- id: in_macro_trade_deficit
+  label: Monthly Trade Deficit
+  tab: india_flows_macro
+  section: in_macro
+  unit: $ bn
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: monthly
+  stale_after_days: 45
+  display_type: rate
+- id: in_macro_cab
+  label: Current Account Balance (% GDP)
+  tab: india_flows_macro
+  section: in_macro
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: up_good
+  frequency: quarterly
+  stale_after_days: 100
+  display_type: rate
+- id: in_macro_fiscal_deficit
+  label: Fiscal Deficit (% of BE FYTD)
+  tab: india_flows_macro
+  section: in_macro
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: down_good
+  frequency: monthly
+  stale_after_days: 45
+  display_type: rate
+- id: in_credit_growth
+  label: Bank Credit Growth YoY
+  tab: india_flows_macro
+  section: in_macro
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: up_good
+  frequency: biweekly
+  stale_after_days: 20
+  display_type: rate
+- id: in_deposit_growth
+  label: Bank Deposit Growth YoY
+  tab: india_flows_macro
+  section: in_macro
+  unit: '%'
+  source: manual
+  ticker: ''
+  polarity: up_good
+  frequency: biweekly
+  stale_after_days: 20
+  display_type: rate
+- id: in_cd_gap
+  label: Credit − Deposit Growth Gap
+  tab: india_flows_macro
+  section: in_macro
+  unit: pp
+  source: computed
+  compute_formula: in_credit_growth - in_deposit_growth
+  polarity: down_good
+  frequency: biweekly
+  stale_after_days: 20
+  display_type: rate

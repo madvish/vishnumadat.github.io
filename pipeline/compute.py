@@ -58,16 +58,25 @@ def compute_derived_history(
         if tok not in metric_histories or metric_histories[tok] is None or metric_histories[tok].empty:
             return pd.DataFrame(columns=["date", "value"])
 
-    # Merge on date
+    # Merge on date using outer join to align series of different frequencies
     merged = None
     for tok in unique_tokens:
         tok_df = metric_histories[tok][["date", "value"]].rename(columns={"value": tok})
         if merged is None:
             merged = tok_df
         else:
-            merged = pd.merge(merged, tok_df, on="date", how="inner")
+            merged = pd.merge(merged, tok_df, on="date", how="outer")
 
     if merged is None or merged.empty:
+        return pd.DataFrame(columns=["date", "value"])
+
+    merged = merged.sort_values(by="date")
+    # Forward fill to align series across weekly/monthly observations
+    for tok in unique_tokens:
+        merged[tok] = merged[tok].ffill()
+
+    merged = merged.dropna(subset=unique_tokens)
+    if merged.empty:
         return pd.DataFrame(columns=["date", "value"])
 
     # Safe evaluate expression using column names
