@@ -2307,17 +2307,6 @@ metrics:
   frequency: monthly
   stale_after_days: 60
   display_type: rate
-- id: in_macro_core_cpi
-  label: Core CPI YoY
-  tab: india_flows_macro
-  section: in_macro
-  unit: '%'
-  source: investing
-  ticker: ''
-  polarity: down_good
-  frequency: monthly
-  stale_after_days: 60
-  display_type: rate
 - id: in_macro_wpi
   label: Headline WPI YoY
   tab: india_flows_macro
@@ -2385,16 +2374,17 @@ metrics:
   stale_after_days: 60
   display_type: rate
 - id: in_macro_trade_deficit
-  label: Monthly Trade Deficit
+  label: Trade Balance
   tab: india_flows_macro
   section: in_macro
   unit: $ bn
   source: investing
   ticker: ''
-  polarity: down_good
+  polarity: up_good
   frequency: monthly
   stale_after_days: 60
   display_type: rate
+  full_name: India Monthly Merchandise Trade Balance ($ Billion)
 - id: in_macro_cab
   label: Current Account Balance (% GDP)
   tab: india_flows_macro
@@ -2404,17 +2394,6 @@ metrics:
   ticker: ''
   polarity: up_good
   frequency: quarterly
-  stale_after_days: 60
-  display_type: rate
-- id: in_macro_fiscal_deficit
-  label: Fiscal Deficit (% of BE FYTD)
-  tab: india_flows_macro
-  section: in_macro
-  unit: '%'
-  source: investing
-  ticker: ''
-  polarity: down_good
-  frequency: monthly
   stale_after_days: 60
   display_type: rate
 - id: in_credit_growth

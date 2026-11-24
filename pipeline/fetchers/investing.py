@@ -142,15 +142,13 @@ def fetch_investing_macro_indicators() -> Dict[str, Dict[str, Any]]:
 
         metric_map = {
             "in_macro_cpi": ("Inflation Rate", 6.09),
-            "in_macro_core_cpi": ("Core Inflation Rate", 3.50),
             "in_macro_wpi": ("Producer Prices Change", 12.07),
             "in_macro_iip": ("Industrial Production", 6.70),
             "in_macro_gdp": ("GDP Annual Growth Rate", 7.80),
             "in_macro_mfg_pmi": ("Manufacturing PMI", 56.0),
             "in_macro_srv_pmi": ("Services PMI", 55.3),
-            "in_macro_trade_deficit": ("Balance of Trade", 39.88),
+            "in_macro_trade_deficit": ("Balance of Trade", -39.88),
             "in_macro_cab": ("Current Account to GDP", -0.60),
-            "in_macro_fiscal_deficit": ("Government Budget", 4.40),
             "in_credit_growth": ("Loan Growth", 19.50),
             "in_deposit_growth": ("Deposit Growth", 16.90),
             "in_forex_reserves": ("Foreign Exchange Reserves", 705.34),
@@ -161,10 +159,7 @@ def fetch_investing_macro_indicators() -> Dict[str, Dict[str, Any]]:
             if raw:
                 try:
                     val = float(raw)
-                    # Convert negative trade/fiscal balance to positive deficit values
-                    if mid in ("in_macro_trade_deficit", "in_macro_fiscal_deficit") and val < 0:
-                        val = abs(val)
-                    elif mid == "in_forex_reserves" and val > 10000:
+                    if mid == "in_forex_reserves" and val > 10000:
                         # Convert USD Million to USD Billion
                         val = round(val / 1000.0, 2)
                     results[mid] = {"date": today_str, "value": val}

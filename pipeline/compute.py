@@ -163,17 +163,18 @@ def compute_metric_stats(
         else:
             res["change"] = round(this_val - last_val, 2)
 
-    # 3. BASE: Observation as-of Jan 1 of current year
+    # 3. BASE: 1st available fresh data/data release in January of current year (January trigger)
     year = current_year if current_year is not None else this_dt.year
-    target_base_date = f"{year}-01-01"
-    base_obs = get_as_of_observation(clean_df, target_base_date)
+    year_rows = clean_df[clean_df["date"] >= f"{year}-01-01"]
     
-    # If no observation on or before Jan 1 (e.g. data starts after Jan 1), take earliest of that year
-    if base_obs is None:
-        year_rows = clean_df[clean_df["date"].str.startswith(str(year))]
-        if not year_rows.empty:
-            earliest_row = year_rows.iloc[0]
-            base_obs = {"date": str(earliest_row["date"]), "value": float(earliest_row["value"])}
+    if not year_rows.empty:
+        # 1st available fresh data release of the year
+        earliest_row = year_rows.iloc[0]
+        base_obs = {"date": str(earliest_row["date"]), "value": float(earliest_row["value"])}
+    else:
+        # Fallback to the latest available observation on or before Jan 1 if no year data yet
+        target_base_date = f"{year}-01-01"
+        base_obs = get_as_of_observation(clean_df, target_base_date)
 
     if base_obs is not None:
         base_val = base_obs["value"]
