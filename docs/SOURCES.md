@@ -29,10 +29,10 @@ This document records the exact endpoint, ticker, or manual input mechanism for 
 | `gm_usdinr` | USD / INR | Yahoo Finance | `INR=X` | Auto | Interbank spot forex rate |
 | `gm_eurusd` | EUR / USD | Yahoo Finance | `EURUSD=X` | Auto | Interbank spot forex rate |
 | `gm_gbpusd` | GBP / USD | Yahoo Finance | `GBPUSD=X` | Auto | Interbank spot forex rate |
+| `gm_audusd` | AUD / USD | Yahoo Finance | `AUDUSD=X` | Auto | Interbank spot forex rate |
 | `gm_usdchf` | USD / CHF | Yahoo Finance | `USDCHF=X` | Auto | Interbank spot forex rate |
 | `gm_usdjpy` | USD / JPY | Yahoo Finance | `USDJPY=X` | Auto | Interbank spot forex rate |
 | `gm_usdcad` | USD / CAD | Yahoo Finance | `USDCAD=X` | Auto | Interbank spot forex rate |
-| `gm_audusd` | AUD / USD | Yahoo Finance | `AUDUSD=X` | Auto | Interbank spot forex rate |
 | `gm_usdcny` | USD / CNY | Yahoo Finance | `CNY=X` | Auto | Interbank spot forex rate |
 
 ---
