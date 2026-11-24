@@ -25,6 +25,7 @@ from fetchers.rbi import fetch_latest_rbi_mmo
 from fetchers.ncdex import fetch_ncdex_live
 from fetchers.moneycontrol import fetch_moneycontrol_commodities, fetch_moneycontrol_fii_dii
 from fetchers.investing import fetch_investing_us_bonds, fetch_investing_macro_indicators
+from fetchers.damodaran import fetch_damodaran_erp
 from validate import validate_all_manual_inputs
 
 CONFIG_PATH = PIPELINE_DIR / "config" / "metrics.yml"
@@ -171,6 +172,7 @@ def run_pipeline():
     moneycontrol_metrics = [m for m in metrics_cfg if m.get("source") == "moneycontrol"]
     investing_metrics = [m for m in metrics_cfg if m.get("source") == "investing"]
     ncdex_metrics = [m for m in metrics_cfg if m.get("source") == "ncdex"]
+    damodaran_metrics = [m for m in metrics_cfg if m.get("source") == "damodaran"]
     computed_metrics = [m for m in metrics_cfg if m.get("source") == "computed"]
     manual_metrics = [m for m in metrics_cfg if m.get("source") == "manual"]
 
@@ -260,6 +262,19 @@ def run_pipeline():
             mid = m["id"]
             if mid in all_inv_data:
                 obs = all_inv_data[mid]
+                new_data = pd.DataFrame([{"date": obs["date"], "value": obs["value"]}])
+                metric_histories[mid] = save_history(mid, new_data)
+            else:
+                metric_histories[mid] = load_existing_history(mid)
+
+    # 5f. Fetch NYU Stern Damodaran Equity Risk Premium
+    if damodaran_metrics:
+        print(f"\n--- Scraping NYU Stern Damodaran Equity Risk Premium ({len(damodaran_metrics)} series) ---")
+        damodaran_data = fetch_damodaran_erp()
+        for m in damodaran_metrics:
+            mid = m["id"]
+            if mid in damodaran_data:
+                obs = damodaran_data[mid]
                 new_data = pd.DataFrame([{"date": obs["date"], "value": obs["value"]}])
                 metric_histories[mid] = save_history(mid, new_data)
             else:
