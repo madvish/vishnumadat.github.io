@@ -1,0 +1,41 @@
+metric_id,date,value,note
+ncdex_turmeric,2026-01-01,23500,Base 2026
+ncdex_turmeric,2026-11-13,25100,NCDEX Active
+ncdex_jeera,2026-01-01,24800,Base 2026
+ncdex_jeera,2026-11-13,26150,NCDEX Active
+ncdex_dhaniya,2026-01-01,14200,Base 2026
+ncdex_dhaniya,2026-11-13,15450,NCDEX Active
+ncdex_guargum,2026-01-01,14800,Base 2026
+ncdex_guargum,2026-11-13,15750,NCDEX Active
+ncdex_guarseed,2026-01-01,7650,Base 2026
+ncdex_guarseed,2026-11-13,8120,NCDEX Active
+ncdex_castor,2026-01-01,7800,Base 2026
+ncdex_castor,2026-11-13,8140,NCDEX Active
+ncdex_cocudakl,2026-01-01,3850,Base 2026
+ncdex_cocudakl,2026-11-13,4020,NCDEX Active
+ncdex_pepper,2026-01-01,740,Base 2026
+ncdex_pepper,2026-11-13,775,NCDEX Active
+ncdex_soybean,2026-01-01,4650,Base 2026
+ncdex_soybean,2026-11-13,4420,NCDEX Indore Spot
+ncdex_soybean,2026-11-20,4480,NCDEX Indore Spot
+ncdex_rmseed,2026-01-01,5600,Base 2026
+ncdex_rmseed,2026-11-13,5780,NCDEX Jaipur Spot
+ncdex_rmseed,2026-11-20,5850,NCDEX Jaipur Spot
+ncdex_chana,2026-01-01,6400,Base 2026
+ncdex_chana,2026-11-13,6720,NCDEX Delhi Spot
+ncdex_chana,2026-11-20,6800,NCDEX Delhi Spot
+ncdex_syoref,2026-01-01,1210,Base 2026
+ncdex_syoref,2026-11-13,1265,NCDEX Kandla Spot
+ncdex_syoref,2026-11-20,1280,NCDEX Kandla Spot
+ncdex_kapas,2026-01-01,1480,Base 2026
+ncdex_kapas,2026-11-13,1530,NCDEX Rajkot Spot
+ncdex_kapas,2026-11-20,1550,NCDEX Rajkot Spot
+ncdex_maize,2026-01-01,2150,Base 2026
+ncdex_maize,2026-11-13,2220,NCDEX Chhindwara Spot
+ncdex_maize,2026-11-20,2250,NCDEX Chhindwara Spot
+ncdex_barley,2026-01-01,1980,Base 2026
+ncdex_barley,2026-11-13,2080,NCDEX Jaipur Spot
+ncdex_barley,2026-11-20,2100,NCDEX Jaipur Spot
+ncdex_moong,2026-01-01,7500,Base 2026
+ncdex_moong,2026-11-13,7780,NCDEX Mertha Spot
+ncdex_moong,2026-11-20,7850,NCDEX Mertha Spot

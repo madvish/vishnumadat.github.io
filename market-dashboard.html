@@ -141,7 +141,7 @@
         </div>
 
         <div class="md-grid-layout">
-          <!-- Left: Real Yields, Breakevens & Credit -->
+          <!-- Left: Real Yields, Breakevens, Credit & Housing -->
           <div class="md-col-left">
             <div class="md-card">
               <div class="md-card-header">
@@ -174,17 +174,6 @@
               </div>
               <div class="md-table-wrapper" id="sec-housing"></div>
             </div>
-          </div>
-
-          <!-- Right: Commodities & Mortgage REITs -->
-          <div class="md-col-right">
-            <div class="md-card">
-              <div class="md-card-header">
-                <h3>Commodities (Spot / Front-Month)</h3>
-                <button class="md-btn-csv" data-export="sec-commodities">CSV</button>
-              </div>
-              <div class="md-table-wrapper" id="sec-commodities"></div>
-            </div>
 
             <div class="md-card">
               <div class="md-card-header">
@@ -192,6 +181,33 @@
                 <button class="md-btn-csv" data-export="sec-mortgage-reits">CSV</button>
               </div>
               <div class="md-table-wrapper" id="sec-mortgage-reits"></div>
+            </div>
+          </div>
+
+          <!-- Right: Separated Metals, Energy & Global Agri -->
+          <div class="md-col-right">
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>Precious &amp; Industrial Metals ($ / LME)</h3>
+                <button class="md-btn-csv" data-export="sec-metals">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-metals"></div>
+            </div>
+
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>Global Energy Commodities ($)</h3>
+                <button class="md-btn-csv" data-export="sec-energy">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-energy"></div>
+            </div>
+
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>Global Agricultural Commodities ($)</h3>
+                <button class="md-btn-csv" data-export="sec-global-agri">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-global-agri"></div>
             </div>
           </div>
         </div>
@@ -283,7 +299,7 @@
             </div>
           </div>
 
-          <!-- Right: Housing REITs & Commodities -->
+          <!-- Right: Housing REITs & Energy Benchmarks -->
           <div class="md-col-right">
             <div class="md-card">
               <div class="md-card-header">
@@ -295,12 +311,21 @@
 
             <div class="md-card">
               <div class="md-card-header">
-                <h3>Commodities (MCX &amp; Global Benchmarks)</h3>
-                <button class="md-btn-csv" data-export="sec-in-commodities">CSV</button>
+                <h3>Energy Benchmarks (Crude &amp; Gas in $)</h3>
+                <button class="md-btn-csv" data-export="sec-in-energy">CSV</button>
               </div>
-              <div class="md-table-wrapper" id="sec-in-commodities"></div>
+              <div class="md-table-wrapper" id="sec-in-energy"></div>
             </div>
           </div>
+        </div>
+
+        <!-- Full-width NCDEX Agricultural Commodities Card -->
+        <div class="md-card">
+          <div class="md-card-header">
+            <h3>NCDEX Agricultural Commodities (Futures &amp; Spot Benchmarks)</h3>
+            <button class="md-btn-csv" data-export="sec-in-ncdex-agri">CSV</button>
+          </div>
+          <div class="md-table-wrapper" id="sec-in-ncdex-agri"></div>
         </div>
       </div>
 

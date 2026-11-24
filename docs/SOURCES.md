@@ -60,19 +60,27 @@ This document records the exact endpoint, ticker, or manual input mechanism for 
 | `oas_ccc` | CCC OAS Spread | FRED | `BAMLH0A3HYC` | Auto | ICE BofA CCC High Yield OAS |
 | `mortgage_30y`| 30Y Fixed Mortgage | FRED | `MORTGAGE30US` | Auto | Freddie Mac Primary Mortgage |
 | `mortgage_spread`| Mortgage−10Y Spread | Derived | `mortgage_30y - ust_10y`| Auto | Derived spread vs 10Y UST |
-| `cmd_gold` | Gold | Yahoo Finance | `GC=F` | Auto | COMEX Gold Futures |
-| `cmd_silver` | Silver | Yahoo Finance | `SI=F` | Auto | COMEX Silver Futures |
-| `cmd_copper` | Copper | Yahoo Finance | `HG=F` | Auto | COMEX Copper Futures |
-| `cmd_aluminum` | Aluminum | Yahoo Finance | `ALI=F` | Auto | LME Aluminum Futures |
-| `cmd_platinum` | Platinum | Yahoo Finance | `PL=F` | Auto | NYMEX Platinum Futures |
-| `cmd_palladium`| Palladium | Yahoo Finance | `PA=F` | Auto | NYMEX Palladium Futures |
-| `cmd_wti` | WTI Crude Oil | Yahoo Finance | `CL=F` | Auto | NYMEX Light Sweet Crude |
-| `cmd_natgas` | Natural Gas | Yahoo Finance | `NG=F` | Auto | Henry Hub Natural Gas |
-| `cmd_wheat` | Wheat | Yahoo Finance | `ZW=F` | Auto | CBOT Wheat Futures |
-| `cmd_corn` | Corn | Yahoo Finance | `ZC=F` | Auto | CBOT Corn Futures |
-| `cmd_soybeans` | Soybeans | Yahoo Finance | `ZS=F` | Auto | CBOT Soybean Futures |
-| `cmd_leanhogs` | Lean Hogs | Yahoo Finance | `HE=F` | Auto | CME Lean Hogs Futures |
-| `cmd_livecattle`| Live Cattle | Yahoo Finance | `LE=F` | Auto | CME Live Cattle Futures |
+| `cmd_gold` | Gold ($/oz) | Yahoo Finance | `GC=F` | Auto | COMEX Gold Futures ($/troy oz) |
+| `cmd_silver` | Silver ($/oz) | Yahoo Finance | `SI=F` | Auto | COMEX Silver Futures ($/troy oz) |
+| `cmd_copper` | Copper ($/lb) | Yahoo Finance | `HG=F` | Auto | COMEX Copper Futures ($/lb) |
+| `cmd_aluminum` | Aluminum (LME $/MT) | Yahoo Finance | `ALI=F` | Auto | LME Aluminum Cash/Futures ($/MT) |
+| `cmd_zinc` | Zinc ($/lb) | Yahoo Finance | `ZN=F` | Auto | Global Zinc Futures |
+| `cmd_platinum` | Platinum ($/oz) | Yahoo Finance | `PL=F` | Auto | NYMEX Platinum Futures ($/troy oz) |
+| `cmd_palladium`| Palladium ($/oz) | Yahoo Finance | `PA=F` | Auto | NYMEX Palladium Futures ($/troy oz) |
+| `cmd_wti` | WTI Crude Oil ($/bbl) | Yahoo Finance | `CL=F` | Auto | NYMEX Light Sweet Crude ($/bbl) |
+| `cmd_brent` | Brent Crude Oil ($/bbl) | Yahoo Finance | `BZ=F` | Auto | ICE Brent Crude Futures ($/bbl) |
+| `cmd_natgas` | Natural Gas ($/MMBtu) | Yahoo Finance | `NG=F` | Auto | Henry Hub Natural Gas |
+| `cmd_gasoline` | RBOB Gasoline ($/gal) | Yahoo Finance | `RB=F` | Auto | NYMEX RBOB Gasoline |
+| `cmd_heatingoil`| Heating Oil ($/gal) | Yahoo Finance | `HO=F` | Auto | NYMEX Heating Oil |
+| `cmd_wheat` | Wheat (CBOT) | Yahoo Finance | `ZW=F` | Auto | CBOT Wheat Futures |
+| `cmd_corn` | Corn (CBOT) | Yahoo Finance | `ZC=F` | Auto | CBOT Corn Futures |
+| `cmd_soybeans` | Soybeans (CBOT) | Yahoo Finance | `ZS=F` | Auto | CBOT Soybean Futures |
+| `cmd_soyoil` | Soybean Oil (CBOT) | Yahoo Finance | `ZL=F` | Auto | CBOT Soybean Oil Futures |
+| `cmd_coffee` | Coffee (ICE) | Yahoo Finance | `KC=F` | Auto | ICE Coffee 'C' Futures |
+| `cmd_sugar` | Sugar #11 (ICE) | Yahoo Finance | `SB=F` | Auto | ICE Sugar #11 Futures |
+| `cmd_cotton` | Cotton #2 (ICE) | Yahoo Finance | `CT=F` | Auto | ICE Cotton #2 Futures |
+| `cmd_livecattle`| Live Cattle (CME) | Yahoo Finance | `LE=F` | Auto | CME Live Cattle Futures |
+| `cmd_leanhogs` | Lean Hogs (CME) | Yahoo Finance | `HE=F` | Auto | CME Lean Hogs Futures |
 | `mbs_mbb` | MBB | Yahoo Finance | `MBB` | Auto | iShares MBS ETF |
 | `mbs_agnc` | AGNC | Yahoo Finance | `AGNC` | Auto | AGNC Investment Corp |
 | `mbs_nly` | NLY | Yahoo Finance | `NLY` | Auto | Annaly Capital Management |
@@ -155,13 +163,25 @@ This document records the exact endpoint, ticker, or manual input mechanism for 
 | `in_reit_embassy`| Embassy REIT | Yahoo Finance | `EMBASSY.NS` | Auto | NSE traded close |
 | `in_reit_mindspace`| Mindspace REIT | Yahoo Finance | `MINDSPACE.NS` | Auto | NSE traded close |
 | `in_reit_biret`| Brookfield REIT | Yahoo Finance | `BIRET.NS` | Auto | NSE traded close |
-| `in_brent` | Brent Crude Oil | Yahoo Finance | `BZ=F` | Auto | ICE Brent Crude Futures |
-| `in_mcx_gold` | MCX Gold (₹/10g) | Manual | `in_mcx_gold` | Manual | MCX Near Month Contract |
-| `in_mcx_silver`| MCX Silver (₹/kg) | Manual | `in_mcx_silver` | Manual | MCX Near Month Contract |
-| `in_mcx_crude` | MCX Crude Oil | Manual | `in_mcx_crude` | Manual | MCX Near Month Contract |
-| `in_mcx_copper`| MCX Copper | Manual | `in_mcx_copper` | Manual | MCX Near Month Contract |
-| `in_ncdex_soybean`| NCDEX Soybean | Manual | `in_ncdex_soybean` | Manual | NCDEX Near Month Contract |
-| `in_ncdex_turmeric`| NCDEX Turmeric | Manual | `in_ncdex_turmeric` | Manual | NCDEX Near Month Contract |
+| `in_brent` | Brent Crude (ICE $/bbl) | Yahoo Finance | `BZ=F` | Auto | ICE Brent Crude Futures |
+| `in_wti` | WTI Crude (NYMEX $/bbl) | Yahoo Finance | `CL=F` | Auto | NYMEX Light Sweet Crude |
+| `in_natgas` | Natural Gas (NYMEX $/MMBtu)| Yahoo Finance | `NG=F` | Auto | Henry Hub Natural Gas |
+| `ncdex_turmeric`| NCDEX Turmeric (TMCFGRNZM) | NCDEX | Scraper (`ncdex.com`) | Auto | NCDEX Active Contract (Farmer Grade Nizamabad) |
+| `ncdex_jeera` | NCDEX Jeera / Cumin (JEERAUNJHA)| NCDEX | Scraper (`ncdex.com`) | Auto | NCDEX Active Contract (Unjha) |
+| `ncdex_dhaniya`| NCDEX Coriander (DHANIYA) | NCDEX | Scraper (`ncdex.com`) | Auto | NCDEX Active Contract |
+| `ncdex_guargum`| NCDEX Guar Gum 5MT (GUARGUM5)| NCDEX | Scraper (`ncdex.com`) | Auto | NCDEX Active Contract |
+| `ncdex_guarseed`| NCDEX Guar Seed 10MT (GUARSEED10)| NCDEX | Scraper (`ncdex.com`) | Auto | NCDEX Active Contract |
+| `ncdex_castor` | NCDEX Castor Seed (CASTOR) | NCDEX | Scraper (`ncdex.com`) | Auto | NCDEX Active Contract |
+| `ncdex_cocudakl`| NCDEX Cottonseed Oilcake | NCDEX | Scraper (`ncdex.com`) | Auto | NCDEX Active Contract (Akola) |
+| `ncdex_pepper` | NCDEX Black Pepper (PEPPER) | NCDEX | Scraper (`ncdex.com`) | Auto | NCDEX Active Contract |
+| `ncdex_soybean`| NCDEX Soybean (Indore) | Manual | `ncdex_soybean` | Manual | NCDEX Indore delivery benchmark |
+| `ncdex_rmseed` | NCDEX Mustard Seed / RM Seed | Manual | `ncdex_rmseed` | Manual | NCDEX Jaipur delivery benchmark |
+| `ncdex_chana` | NCDEX Chana / Gram (Delhi) | Manual | `ncdex_chana` | Manual | NCDEX Delhi delivery benchmark |
+| `ncdex_syoref` | NCDEX Refined Soy Oil | Manual | `ncdex_syoref` | Manual | NCDEX Kandla delivery benchmark |
+| `ncdex_kapas` | NCDEX Kapas / Raw Cotton | Manual | `ncdex_kapas` | Manual | NCDEX Rajkot delivery benchmark |
+| `ncdex_maize` | NCDEX Maize (Kharif) | Manual | `ncdex_maize` | Manual | NCDEX Chhindwara delivery benchmark |
+| `ncdex_barley` | NCDEX Barley / Jau | Manual | `ncdex_barley` | Manual | NCDEX Jaipur delivery benchmark |
+| `ncdex_moong` | NCDEX Moong | Manual | `ncdex_moong` | Manual | NCDEX Mertha delivery benchmark |
 
 ---
 

@@ -127,7 +127,9 @@ function renderDashboard(data) {
   renderSectionTable('sec-breakevens', sectionsMap['breakevens']);
   renderSectionTable('sec-credit-oas', sectionsMap['credit_oas']);
   renderSectionTable('sec-housing', sectionsMap['housing']);
-  renderSectionTable('sec-commodities', sectionsMap['commodities']);
+  renderSectionTable('sec-metals', sectionsMap['metals']);
+  renderSectionTable('sec-energy', sectionsMap['energy']);
+  renderSectionTable('sec-global-agri', sectionsMap['global_agri']);
   renderSectionTable('sec-mortgage-reits', sectionsMap['mortgage_reits']);
 
   // Render India Rates & Equity sections
@@ -140,7 +142,8 @@ function renderDashboard(data) {
   renderSectionTable('sec-in-real-yields', sectionsMap['in_real_yields']);
   renderSectionTable('sec-in-credit-spreads', sectionsMap['in_credit_spreads']);
   renderSectionTable('sec-in-housing-reits', sectionsMap['in_housing_reits']);
-  renderSectionTable('sec-in-commodities', sectionsMap['in_commodities']);
+  renderSectionTable('sec-in-energy', sectionsMap['in_energy']);
+  renderSectionTable('sec-in-ncdex-agri', sectionsMap['in_ncdex_agri']);
 
   // Render India Flows & Macro sections
   renderSectionTable('sec-in-cross-market', sectionsMap['in_cross_market']);
@@ -184,6 +187,13 @@ function renderSectionTable(containerId, sectionData) {
     if (m.this_date && m.last_date) break;
   }
 
+  // Dynamic w/w Change and YTD header labels & units
+  const isBps = sectionData.unit === 'bps';
+  const chgTitle = 'w/w Change';
+  const chgSub = isPrice ? '%' : (isBps ? 'bps' : 'pp');
+  const ytdTitle = 'YTD Change';
+  const ytdSub = isPrice ? '%' : (isBps ? 'bps' : 'pp');
+
   let html = `
     <table class="md-table" role="table">
       <thead>
@@ -202,16 +212,16 @@ function renderSectionTable(containerId, sectionData) {
             <span class="th-sub">${lastDate}</span>
           </th>
           <th scope="col">
-            <span class="th-title">Change</span>
-            <span class="th-sub">w/w</span>
+            <span class="th-title">${chgTitle}</span>
+            <span class="th-sub">${chgSub}</span>
           </th>
           <th class="col-base-th" scope="col">
             <span class="th-title">Base</span>
             <span class="th-sub">${baseDate}</span>
           </th>
           <th scope="col">
-            <span class="th-title">YTD</span>
-            <span class="th-sub">vs Base</span>
+            <span class="th-title">${ytdTitle}</span>
+            <span class="th-sub">${ytdSub}</span>
           </th>
         </tr>
       </thead>

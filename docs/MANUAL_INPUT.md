@@ -2,7 +2,7 @@
 
 To update manual metrics directly on GitHub:
 
-1. Navigate to `data/market/manual/` and click the relevant CSV file (`india_rates.csv`, `india_credit.csv`, `india_macro.csv`, `india_commodities.csv`, or `fed_futures.csv`).
+1. Navigate to `data/market/manual/` and click the relevant CSV file (`india_rates.csv`, `india_credit.csv`, `india_macro.csv`, `ncdex_agri.csv`, or `fed_futures.csv`).
 2. Click the pencil icon (Edit this file).
 3. Append a new row at the bottom: `metric_id,YYYY-MM-DD,value,note`.
 4. Formatting rules:

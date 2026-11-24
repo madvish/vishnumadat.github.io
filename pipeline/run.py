@@ -22,6 +22,7 @@ from compute import compute_derived_history, compute_metric_stats
 from fetchers.fred import fetch_fred_series
 from fetchers.yahoo import fetch_yahoo_series
 from fetchers.rbi import fetch_latest_rbi_mmo
+from fetchers.ncdex import fetch_ncdex_live
 from validate import validate_all_manual_inputs
 
 CONFIG_PATH = PIPELINE_DIR / "config" / "metrics.yml"
@@ -39,28 +40,31 @@ TAB_LABELS = {
 }
 
 SECTION_LABELS = {
-    "par_rates": "US Treasury Par Rates",
-    "par_yields": "US Treasury Par Yields",
+    "par_rates": "US Treasury Par Rates (Bills)",
+    "par_yields": "US Treasury Par Yields (Coupons)",
     "slopes": "Yield Curve Slopes",
-    "us_equity": "US Equity & FX",
+    "us_equity": "US Equity & Fixed Income Proxies",
     "real_yields": "US Real Yields (TIPS)",
-    "breakevens": "US Breakeven Inflation",
-    "credit_oas": "US Credit OAS Spreads",
-    "housing": "US Housing / Mortgage",
-    "commodities": "Commodities",
-    "mortgage_reits": "Mortgage REITs / MBS",
+    "breakevens": "US Breakeven Inflation Rates",
+    "credit_oas": "US Corporate Credit OAS Spreads",
+    "housing": "US Housing & Mortgage Spreads",
+    "metals": "Precious & Industrial Metals ($)",
+    "energy": "Global Energy Commodities ($)",
+    "global_agri": "Global Agricultural Commodities ($)",
+    "mortgage_reits": "Mortgage REITs & Agency MBS",
     "in_policy": "Policy & Money Market Rates",
     "in_gsec_yields": "G-Sec Benchmark Yield Curve",
     "in_slopes": "Curve Slopes & Liquidity Gauges",
     "in_equity": "India Equity Benchmarks & Sector Indices",
-    "in_real_yields": "India Real Yields & Inflation",
+    "in_real_yields": "India Real Yields & Inflation Compensation",
     "in_credit_spreads": "Corporate Credit & SDL Spreads",
-    "in_housing_reits": "Housing Finance & REITs",
-    "in_commodities": "Domestic & Global Commodities",
+    "in_housing_reits": "Retail Home Loan Rates & Housing REITs",
+    "in_energy": "Energy Benchmarks (Crude & Gas)",
+    "in_ncdex_agri": "NCDEX Agricultural Commodities",
     "in_cross_market": "Cross-Market Spreads & Policy Differentials",
-    "in_flows": "Flows & System Liquidity",
+    "in_flows": "Institutional Capital Flows & System Liquidity",
     "in_valuation": "Valuation Multiples & Equity Risk Premium",
-    "in_macro": "High-Frequency Macroeconomic Prints",
+    "in_macro": "High-Frequency Macroeconomic Intelligence",
 }
 
 
@@ -156,6 +160,7 @@ def run_pipeline():
     fred_metrics = [m for m in metrics_cfg if m.get("source") == "fred" and m.get("ticker")]
     yahoo_metrics = [m for m in metrics_cfg if m.get("source") == "yahoo" and m.get("ticker")]
     rbi_metrics = [m for m in metrics_cfg if m.get("source") == "rbi"]
+    ncdex_metrics = [m for m in metrics_cfg if m.get("source") == "ncdex"]
     computed_metrics = [m for m in metrics_cfg if m.get("source") == "computed"]
     manual_metrics = [m for m in metrics_cfg if m.get("source") == "manual"]
 
@@ -191,6 +196,19 @@ def run_pipeline():
             mid = m["id"]
             if mid in rbi_data:
                 obs = rbi_data[mid]
+                new_data = pd.DataFrame([{"date": obs["date"], "value": obs["value"]}])
+                metric_histories[mid] = save_history(mid, new_data)
+            else:
+                metric_histories[mid] = load_existing_history(mid)
+
+    # 5c. Fetch NCDEX Agricultural Quotes
+    if ncdex_metrics:
+        print(f"\n--- Scraping NCDEX Agricultural Quotes ({len(ncdex_metrics)} series) ---")
+        ncdex_data = fetch_ncdex_live()
+        for m in ncdex_metrics:
+            mid = m["id"]
+            if mid in ncdex_data:
+                obs = ncdex_data[mid]
                 new_data = pd.DataFrame([{"date": obs["date"], "value": obs["value"]}])
                 metric_histories[mid] = save_history(mid, new_data)
             else:
