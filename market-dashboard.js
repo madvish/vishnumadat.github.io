@@ -116,6 +116,11 @@ function renderDashboard(data) {
     });
   }
 
+  // Render Global Markets sections
+  renderSectionTable('sec-global-india', sectionsMap['global_india']);
+  renderSectionTable('sec-global-macro', sectionsMap['global_macro']);
+  renderSectionTable('sec-global-forex', sectionsMap['global_forex']);
+
   // Render US Rates sections
   renderSectionTable('sec-par-rates', sectionsMap['par_rates']);
   renderSectionTable('sec-par-yields', sectionsMap['par_yields']);

@@ -1,4 +1,290 @@
 metrics:
+- id: gm_nifty
+  label: Nifty 50
+  tab: global_markets
+  section: global_india
+  unit: ₹
+  source: yahoo
+  ticker: ^NSEI
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: gm_banknifty
+  label: Bank Nifty
+  tab: global_markets
+  section: global_india
+  unit: ₹
+  source: yahoo
+  ticker: ^NSEBANK
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: gm_nifty500
+  label: Nifty 500
+  tab: global_markets
+  section: global_india
+  unit: ₹
+  source: yahoo
+  ticker: ^CRSLDX
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: gm_india_vix
+  label: India VIX
+  tab: global_markets
+  section: global_india
+  unit: pts
+  source: yahoo
+  ticker: ^INDIAVIX
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: gm_spx
+  label: S&P 500 (SPX)
+  tab: global_markets
+  section: global_macro
+  unit: pts
+  source: yahoo
+  ticker: ^GSPC
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: gm_ndx
+  label: Nasdaq 100 (NDX)
+  tab: global_markets
+  section: global_macro
+  unit: pts
+  source: yahoo
+  ticker: ^NDX
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: gm_nikkei
+  label: Nikkei 225
+  tab: global_markets
+  section: global_macro
+  unit: ¥
+  source: yahoo
+  ticker: ^N225
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: gm_hangseng
+  label: Hang Seng Index
+  tab: global_markets
+  section: global_macro
+  unit: HK$
+  source: yahoo
+  ticker: ^HSI
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: gm_shanghai
+  label: Shanghai Composite
+  tab: global_markets
+  section: global_macro
+  unit: pts
+  source: yahoo
+  ticker: 000001.SS
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: gm_taiex
+  label: Taiwan (TAIEX)
+  tab: global_markets
+  section: global_macro
+  unit: NT$
+  source: yahoo
+  ticker: ^TWII
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: gm_kospi
+  label: Korea KOSPI
+  tab: global_markets
+  section: global_macro
+  unit: ₩
+  source: yahoo
+  ticker: ^KS11
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: gm_us10y
+  label: US 10Y Treasury Yield
+  tab: global_markets
+  section: global_macro
+  unit: '%'
+  source: yahoo
+  ticker: ^TNX
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: gm_in10y
+  label: India 10Y Benchmark G-Sec
+  tab: global_markets
+  section: global_macro
+  unit: '%'
+  source: computed
+  compute_formula: in_gsec_10y
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: gm_move
+  label: ICE BofA MOVE Index
+  tab: global_markets
+  section: global_macro
+  unit: pts
+  source: yahoo
+  ticker: ^MOVE
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: rate
+- id: gm_dxy
+  label: US Dollar Index (DXY)
+  tab: global_markets
+  section: global_macro
+  unit: pts
+  source: yahoo
+  ticker: DX-Y.NYB
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: gm_gold
+  label: Gold (XAU/USD)
+  tab: global_markets
+  section: global_macro
+  unit: $
+  source: yahoo
+  ticker: GC=F
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: gm_brent
+  label: Brent Crude Oil
+  tab: global_markets
+  section: global_macro
+  unit: $
+  source: yahoo
+  ticker: BZ=F
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: gm_btcusd
+  label: Bitcoin (BTC/USD)
+  tab: global_markets
+  section: global_macro
+  unit: $
+  source: yahoo
+  ticker: BTC-USD
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: gm_usdinr
+  label: USD / INR
+  tab: global_markets
+  section: global_forex
+  unit: ₹
+  source: yahoo
+  ticker: INR=X
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: gm_eurusd
+  label: EUR / USD
+  tab: global_markets
+  section: global_forex
+  unit: $
+  source: yahoo
+  ticker: EURUSD=X
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: gm_gbpusd
+  label: GBP / USD
+  tab: global_markets
+  section: global_forex
+  unit: $
+  source: yahoo
+  ticker: GBPUSD=X
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: gm_usdchf
+  label: USD / CHF
+  tab: global_markets
+  section: global_forex
+  unit: CHF
+  source: yahoo
+  ticker: USDCHF=X
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: gm_usdjpy
+  label: USD / JPY
+  tab: global_markets
+  section: global_forex
+  unit: ¥
+  source: yahoo
+  ticker: USDJPY=X
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: gm_usdcad
+  label: USD / CAD
+  tab: global_markets
+  section: global_forex
+  unit: C$
+  source: yahoo
+  ticker: USDCAD=X
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: gm_audusd
+  label: AUD / USD
+  tab: global_markets
+  section: global_forex
+  unit: $
+  source: yahoo
+  ticker: AUDUSD=X
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: gm_usdcny
+  label: USD / CNY
+  tab: global_markets
+  section: global_forex
+  unit: ¥
+  source: yahoo
+  ticker: CNY=X
+  polarity: down_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
 - id: ust_1m
   label: 1M
   tab: us_rates_equity

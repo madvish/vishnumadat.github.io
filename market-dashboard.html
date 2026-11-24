@@ -61,7 +61,8 @@
     <section class="md-tabs-bar">
       <div class="container">
         <div class="md-tabs-scroller" role="tablist" aria-label="Market Dashboard Sub-tabs">
-          <button class="md-tab active" role="tab" aria-selected="true" data-tab="tab-us-rates">US Rates &amp; Equity</button>
+          <button class="md-tab active" role="tab" aria-selected="true" data-tab="tab-global">Global Markets</button>
+          <button class="md-tab" role="tab" aria-selected="false" data-tab="tab-us-rates">US Rates &amp; Equity</button>
           <button class="md-tab" role="tab" aria-selected="false" data-tab="tab-us-real">US Real / Credit / Cmdty</button>
           <button class="md-tab" role="tab" aria-selected="false" data-tab="tab-india-rates">India Rates &amp; Equity</button>
           <button class="md-tab" role="tab" aria-selected="false" data-tab="tab-india-real">India Real / Credit / Cmdty</button>
@@ -74,8 +75,49 @@
     <!-- Dashboard Content Area -->
     <div class="container md-main-container">
 
+      <!-- TAB 0: Global Markets -->
+      <div id="tab-global" class="md-tab-pane active" role="tabpanel">
+        <div class="md-pane-header">
+          <h2>Global Markets Cross-Asset Intelligence</h2>
+          <p class="md-pane-desc">India benchmarks, leading global equity indices, sovereign yields, bond volatility, key commodities &amp; global forex rates.</p>
+        </div>
+
+        <div class="md-grid-layout">
+          <!-- Left: India Key Benchmarks -->
+          <div class="md-col-left">
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>India Benchmarks &amp; Volatility</h3>
+                <button class="md-btn-csv" data-export="sec-global-india">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-global-india"></div>
+            </div>
+          </div>
+
+          <!-- Right: Forex (FX) -->
+          <div class="md-col-right">
+            <div class="md-card">
+              <div class="md-card-header">
+                <h3>Foreign Exchange (FX Rates)</h3>
+                <button class="md-btn-csv" data-export="sec-global-forex">CSV</button>
+              </div>
+              <div class="md-table-wrapper" id="sec-global-forex"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Full-width Global Equities, Sovereign Yields & Macro Assets Card -->
+        <div class="md-card">
+          <div class="md-card-header">
+            <h3>Global Equities, Sovereign Yields &amp; Macro Benchmarks</h3>
+            <button class="md-btn-csv" data-export="sec-global-macro">CSV</button>
+          </div>
+          <div class="md-table-wrapper" id="sec-global-macro"></div>
+        </div>
+      </div>
+
       <!-- TAB 1: US Rates & Equity -->
-      <div id="tab-us-rates" class="md-tab-pane active" role="tabpanel">
+      <div id="tab-us-rates" class="md-tab-pane" role="tabpanel">
         <div class="md-pane-header">
           <h2>US Rates &amp; Equity Intelligence</h2>
           <p class="md-pane-desc">Par yield curve, term premium slopes, major equity benchmarks &amp; dollar dynamics.</p>

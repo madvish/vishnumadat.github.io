@@ -32,6 +32,7 @@ MANUAL_DIR = DATA_DIR / "manual"
 LATEST_JSON_PATH = DATA_DIR / "latest.json"
 
 TAB_LABELS = {
+    "global_markets": "Global Markets",
     "us_rates_equity": "US Rates & Equity",
     "us_real_credit_commodities": "US Real / Credit / Commodities",
     "india_rates_equity": "India Rates & Equity",
@@ -40,6 +41,9 @@ TAB_LABELS = {
 }
 
 SECTION_LABELS = {
+    "global_india": "India Key Benchmarks & Volatility",
+    "global_macro": "Global Equities, Sovereign Yields & Macro Assets",
+    "global_forex": "Foreign Exchange (FX)",
     "par_rates": "US Treasury Par Rates (Bills)",
     "par_yields": "US Treasury Par Yields (Coupons)",
     "slopes": "Yield Curve Slopes",

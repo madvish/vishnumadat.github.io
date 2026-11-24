@@ -4,6 +4,39 @@ This document records the exact endpoint, ticker, or manual input mechanism for 
 
 ---
 
+## Tab 0: Global Markets
+
+| Metric ID | Label | Source | Series / Ticker / Formula | Status | Verified Endpoint |
+|---|---|---|---|---|---|
+| `gm_nifty` | Nifty 50 | Yahoo Finance | `^NSEI` | Auto | Official NSE benchmark index |
+| `gm_banknifty` | Bank Nifty | Yahoo Finance | `^NSEBANK` | Auto | NSE banking sector index |
+| `gm_nifty500` | Nifty 500 | Yahoo Finance | `^CRSLDX` | Auto | NSE broad-market 500 index |
+| `gm_india_vix` | India VIX | Yahoo Finance | `^INDIAVIX` | Auto | NSE implied volatility index |
+| `gm_spx` | S&P 500 (SPX) | Yahoo Finance | `^GSPC` | Auto | US S&P 500 index |
+| `gm_ndx` | Nasdaq 100 (NDX) | Yahoo Finance | `^NDX` | Auto | US Nasdaq 100 index |
+| `gm_nikkei` | Nikkei 225 | Yahoo Finance | `^N225` | Auto | Tokyo Stock Exchange benchmark |
+| `gm_hangseng` | Hang Seng Index | Yahoo Finance | `^HSI` | Auto | Hong Kong benchmark index |
+| `gm_shanghai` | Shanghai Composite | Yahoo Finance | `000001.SS` | Auto | SSE Composite Index |
+| `gm_taiex` | Taiwan (TAIEX) | Yahoo Finance | `^TWII` | Auto | Taiwan Stock Exchange Index |
+| `gm_kospi` | Korea KOSPI | Yahoo Finance | `^KS11` | Auto | Korea Composite Stock Price Index |
+| `gm_us10y` | US 10Y Treasury Yield | Yahoo Finance | `^TNX` | Auto | CBOE 10-Year Treasury Yield |
+| `gm_in10y` | India 10Y Benchmark G-Sec | Computed / RBI | `in_gsec_10y` | Auto | India Benchmark Sovereign 10Y Yield |
+| `gm_move` | ICE BofA MOVE Index | Yahoo Finance | `^MOVE` | Auto | US Treasury bond implied volatility |
+| `gm_dxy` | US Dollar Index (DXY) | Yahoo Finance | `DX-Y.NYB` | Auto | ICE US Dollar Index |
+| `gm_gold` | Gold (XAU/USD) | Yahoo Finance | `GC=F` | Auto | COMEX Gold Futures ($/troy oz) |
+| `gm_brent` | Brent Crude Oil | Yahoo Finance | `BZ=F` | Auto | ICE Brent Crude Oil ($/bbl) |
+| `gm_btcusd` | Bitcoin (BTC/USD) | Yahoo Finance | `BTC-USD` | Auto | Bitcoin USD price |
+| `gm_usdinr` | USD / INR | Yahoo Finance | `INR=X` | Auto | Interbank spot forex rate |
+| `gm_eurusd` | EUR / USD | Yahoo Finance | `EURUSD=X` | Auto | Interbank spot forex rate |
+| `gm_gbpusd` | GBP / USD | Yahoo Finance | `GBPUSD=X` | Auto | Interbank spot forex rate |
+| `gm_usdchf` | USD / CHF | Yahoo Finance | `USDCHF=X` | Auto | Interbank spot forex rate |
+| `gm_usdjpy` | USD / JPY | Yahoo Finance | `USDJPY=X` | Auto | Interbank spot forex rate |
+| `gm_usdcad` | USD / CAD | Yahoo Finance | `USDCAD=X` | Auto | Interbank spot forex rate |
+| `gm_audusd` | AUD / USD | Yahoo Finance | `AUDUSD=X` | Auto | Interbank spot forex rate |
+| `gm_usdcny` | USD / CNY | Yahoo Finance | `CNY=X` | Auto | Interbank spot forex rate |
+
+---
+
 ## Tab 1: US Rates & Equity
 
 | Metric ID | Label | Source | Series / Ticker / Formula | Status | Verified Endpoint |
