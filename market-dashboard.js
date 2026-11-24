@@ -254,6 +254,7 @@ function renderDashboard(data) {
   renderSectionTable('sec-in-real-yields', sectionsMap['in_real_yields']);
   renderSectionTable('sec-in-credit-spreads', sectionsMap['in_credit_spreads']);
   renderSectionTable('sec-in-housing-reits', sectionsMap['in_housing_reits']);
+  renderSectionTable('sec-in-mcx-metals', sectionsMap['in_mcx_metals']);
   renderSectionTable('sec-in-energy', sectionsMap['in_energy']);
   renderSectionTable('sec-in-ncdex-agri', sectionsMap['in_ncdex_agri']);
 

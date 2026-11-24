@@ -23,6 +23,7 @@ from fetchers.fred import fetch_fred_series
 from fetchers.yahoo import fetch_yahoo_series
 from fetchers.rbi import fetch_latest_rbi_mmo
 from fetchers.ncdex import fetch_ncdex_live
+from fetchers.moneycontrol import fetch_moneycontrol_commodities
 from validate import validate_all_manual_inputs
 
 CONFIG_PATH = PIPELINE_DIR / "config" / "metrics.yml"
@@ -63,6 +64,7 @@ SECTION_LABELS = {
     "in_real_yields": "India Real Yields & Inflation Compensation",
     "in_credit_spreads": "Corporate Credit & SDL Spreads",
     "in_housing_reits": "Retail Home Loan Rates & Housing REITs",
+    "in_mcx_metals": "MCX Domestic Metals & Commodities (₹)",
     "in_energy": "Energy Benchmarks (Crude & Gas)",
     "in_ncdex_agri": "NCDEX Agricultural Commodities",
     "in_cross_market": "Cross-Market Spreads & Policy Differentials",
@@ -164,6 +166,7 @@ def run_pipeline():
     fred_metrics = [m for m in metrics_cfg if m.get("source") == "fred" and m.get("ticker")]
     yahoo_metrics = [m for m in metrics_cfg if m.get("source") == "yahoo" and m.get("ticker")]
     rbi_metrics = [m for m in metrics_cfg if m.get("source") == "rbi"]
+    moneycontrol_metrics = [m for m in metrics_cfg if m.get("source") == "moneycontrol"]
     ncdex_metrics = [m for m in metrics_cfg if m.get("source") == "ncdex"]
     computed_metrics = [m for m in metrics_cfg if m.get("source") == "computed"]
     manual_metrics = [m for m in metrics_cfg if m.get("source") == "manual"]
@@ -205,7 +208,21 @@ def run_pipeline():
             else:
                 metric_histories[mid] = load_existing_history(mid)
 
-    # 5c. Fetch NCDEX Agricultural Quotes
+    # 5c. Fetch Moneycontrol Commodities (MCX Metals, Energy & Domestic Benchmarks)
+    mc_data = {}
+    if moneycontrol_metrics or ncdex_metrics:
+        print(f"\n--- Fetching Moneycontrol Commodities ({len(moneycontrol_metrics)} series) ---")
+        mc_data = fetch_moneycontrol_commodities()
+        for m in moneycontrol_metrics:
+            mid = m["id"]
+            if mid in mc_data:
+                obs = mc_data[mid]
+                new_data = pd.DataFrame([{"date": obs["date"], "value": obs["value"]}])
+                metric_histories[mid] = save_history(mid, new_data)
+            else:
+                metric_histories[mid] = load_existing_history(mid)
+
+    # 5d. Fetch NCDEX Agricultural Quotes
     if ncdex_metrics:
         print(f"\n--- Scraping NCDEX Agricultural Quotes ({len(ncdex_metrics)} series) ---")
         ncdex_data = fetch_ncdex_live()
@@ -213,6 +230,11 @@ def run_pipeline():
             mid = m["id"]
             if mid in ncdex_data:
                 obs = ncdex_data[mid]
+                new_data = pd.DataFrame([{"date": obs["date"], "value": obs["value"]}])
+                metric_histories[mid] = save_history(mid, new_data)
+            elif mid in mc_data:
+                # Moneycontrol official NCDEX fallback
+                obs = mc_data[mid]
                 new_data = pd.DataFrame([{"date": obs["date"], "value": obs["value"]}])
                 metric_histories[mid] = save_history(mid, new_data)
             else:

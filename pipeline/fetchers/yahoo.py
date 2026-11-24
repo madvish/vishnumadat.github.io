@@ -28,6 +28,20 @@ def fetch_yahoo_series(
             df = t.history(start=start_date, auto_adjust=False)
 
             if df.empty or "Close" not in df.columns:
+                # Fallback to fast_info if available (e.g. for settlement-based CME futures like LTC=F, COB=F)
+                try:
+                    fi = t.fast_info
+                    last_price = getattr(fi, "last_price", None)
+                    if last_price is not None and float(last_price) > 0:
+                        from datetime import datetime
+                        today_str = datetime.now().strftime("%Y-%m-%d")
+                        clean_df = pd.DataFrame([{"date": today_str, "value": float(last_price)}])
+                        results[ticker] = clean_df
+                        print(f"[Yahoo] Recovered {ticker} from fast_info: {last_price:.2f}")
+                        continue
+                except Exception:
+                    pass
+
                 print(f"[Yahoo] No data returned for ticker {ticker}")
                 results[ticker] = pd.DataFrame(columns=["date", "value"])
                 continue

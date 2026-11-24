@@ -899,6 +899,42 @@ metrics:
   stale_after_days: 5
   display_type: price
   full_name: Global Zinc Futures (ZN)
+- id: cmd_lithium
+  label: Lithium Carbonate ($/kg)
+  tab: us_real_credit_commodities
+  section: metals
+  unit: $
+  source: yahoo
+  ticker: LTC=F
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+  full_name: CME Lithium Carbonate CIF Asia Futures (LTC)
+- id: cmd_cobalt
+  label: Cobalt Metal ($/lb)
+  tab: us_real_credit_commodities
+  section: metals
+  unit: $
+  source: yahoo
+  ticker: COB=F
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+  full_name: CME Cobalt Fastmarkets Cash/Futures (COB)
+- id: cmd_lit_etf
+  label: Lithium & Battery Tech ETF ($)
+  tab: us_real_credit_commodities
+  section: metals
+  unit: $
+  source: yahoo
+  ticker: LIT
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+  full_name: Global X Lithium & Battery Tech ETF (LIT)
 - id: cmd_platinum
   label: Platinum ($/oz)
   tab: us_real_credit_commodities
@@ -1838,6 +1874,94 @@ metrics:
   unit: ₹
   source: yahoo
   ticker: BIRET.NS
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: mcx_gold
+  label: MCX Gold (₹/10g)
+  tab: india_real_credit_commodities
+  section: in_mcx_metals
+  unit: ₹
+  source: moneycontrol
+  ticker: GOLD
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: mcx_silver
+  label: MCX Silver (₹/kg)
+  tab: india_real_credit_commodities
+  section: in_mcx_metals
+  unit: ₹
+  source: moneycontrol
+  ticker: SILVER
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: mcx_copper
+  label: MCX Copper (₹/kg)
+  tab: india_real_credit_commodities
+  section: in_mcx_metals
+  unit: ₹
+  source: moneycontrol
+  ticker: COPPER
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: mcx_crude
+  label: MCX Crude Oil (₹/bbl)
+  tab: india_real_credit_commodities
+  section: in_mcx_metals
+  unit: ₹
+  source: moneycontrol
+  ticker: CRUDEOIL
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: mcx_natgas
+  label: MCX Natural Gas (₹/MMBtu)
+  tab: india_real_credit_commodities
+  section: in_mcx_metals
+  unit: ₹
+  source: moneycontrol
+  ticker: NATURALGAS
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: spot_gold
+  label: Spot Gold (₹/10g)
+  tab: india_real_credit_commodities
+  section: in_mcx_metals
+  unit: ₹
+  source: moneycontrol
+  ticker: SPOT_GOLD
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: spot_silver
+  label: Spot Silver (₹/kg)
+  tab: india_real_credit_commodities
+  section: in_mcx_metals
+  unit: ₹
+  source: moneycontrol
+  ticker: SPOT_SILVER
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: spot_copper
+  label: Spot Copper (₹/kg)
+  tab: india_real_credit_commodities
+  section: in_mcx_metals
+  unit: ₹
+  source: moneycontrol
+  ticker: SPOT_COPPER
   polarity: up_good
   frequency: daily
   stale_after_days: 5
