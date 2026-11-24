@@ -191,6 +191,25 @@ class TestMarketCompute(unittest.TestCase):
         self.assertEqual(stats["cycle_high"], 85.0)
         self.assertEqual(stats["cycle_high_date"], "2024-08-15")
 
+    def test_flow_metric_compute(self):
+        """Verify that display_type='flow' sets change=None, cycle_high=None, and computes cumulative YTD flow."""
+        df = pd.DataFrame({
+            "date": ["2026-01-01", "2026-11-13", "2026-11-20"],
+            "value": [-3500.0, 1850.0, 5600.0]
+        })
+        stats = compute_metric_stats(
+            {"id": "in_fpi_equity", "display_type": "flow", "stale_after_days": 10},
+            df,
+            current_year=2026
+        )
+        self.assertEqual(stats["this_value"], 5600.0)
+        self.assertEqual(stats["last_value"], 1850.0)
+        self.assertIsNone(stats["change"])
+        self.assertIsNone(stats["cycle_high"])
+        self.assertIsNone(stats["cycle_high_date"])
+        # Cumulative sum of 2026: -3500 + 1850 + 5600 = 3950.0
+        self.assertEqual(stats["ytd"], 3950.0)
+
     def test_csv_validator(self):
         import tempfile
         with tempfile.NamedTemporaryFile("w+", suffix=".csv", delete=False) as f:

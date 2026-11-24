@@ -9,8 +9,13 @@ in_dii_equity,2026-01-01,4200,Base 2026
 in_dii_equity,2026-11-13,2850,NSE DII Net
 in_dii_equity,2026-11-20,1950,NSE DII Net
 in_sip_inflows,2026-01-01,21500,Base 2026
+in_sip_inflows,2026-09-30,24508,AMFI Sep Print
 in_sip_inflows,2026-10-31,25320,AMFI Oct Print
+in_mf_equity_inflows,2026-01-01,21780,Base 2026
+in_mf_equity_inflows,2026-09-30,30290,AMFI Sep Print
+in_mf_equity_inflows,2026-10-31,34414,AMFI Oct Print
 in_bank_liquidity,2026-01-01,-1.25,Base 2026
+in_bank_liquidity,2026-11-13,-0.45,RBI Net Liquidity
 in_bank_liquidity,2026-11-20,0.85,RBI Net Liquidity
 in_forex_reserves,2026-01-01,645.0,Base 2026
 in_forex_reserves,2026-11-13,695.5,RBI WSS

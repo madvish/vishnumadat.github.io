@@ -23,7 +23,7 @@ from fetchers.fred import fetch_fred_series
 from fetchers.yahoo import fetch_yahoo_series
 from fetchers.rbi import fetch_latest_rbi_mmo
 from fetchers.ncdex import fetch_ncdex_live
-from fetchers.moneycontrol import fetch_moneycontrol_commodities
+from fetchers.moneycontrol import fetch_moneycontrol_commodities, fetch_moneycontrol_fii_dii
 from fetchers.investing import fetch_investing_us_bonds, fetch_investing_macro_indicators
 from validate import validate_all_manual_inputs
 
@@ -69,7 +69,8 @@ SECTION_LABELS = {
     "in_energy": "Energy Benchmarks (Crude & Gas)",
     "in_ncdex_agri": "NCDEX Agricultural Commodities",
     "in_cross_market": "Cross-Market Spreads & Policy Differentials",
-    "in_flows": "Institutional Capital Flows & System Liquidity",
+    "in_flows": "Institutional Capital Flows & System Liquidity (Weekly)",
+    "in_monthly_flows": "Domestic Retail & Mutual Fund Inflows (Monthly)",
     "in_valuation": "Valuation Multiples & Equity Risk Premium",
     "in_macro": "High-Frequency Macroeconomic Intelligence",
 }
@@ -223,6 +224,13 @@ def run_pipeline():
                 metric_histories[mid] = save_history(mid, new_data)
             else:
                 metric_histories[mid] = load_existing_history(mid)
+
+        # Also fetch automated weekly FII/DII cash flows
+        print("\n--- Fetching Moneycontrol Weekly Institutional Cash Flows ---")
+        fii_dii_dfs = fetch_moneycontrol_fii_dii()
+        for mid, df_flow in fii_dii_dfs.items():
+            if df_flow is not None and not df_flow.empty:
+                metric_histories[mid] = save_history(mid, df_flow)
 
     # 5d. Fetch NCDEX Agricultural Quotes
     if ncdex_metrics:

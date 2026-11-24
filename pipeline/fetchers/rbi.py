@@ -109,6 +109,20 @@ def fetch_latest_rbi_mmo() -> Dict[str, Dict[str, Any]]:
                     except ValueError:
                         continue
 
+            # 4. Banking System Net Liquidity (converted from ₹ crore to ₹ lakh crore)
+            if any(term in row_text for term in ["Net liquidity injected", "Net durable liquidity"]):
+                cells = [td.get_text(strip=True) for td in tr.find_all(["td", "th"])]
+                for cell in reversed(cells):
+                    val_str = cell.replace(",", "").replace("%", "")
+                    try:
+                        f_val = float(val_str)
+                        lakh_cr = round(f_val / 100000.0, 2)
+                        if "in_bank_liquidity" not in results:
+                            results["in_bank_liquidity"] = {"date": obs_date, "value": lakh_cr}
+                            break
+                    except ValueError:
+                        continue
+
         # Derived RBI Repo from MSF / SDF corridor (standard 25/50 bps corridor)
         if "in_msf" in results and "in_sdf" in results:
             msf_val = results["in_msf"]["value"]

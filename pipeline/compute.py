@@ -186,13 +186,23 @@ def compute_metric_stats(
         else:
             res["ytd"] = round(this_val - base_val, 2)
 
-    # 4. Cycle High: Maximum since 2023-01-01
-    cycle_df = clean_df[clean_df["date"] >= "2023-01-01"]
-    if not cycle_df.empty:
-        max_idx = cycle_df["value"].idxmax()
-        max_row = cycle_df.loc[max_idx]
-        res["cycle_high"] = round(float(max_row["value"]), 2)
-        res["cycle_high_date"] = str(max_row["date"])
+    # 4. Cycle High: Maximum since 2023-01-01 (omitted for flow metrics)
+    if display_type == "flow":
+        res["change"] = None
+        res["cycle_high"] = None
+        res["cycle_high_date"] = None
+        # For pure flow quantities, YTD is the cumulative sum of flows in current year
+        if metric_id in ("in_fpi_equity", "in_dii_equity", "in_fpi_debt"):
+            ytd_rows = clean_df[clean_df["date"] >= f"{year}-01-01"]
+            if not ytd_rows.empty:
+                res["ytd"] = round(float(ytd_rows["value"].sum()), 2)
+    else:
+        cycle_df = clean_df[clean_df["date"] >= "2023-01-01"]
+        if not cycle_df.empty:
+            max_idx = cycle_df["value"].idxmax()
+            max_row = cycle_df.loc[max_idx]
+            res["cycle_high"] = round(float(max_row["value"]), 2)
+            res["cycle_high_date"] = str(max_row["date"])
 
     # Check stale condition
     stale_after_days = metric_cfg.get("stale_after_days", 5)

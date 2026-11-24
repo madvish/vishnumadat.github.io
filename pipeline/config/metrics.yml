@@ -2124,42 +2124,69 @@ metrics:
   display_type: rate
   full_name: RBI Policy Repo Rate vs US Fed Funds Rate
 - id: in_fpi_equity
-  label: FPI Net Equity Flow
+  label: FPI Net Equity Flow (Weekly)
   tab: india_flows_macro
   section: in_flows
   unit: ₹ cr
-  source: manual
-  ticker: ''
+  source: moneycontrol
+  ticker: 'FII_CASH'
   polarity: up_good
-  frequency: daily
-  stale_after_days: 5
-  display_type: rate
-- id: in_fpi_debt
-  label: FPI Net Debt Flow (incl. FAR)
-  tab: india_flows_macro
-  section: in_flows
-  unit: ₹ cr
-  source: manual
-  ticker: ''
-  polarity: up_good
-  frequency: daily
-  stale_after_days: 5
-  display_type: rate
+  frequency: weekly
+  stale_after_days: 7
+  display_type: flow
+  full_name: Foreign Portfolio Investors Net Cash Flow in Indian Equities
 - id: in_dii_equity
-  label: DII Net Equity Flow
+  label: DII Net Equity Flow (Weekly)
+  tab: india_flows_macro
+  section: in_flows
+  unit: ₹ cr
+  source: moneycontrol
+  ticker: 'DII_CASH'
+  polarity: up_good
+  frequency: weekly
+  stale_after_days: 7
+  display_type: flow
+  full_name: Domestic Institutional Investors Net Cash Flow in Indian Equities
+- id: in_fpi_debt
+  label: FPI Net Debt Flow (Weekly)
   tab: india_flows_macro
   section: in_flows
   unit: ₹ cr
   source: manual
   ticker: ''
   polarity: up_good
-  frequency: daily
-  stale_after_days: 5
-  display_type: rate
+  frequency: weekly
+  stale_after_days: 10
+  display_type: flow
+  full_name: Foreign Portfolio Investors Net Debt Flow (incl. Fully Accessible Route)
+- id: in_bank_liquidity
+  label: Banking System Net Liquidity (Weekly)
+  tab: india_flows_macro
+  section: in_flows
+  unit: ₹ lakh cr
+  source: rbi
+  ticker: ''
+  polarity: up_good
+  frequency: weekly
+  stale_after_days: 7
+  display_type: flow
+  full_name: RBI Net Liquidity Adjustment Facility (Absorption - / Injection +)
+- id: in_forex_reserves
+  label: Forex Reserves (US$ bn, Weekly)
+  tab: india_flows_macro
+  section: in_flows
+  unit: $ bn
+  source: investing
+  ticker: 'india-foreign-exchange-reserves'
+  polarity: up_good
+  frequency: weekly
+  stale_after_days: 10
+  display_type: flow
+  full_name: RBI Foreign Exchange Reserves (US$ Billion)
 - id: in_sip_inflows
   label: MF SIP Inflows (AMFI Monthly)
   tab: india_flows_macro
-  section: in_flows
+  section: in_monthly_flows
   unit: ₹ cr
   source: manual
   ticker: ''
@@ -2167,28 +2194,19 @@ metrics:
   frequency: monthly
   stale_after_days: 45
   display_type: rate
-- id: in_bank_liquidity
-  label: Banking System Net Liquidity
+  full_name: Association of Mutual Funds in India Monthly SIP Inflows
+- id: in_mf_equity_inflows
+  label: Net Equity MF Inflows (AMFI Monthly)
   tab: india_flows_macro
-  section: in_flows
-  unit: ₹ lakh cr
+  section: in_monthly_flows
+  unit: ₹ cr
   source: manual
   ticker: ''
   polarity: up_good
-  frequency: daily
-  stale_after_days: 5
+  frequency: monthly
+  stale_after_days: 45
   display_type: rate
-- id: in_forex_reserves
-  label: Forex Reserves (US$ bn)
-  tab: india_flows_macro
-  section: in_flows
-  unit: $ bn
-  source: manual
-  ticker: ''
-  polarity: up_good
-  frequency: weekly
-  stale_after_days: 10
-  display_type: rate
+  full_name: AMFI Monthly Net Equity Mutual Fund Inflows
 - id: in_nifty_pe
   label: Nifty 50 Trailing P/E
   tab: india_flows_macro

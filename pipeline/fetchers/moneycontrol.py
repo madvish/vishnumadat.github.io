@@ -126,6 +126,76 @@ def fetch_moneycontrol_commodities() -> Dict[str, Dict[str, Any]]:
     return results
 
 
+
+
+def fetch_moneycontrol_fii_dii():
+    """Fetch daily FII and DII net cash purchases/sales and aggregate into weekly flows.
+    
+    Returns:
+        dict: {'in_fpi_equity': DataFrame(date, value), 'in_dii_equity': DataFrame(date, value)}
+    """
+    import re
+    from datetime import timedelta
+    import pandas as pd
+    
+    url = "https://www.moneycontrol.com/markets/fii-dii-data/cash/"
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    try:
+        with urllib.request.urlopen(req, timeout=12) as resp:
+            html = resp.read().decode("utf-8", errors="ignore")
+        m = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', html)
+        if not m:
+            return {}
+        data = json.loads(m.group(1))
+        fii_list = data.get("props", {}).get("pageProps", {}).get("FiiDiiData", {}).get("fiiDiiData", [])
+        if not fii_list:
+            return {}
+        
+        rows = []
+        for item in fii_list:
+            d_str = item.get("date")
+            fii_net_str = item.get("fiiNet", "0").replace(",", "").strip()
+            dii_net_str = item.get("diiNet", "0").replace(",", "").strip()
+            try:
+                fii_net = float(fii_net_str)
+                dii_net = float(dii_net_str)
+                rows.append({"date": d_str, "fii_net": fii_net, "dii_net": dii_net})
+            except (ValueError, TypeError):
+                continue
+        
+        if not rows:
+            return {}
+
+        df = pd.DataFrame(rows).sort_values(by="date")
+        df["dt"] = pd.to_datetime(df["date"])
+        
+        # Calendar week grouping (Monday to Friday)
+        df["week_start"] = df["dt"].apply(lambda d: d - timedelta(days=d.weekday()))
+        df["week_end"] = df["week_start"] + timedelta(days=4)
+
+        weekly_records = []
+        for (w_start, w_end), group in df.groupby(["week_start", "week_end"]):
+            max_d = group["date"].max()
+            fii_sum = group["fii_net"].sum()
+            dii_sum = group["dii_net"].sum()
+            weekly_records.append({
+                "date": max_d,
+                "fii_net": round(fii_sum, 2),
+                "dii_net": round(dii_sum, 2),
+            })
+
+        wdf = pd.DataFrame(weekly_records).sort_values(by="date")
+        fpi_df = pd.DataFrame({"date": wdf["date"], "value": wdf["fii_net"]})
+        dii_df = pd.DataFrame({"date": wdf["date"], "value": wdf["dii_net"]})
+        
+        print(f"[Moneycontrol] Successfully aggregated {len(wdf)} weekly FPI/DII net cash flow records.")
+        return {"in_fpi_equity": fpi_df, "in_dii_equity": dii_df}
+
+    except Exception as e:
+        print(f"[Moneycontrol] Warning: Failed to fetch FII/DII cash flows: {e}")
+        return {}
+
+
 if __name__ == "__main__":
     res = fetch_moneycontrol_commodities()
     for k, v in res.items():

@@ -153,6 +153,7 @@ def fetch_investing_macro_indicators() -> Dict[str, Dict[str, Any]]:
             "in_macro_fiscal_deficit": ("Government Budget", 4.40),
             "in_credit_growth": ("Loan Growth", 19.50),
             "in_deposit_growth": ("Deposit Growth", 16.90),
+            "in_forex_reserves": ("Foreign Exchange Reserves", 705.34),
         }
 
         for mid, (source_key, default_v) in metric_map.items():
@@ -163,6 +164,9 @@ def fetch_investing_macro_indicators() -> Dict[str, Dict[str, Any]]:
                     # Convert negative trade/fiscal balance to positive deficit values
                     if mid in ("in_macro_trade_deficit", "in_macro_fiscal_deficit") and val < 0:
                         val = abs(val)
+                    elif mid == "in_forex_reserves" and val > 10000:
+                        # Convert USD Million to USD Billion
+                        val = round(val / 1000.0, 2)
                     results[mid] = {"date": today_str, "value": val}
                 except ValueError:
                     if default_v is not None:

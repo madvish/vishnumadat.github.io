@@ -260,8 +260,9 @@ function renderDashboard(data) {
 
   // Render India Flows & Macro sections
   renderSectionTable('sec-in-cross-market', sectionsMap['in_cross_market']);
-  renderSectionTable('sec-in-flows', sectionsMap['in_flows']);
   renderSectionTable('sec-in-valuation', sectionsMap['in_valuation']);
+  renderSectionTable('sec-in-monthly-flows', sectionsMap['in_monthly_flows']);
+  renderSectionTable('sec-in-flows', sectionsMap['in_flows']);
   renderSectionTable('sec-in-macro', sectionsMap['in_macro']);
 
   // Render Data Health Table
@@ -275,6 +276,88 @@ function renderDashboard(data) {
   initCsvExports(sectionsMap);
 }
 
+// --- Weekly Institutional Flows Table Generator (No w/w Change, No Cycle High) ---
+function renderWeeklyFlowsTable(container, sectionData) {
+  const metrics = sectionData.metrics;
+
+  let thisDate = 'This Week';
+  let lastDate = 'Last Week';
+  let baseDate = 'Base';
+
+  for (const m of metrics) {
+    if (m.this_date) { thisDate = formatDate(m.this_date); }
+    if (m.last_date) { lastDate = formatDate(m.last_date); }
+    if (m.base_date) { baseDate = formatDate(m.base_date); }
+    if (m.this_date && m.last_date) break;
+  }
+
+  let html = `
+    <table class="md-table" role="table">
+      <thead>
+        <tr>
+          <th class="col-metric" scope="col">Metric</th>
+          <th class="col-this-th" scope="col">
+            <span class="th-title">This Week</span>
+            <span class="th-sub">${thisDate}</span>
+          </th>
+          <th scope="col">
+            <span class="th-title">Last Week</span>
+            <span class="th-sub">${lastDate}</span>
+          </th>
+          <th class="col-base-th" scope="col">
+            <span class="th-title">Base</span>
+            <span class="th-sub">${baseDate}</span>
+          </th>
+          <th scope="col">
+            <span class="th-title">YTD Cumulative</span>
+            <span class="th-sub">Net Flow / Level</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  metrics.forEach(m => {
+    const isReserve = m.id === 'in_forex_reserves';
+
+    // Format flow number with commas and explicit sign
+    const formatNetFlow = (v, showPlus = true) => {
+      if (v === null || v === undefined || isNaN(v)) return '–';
+      if (isReserve) return v.toFixed(2);
+      const sign = (v > 0 && showPlus) ? '+' : '';
+      return `${sign}${v.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    };
+
+    const thisVal = formatNetFlow(m.this_value, true);
+    const lastVal = formatNetFlow(m.last_value, true);
+    const baseVal = formatNetFlow(m.base_value, true);
+    const ytdVal = isReserve
+      ? (m.ytd > 0 ? `+${m.ytd.toFixed(2)}` : (m.ytd !== null ? m.ytd.toFixed(2) : '–'))
+      : formatNetFlow(m.ytd, true);
+
+    const thisClass = isReserve ? '' : getPolarityClass(m.this_value, m.polarity);
+    const lastClass = isReserve ? '' : getPolarityClass(m.last_value, m.polarity);
+    const ytdClass = getPolarityClass(m.ytd, m.polarity);
+
+    const staleTag = m.stale ? '<span class="stale-tag">STALE</span>' : '';
+    const fullForm = m.full_name || US_FULL_FORMS[m.id];
+    const fullFormHtml = fullForm ? `<span class="metric-full-form">${fullForm}</span>` : '';
+
+    html += `
+      <tr>
+        <td class="col-metric"><span class="metric-title">${m.label}</span> ${staleTag}${fullFormHtml}</td>
+        <td class="num-cell col-this-td ${thisClass}">${thisVal}</td>
+        <td class="num-cell ${lastClass}">${lastVal}</td>
+        <td class="num-cell col-base-td">${baseVal}</td>
+        <td class="num-cell ${ytdClass}">${ytdVal}</td>
+      </tr>
+    `;
+  });
+
+  html += `</tbody></table>`;
+  container.innerHTML = html;
+}
+
 // --- Section Table Generator ---
 function renderSectionTable(containerId, sectionData) {
   const container = document.getElementById(containerId);
@@ -282,6 +365,12 @@ function renderSectionTable(containerId, sectionData) {
 
   if (!sectionData || !sectionData.metrics || sectionData.metrics.length === 0) {
     container.innerHTML = '<div style="padding: 1rem; color: var(--color-text-muted); font-size: 0.85rem;">No data available.</div>';
+    return;
+  }
+
+  // Pure weekly flows table has no w/w change and no cycle high
+  if (containerId === 'sec-in-flows' || sectionData.id === 'in_flows' || sectionData.display_type === 'flow') {
+    renderWeeklyFlowsTable(container, sectionData);
     return;
   }
 
