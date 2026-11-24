@@ -6,6 +6,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   initDashboardTabs();
+  initQuoteRotator();
   loadMarketData();
 });
 
@@ -529,6 +530,41 @@ function getPolarityClass(val, polarity) {
     return val > 0 ? 'cell-good' : 'cell-bad';
   }
   return '';
+}
+
+// --- Quote Banner Rotator ---
+function initQuoteRotator() {
+  const textElem = document.getElementById('quote-banner-text');
+  const authorElem = document.getElementById('quote-banner-author');
+  if (!textElem || !authorElem) return;
+
+  const quotes = [
+    {
+      text: '"Earnings don\'t move the overall market; it\'s the Federal Reserve and liquidity that move markets."',
+      author: '— Stanley Druckenmiller'
+    },
+    {
+      text: '"You can\'t predict the future, but you can prepare for it."',
+      author: '— Howard Marks'
+    },
+    {
+      text: '"Markets can remain irrational longer than you can remain solvent."',
+      author: '— John Maynard Keynes'
+    }
+  ];
+
+  let currentIdx = 0;
+  setInterval(() => {
+    currentIdx = (currentIdx + 1) % quotes.length;
+    textElem.style.opacity = '0';
+    authorElem.style.opacity = '0';
+    setTimeout(() => {
+      textElem.textContent = quotes[currentIdx].text;
+      authorElem.textContent = quotes[currentIdx].author;
+      textElem.style.opacity = '1';
+      authorElem.style.opacity = '1';
+    }, 400);
+  }, 7000);
 }
 
 // --- Helpers ---

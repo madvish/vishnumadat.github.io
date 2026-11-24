@@ -464,3 +464,9 @@
   color: var(--color-border);
   margin: 0 0.15rem;
 }
+
+/* Quote banner transitions */
+#quote-banner-text,
+#quote-banner-author {
+  transition: opacity 0.4s ease;
+}
