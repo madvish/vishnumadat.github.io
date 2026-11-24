@@ -289,13 +289,31 @@ def run_pipeline():
 
     # Format JSON structure
     output_tabs = []
+    tab_order = [
+        "global_markets",
+        "india_flows_macro",
+        "india_real_credit_commodities",
+        "india_rates_equity",
+        "us_rates_equity",
+        "us_real_credit_commodities",
+    ]
+    for tab_id in tab_order:
+        if tab_id in tabs_dict:
+            tab_data = tabs_dict[tab_id]
+            sections_list = list(tab_data["sections"].values())
+            output_tabs.append({
+                "id": tab_id,
+                "label": tab_data["label"],
+                "sections": sections_list
+            })
     for tab_id, tab_data in tabs_dict.items():
-        sections_list = list(tab_data["sections"].values())
-        output_tabs.append({
-            "id": tab_id,
-            "label": tab_data["label"],
-            "sections": sections_list
-        })
+        if tab_id not in tab_order:
+            sections_list = list(tab_data["sections"].values())
+            output_tabs.append({
+                "id": tab_id,
+                "label": tab_data["label"],
+                "sections": sections_list
+            })
 
     # IST Timestamp
     now_utc = datetime.utcnow()
