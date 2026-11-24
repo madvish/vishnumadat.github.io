@@ -189,12 +189,30 @@ function renderSectionTable(containerId, sectionData) {
       <thead>
         <tr>
           <th class="col-metric" scope="col">Metric</th>
-          <th scope="col">Cycle High</th>
-          <th class="col-this-th" scope="col">${thisDate}</th>
-          <th scope="col">${lastDate}</th>
-          <th scope="col">Change</th>
-          <th class="col-base-th" scope="col">${baseDate}</th>
-          <th scope="col">YTD</th>
+          <th scope="col">
+            <span class="th-title">Cycle High</span>
+            <span class="th-sub">Since 2023</span>
+          </th>
+          <th class="col-this-th" scope="col">
+            <span class="th-title">This Week</span>
+            <span class="th-sub">${thisDate}</span>
+          </th>
+          <th scope="col">
+            <span class="th-title">Last Week</span>
+            <span class="th-sub">${lastDate}</span>
+          </th>
+          <th scope="col">
+            <span class="th-title">Change</span>
+            <span class="th-sub">w/w</span>
+          </th>
+          <th class="col-base-th" scope="col">
+            <span class="th-title">Base</span>
+            <span class="th-sub">${baseDate}</span>
+          </th>
+          <th scope="col">
+            <span class="th-title">YTD</span>
+            <span class="th-sub">vs Base</span>
+          </th>
         </tr>
       </thead>
       <tbody>
