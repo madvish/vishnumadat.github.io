@@ -2021,6 +2021,72 @@ metrics:
   frequency: daily
   stale_after_days: 5
   display_type: price
+- id: ncdex_dhaniya
+  label: NCDEX Coriander / Dhaniya (DHANIYA)
+  tab: india_real_credit_commodities
+  section: in_ncdex_agri
+  unit: ₹
+  source: ncdex
+  ticker: DHANIYA
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: ncdex_guargum
+  label: NCDEX Guar Gum 5 MT (GUARGUM5)
+  tab: india_real_credit_commodities
+  section: in_ncdex_agri
+  unit: ₹
+  source: ncdex
+  ticker: GUARGUM5
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: ncdex_guarseed
+  label: NCDEX Guar Seed 10 MT (GUARSEED10)
+  tab: india_real_credit_commodities
+  section: in_ncdex_agri
+  unit: ₹
+  source: ncdex
+  ticker: GUARSEED10
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: ncdex_castor
+  label: NCDEX Castor Seed (CASTOR)
+  tab: india_real_credit_commodities
+  section: in_ncdex_agri
+  unit: ₹
+  source: ncdex
+  ticker: CASTOR
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: ncdex_cocudakl
+  label: NCDEX Cotton Seed Oilcake (COCUDAKL)
+  tab: india_real_credit_commodities
+  section: in_ncdex_agri
+  unit: ₹
+  source: ncdex
+  ticker: COCUDAKL
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
+- id: ncdex_pepper
+  label: NCDEX Black Pepper (PEPPER)
+  tab: india_real_credit_commodities
+  section: in_ncdex_agri
+  unit: ₹
+  source: ncdex
+  ticker: PEPPER
+  polarity: up_good
+  frequency: daily
+  stale_after_days: 5
+  display_type: price
 - id: cross_10y_spread
   label: India 10Y vs US 10Y Spread
   tab: india_flows_macro
@@ -2216,40 +2282,40 @@ metrics:
   tab: india_flows_macro
   section: in_macro
   unit: '%'
-  source: manual
+  source: investing
   ticker: ''
   polarity: down_good
   frequency: monthly
-  stale_after_days: 45
+  stale_after_days: 60
   display_type: rate
 - id: in_macro_core_cpi
   label: Core CPI YoY
   tab: india_flows_macro
   section: in_macro
   unit: '%'
-  source: manual
+  source: investing
   ticker: ''
   polarity: down_good
   frequency: monthly
-  stale_after_days: 45
+  stale_after_days: 60
   display_type: rate
 - id: in_macro_wpi
   label: Headline WPI YoY
   tab: india_flows_macro
   section: in_macro
   unit: '%'
-  source: manual
+  source: investing
   ticker: ''
   polarity: down_good
   frequency: monthly
-  stale_after_days: 45
+  stale_after_days: 60
   display_type: rate
 - id: in_macro_iip
   label: Index of Industrial Production (IIP)
   tab: india_flows_macro
   section: in_macro
   unit: '%'
-  source: manual
+  source: investing
   ticker: ''
   polarity: up_good
   frequency: monthly
@@ -2260,99 +2326,99 @@ metrics:
   tab: india_flows_macro
   section: in_macro
   unit: '%'
-  source: manual
+  source: investing
   ticker: ''
   polarity: up_good
   frequency: quarterly
-  stale_after_days: 100
+  stale_after_days: 60
   display_type: rate
 - id: in_macro_mfg_pmi
   label: HSBC Manufacturing PMI
   tab: india_flows_macro
   section: in_macro
   unit: index
-  source: manual
+  source: investing
   ticker: ''
   polarity: up_good
   frequency: monthly
-  stale_after_days: 45
+  stale_after_days: 60
   display_type: rate
 - id: in_macro_srv_pmi
   label: HSBC Services PMI
   tab: india_flows_macro
   section: in_macro
   unit: index
-  source: manual
+  source: investing
   ticker: ''
   polarity: up_good
   frequency: monthly
-  stale_after_days: 45
+  stale_after_days: 60
   display_type: rate
 - id: in_macro_gst
   label: GST Revenue Collection
   tab: india_flows_macro
   section: in_macro
   unit: ₹ lakh cr
-  source: manual
+  source: investing
   ticker: ''
   polarity: up_good
   frequency: monthly
-  stale_after_days: 45
+  stale_after_days: 60
   display_type: rate
 - id: in_macro_trade_deficit
   label: Monthly Trade Deficit
   tab: india_flows_macro
   section: in_macro
   unit: $ bn
-  source: manual
+  source: investing
   ticker: ''
   polarity: down_good
   frequency: monthly
-  stale_after_days: 45
+  stale_after_days: 60
   display_type: rate
 - id: in_macro_cab
   label: Current Account Balance (% GDP)
   tab: india_flows_macro
   section: in_macro
   unit: '%'
-  source: manual
+  source: investing
   ticker: ''
   polarity: up_good
   frequency: quarterly
-  stale_after_days: 100
+  stale_after_days: 60
   display_type: rate
 - id: in_macro_fiscal_deficit
   label: Fiscal Deficit (% of BE FYTD)
   tab: india_flows_macro
   section: in_macro
   unit: '%'
-  source: manual
+  source: investing
   ticker: ''
   polarity: down_good
   frequency: monthly
-  stale_after_days: 45
+  stale_after_days: 60
   display_type: rate
 - id: in_credit_growth
   label: Bank Credit Growth YoY
   tab: india_flows_macro
   section: in_macro
   unit: '%'
-  source: manual
+  source: investing
   ticker: ''
   polarity: up_good
   frequency: biweekly
-  stale_after_days: 20
+  stale_after_days: 60
   display_type: rate
 - id: in_deposit_growth
   label: Bank Deposit Growth YoY
   tab: india_flows_macro
   section: in_macro
   unit: '%'
-  source: manual
+  source: investing
   ticker: ''
   polarity: up_good
   frequency: biweekly
-  stale_after_days: 20
+  stale_after_days: 60
   display_type: rate
 - id: in_cd_gap
   label: Credit − Deposit Growth Gap

@@ -10,7 +10,7 @@ PIPELINE_DIR = BASE_DIR / "pipeline"
 if str(PIPELINE_DIR) not in sys.path:
     sys.path.insert(0, str(PIPELINE_DIR))
 
-from fetchers.investing import fetch_investing_us_bonds
+from fetchers.investing import fetch_investing_us_bonds, fetch_investing_macro_indicators
 
 
 class TestInvestingFetcher(unittest.TestCase):
@@ -36,6 +36,30 @@ class TestInvestingFetcher(unittest.TestCase):
         self.assertEqual(res["ust_2m"]["value"], 4.206)
         self.assertIn("ust_4m", res)
         self.assertEqual(res["ust_4m"]["value"], 4.375)
+
+    @patch("fetchers.investing.urllib.request.urlopen")
+    def test_fetch_macro_indicators(self, mock_urlopen):
+        """Verify macro indicators parser extracts CPI, GDP, PMI, etc."""
+        sample_html = """
+        <table>
+          <tr><td>Inflation Rate</td><td>6.09</td></tr>
+          <tr><td>Industrial Production</td><td>6.7</td></tr>
+          <tr><td>GDP Annual Growth Rate</td><td>7.8</td></tr>
+          <tr><td>Manufacturing PMI</td><td>56.0</td></tr>
+          <tr><td>Services PMI</td><td>55.3</td></tr>
+        </table>
+        """
+        mock_resp = MagicMock()
+        mock_resp.read.return_value = sample_html.encode("utf-8")
+        mock_urlopen.return_value.__enter__.return_value = mock_resp
+
+        res = fetch_investing_macro_indicators()
+        self.assertIn("in_macro_cpi", res)
+        self.assertEqual(res["in_macro_cpi"]["value"], 6.09)
+        self.assertIn("in_macro_gdp", res)
+        self.assertEqual(res["in_macro_gdp"]["value"], 7.8)
+        self.assertIn("in_macro_mfg_pmi", res)
+        self.assertEqual(res["in_macro_mfg_pmi"]["value"], 56.0)
 
 
 if __name__ == "__main__":

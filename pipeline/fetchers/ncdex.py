@@ -13,6 +13,12 @@ from datetime import datetime
 NCDEX_SYMBOL_MAP = {
     "TMCFGRNZM": "ncdex_turmeric",
     "JEERAUNJHA": "ncdex_jeera",
+    "DHANIYA": "ncdex_dhaniya",
+    "GUARGUM5": "ncdex_guargum",
+    "GUARSEED10": "ncdex_guarseed",
+    "CASTOR": "ncdex_castor",
+    "COCUDAKL": "ncdex_cocudakl",
+    "PEPPER": "ncdex_pepper",
 }
 
 def fetch_ncdex_live():

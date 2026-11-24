@@ -24,7 +24,7 @@ from fetchers.yahoo import fetch_yahoo_series
 from fetchers.rbi import fetch_latest_rbi_mmo
 from fetchers.ncdex import fetch_ncdex_live
 from fetchers.moneycontrol import fetch_moneycontrol_commodities
-from fetchers.investing import fetch_investing_us_bonds
+from fetchers.investing import fetch_investing_us_bonds, fetch_investing_macro_indicators
 from validate import validate_all_manual_inputs
 
 CONFIG_PATH = PIPELINE_DIR / "config" / "metrics.yml"
@@ -242,14 +242,16 @@ def run_pipeline():
             else:
                 metric_histories[mid] = load_existing_history(mid)
 
-    # 5e. Fetch Investing.com / US Treasury Yields
+    # 5e. Fetch Investing.com / US Treasury Yields & Macro Intelligence
     if investing_metrics:
-        print(f"\n--- Scraping Investing.com & US Treasury ({len(investing_metrics)} series) ---")
+        print(f"\n--- Scraping Investing.com & Macro Intelligence ({len(investing_metrics)} series) ---")
         inv_data = fetch_investing_us_bonds()
+        macro_data = fetch_investing_macro_indicators()
+        all_inv_data = {**inv_data, **macro_data}
         for m in investing_metrics:
             mid = m["id"]
-            if mid in inv_data:
-                obs = inv_data[mid]
+            if mid in all_inv_data:
+                obs = all_inv_data[mid]
                 new_data = pd.DataFrame([{"date": obs["date"], "value": obs["value"]}])
                 metric_histories[mid] = save_history(mid, new_data)
             else:
