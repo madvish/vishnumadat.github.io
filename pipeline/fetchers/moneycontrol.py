@@ -26,11 +26,6 @@ SPOT_MAP = {
 
 NCDEX_MAP = {
     "TMCFGRNZM": "ncdex_turmeric",
-    "DHANIYA": "ncdex_dhaniya",
-    "GUARGUM5": "ncdex_guargum",
-    "GUARSEED10": "ncdex_guarseed",
-    "COCUDAKL": "ncdex_cocudakl",
-    "CASTOR": "ncdex_castor",
 }
 
 HEADERS = {
