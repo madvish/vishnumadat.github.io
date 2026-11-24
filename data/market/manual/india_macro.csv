@@ -8,9 +8,6 @@ in_fpi_debt,2026-11-20,3120.0,NSDL FAR
 in_dii_equity,2026-01-01,4200.0,Base 2026
 in_dii_equity,2026-11-13,2850.0,NSE DII Net
 in_dii_equity,2026-11-20,1950.0,NSE DII Net
-in_sip_inflows,2026-01-01,21500.0,Base 2026
-in_sip_inflows,2026-09-30,24508.0,AMFI Sep Print
-in_sip_inflows,2026-10-31,25320.0,AMFI Oct Print
 in_mf_equity_inflows,2026-01-01,21780.0,Base 2026
 in_mf_equity_inflows,2026-09-30,30290.0,AMFI Sep Print
 in_mf_equity_inflows,2026-10-31,34414.0,AMFI Oct Print
@@ -58,3 +55,5 @@ in_deposit_growth,2026-01-01,12.2,Base 2026
 in_deposit_growth,2026-11-13,11.6,RBI Fortnightly
 in_deposit_growth,2026-11-20,11.5,RBI Fortnightly
 in_nifty_erp,2026-01-01,7.08,Damodaran Jan 2026
+in_macro_gst,2026-11-17,2.31,Ministry of Finance Nov
+in_macro_gst,2026-11-24,1.87,Latest Print

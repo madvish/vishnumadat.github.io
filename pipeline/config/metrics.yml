@@ -2367,12 +2367,13 @@ metrics:
   tab: india_flows_macro
   section: in_macro
   unit: ₹ lakh cr
-  source: investing
+  source: manual
   ticker: ''
   polarity: up_good
   frequency: monthly
   stale_after_days: 60
   display_type: rate
+  full_name: Monthly GST Revenue Collection (₹ Lakh Crore)
 - id: in_macro_trade_deficit
   label: Trade Balance
   tab: india_flows_macro

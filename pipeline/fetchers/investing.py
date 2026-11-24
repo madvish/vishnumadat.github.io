@@ -169,9 +169,6 @@ def fetch_investing_macro_indicators() -> Dict[str, Dict[str, Any]]:
             elif default_v is not None:
                 results[mid] = {"date": today_str, "value": default_v}
 
-        # GST revenue (monthly official collection, ~1.87 lakh cr)
-        results["in_macro_gst"] = {"date": today_str, "value": 1.87}
-
         print(f"[Macro Intelligence] Successfully fetched {len(results)} indicators.")
 
     except Exception as e:
