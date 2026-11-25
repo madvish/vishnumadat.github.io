@@ -1627,6 +1627,64 @@
       body.appendChild(w);
     });
 
+    // ---- AUTO-REFRESH: re-fetch meta + holdings every 15 minutes ----
+    const AUTO_REFRESH_MS = 15 * 60 * 1000; // 15 minutes
+    setInterval(() => {
+      const ck = Date.now();
+      // Refresh meta cards (portfolio return, alpha, last-updated)
+      fetch(`data/meta.json?v=${ck}`, { cache: 'no-store' })
+        .then(r => r.ok ? r.json() : null)
+        .then(m => { if (m) renderMetaCards(m); })
+        .catch(() => {});
+      // Refresh holdings table
+      parseCSV('data/holdings.csv', (err, rows) => {
+        if (err || !rows.length) return;
+        rows.sort((a,b) => parseFloat(b.weight_pct||0) - parseFloat(a.weight_pct||0));
+        const wrap = document.getElementById('mp-holdings-wrap');
+        const thead = `<thead><tr>
+          <th>#</th>
+          <th data-col="ticker" data-type="str">Ticker</th>
+          <th data-col="company" data-type="str">Company</th>
+          <th data-col="sector" data-type="str">Sector</th>
+          <th data-col="weight_pct" data-type="num">Weight %</th>
+          <th data-col="target_weight_pct" data-type="num">Target %</th>
+          <th data-col="active_weight_pct" data-type="num">Active %</th>
+          <th data-col="return_since_entry_pct" data-type="num">Return Since Entry</th>
+          <th data-col="contribution_pct" data-type="num">Contribution %</th>
+        </tr></thead>`;
+        const tbody = '<tbody>' + rows.map((r, i) => `<tr
+          data-ticker="${r.ticker||''}"
+          data-company="${r.company||''}"
+          data-sector="${r.sector||''}"
+          data-weight_pct="${r.weight_pct||0}"
+          data-target_weight_pct="${r.target_weight_pct||0}"
+          data-active_weight_pct="${r.active_weight_pct||0}"
+          data-return_since_entry_pct="${r.return_since_entry_pct||0}"
+          data-contribution_pct="${r.contribution_pct||0}">
+          <td class="td-neu">${i+1}</td>
+          <td class="td-ticker">${r.ticker||'—'}</td>
+          <td class="td-bold">${r.company||'—'}</td>
+          <td class="td-neu">${r.sector||'—'}</td>
+          <td>${fmtPlain(r.weight_pct)}</td>
+          <td>${fmtPlain(r.target_weight_pct)}</td>
+          <td class="${colorClass(r.active_weight_pct)}">${fmt(r.active_weight_pct)}</td>
+          <td class="${colorClass(r.return_since_entry_pct)}">${fmt(r.return_since_entry_pct)}</td>
+          <td class="${colorClass(r.contribution_pct)}">${fmt(r.contribution_pct)}</td>
+        </tr>`).join('') + '</tbody>';
+        const table = document.createElement('table');
+        table.className = 'mp-table';
+        table.id = 'mp-holdings-table';
+        table.innerHTML = thead + tbody;
+        const w = document.createElement('div');
+        w.className = 'mp-table-wrap';
+        w.appendChild(table);
+        wrap.innerHTML = '';
+        wrap.appendChild(w);
+        makeSortable(table);
+        table.querySelector('th[data-col="weight_pct"]')?.classList.add('sorted-desc');
+      });
+    }, AUTO_REFRESH_MS);
+
     // ---- 7. THESES ----
     parseCSV('data/theses.csv', (err, rows) => {
       const container = document.getElementById('mp-theses-container');

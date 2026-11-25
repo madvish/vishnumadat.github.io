@@ -34,6 +34,7 @@ PRICES_DAILY_PATH = DATA_DIR / "prices_daily.csv"
 NAV_DAILY_PATH = DATA_DIR / "nav_daily.csv"
 NAV_CSV_PATH = DATA_DIR / "nav.csv"
 META_PATH = DATA_DIR / "meta.json"
+HOLDINGS_PATH = DATA_DIR / "holdings.csv"
 
 BENCHMARK_SYMBOL = "^CRSLDX"
 
@@ -230,6 +231,115 @@ def check_benchmark(inception_date, wb_nifty_incept):
     print("==================================================\n")
 
     return bm_hist
+
+
+def _update_holdings_csv(
+    full_prices_df, txn_df, inception_date, starting_cap, latest_date_str
+):
+    """Regenerate holdings.csv using the latest prices from prices_daily.csv.
+
+    Static metadata (company, sector, industry, target_weight_pct) is read from
+    the existing holdings.csv.  Dynamic columns (last_price, weight_pct,
+    active_weight_pct, return_since_entry_pct, contribution_pct) are recomputed
+    from the latest prices_daily row and transactions.
+    """
+    if not HOLDINGS_PATH.exists():
+        print("Warning: holdings.csv does not exist yet; skipping holdings update.")
+        return
+
+    try:
+        existing = pd.read_csv(HOLDINGS_PATH)
+    except Exception as e:
+        print(f"Warning: Could not read holdings.csv for update: {e}")
+        return
+
+    # Build a lookup for static metadata from existing file
+    static_cols = ["company", "sector", "industry", "target_weight_pct"]
+    meta_lookup = {}
+    for _, row in existing.iterrows():
+        t = row["ticker"]
+        meta_lookup[t] = {c: row[c] for c in static_cols if c in row.index}
+
+    # Latest price row
+    last_p = full_prices_df.iloc[-1]
+
+    # Net holdings quantities
+    buy_df = txn_df[txn_df["action"] == "BUY"]
+    sell_df = txn_df[txn_df["action"] == "SELL"]
+    buy_qty = buy_df.groupby("ticker")["qty"].sum()
+    sell_qty = sell_df.groupby("ticker")["qty"].sum()
+    net_qty = buy_qty.subtract(sell_qty, fill_value=0)
+
+    # Entry prices (weighted average buy price)
+    entry_prices = {}
+    for ticker, grp in buy_df.groupby("ticker"):
+        total_qty = grp["qty"].sum()
+        if total_qty > 0:
+            entry_prices[ticker] = (grp["qty"] * grp["price"]).sum() / total_qty
+
+    # First buy date per ticker
+    first_buy_dates = buy_df.groupby("ticker")["date"].min()
+
+    # Compute total portfolio value for weight calculation
+    total_value = 0.0
+    ticker_values = {}
+    for ticker, qty in net_qty.items():
+        if qty > 0 and ticker in last_p.index:
+            val = float(last_p[ticker]) * qty
+            ticker_values[ticker] = val
+            total_value += val
+
+    # Also count cash as part of total NAV for weight calc
+    buy_vals = (buy_df["qty"].astype(float) * buy_df["price"].astype(float)).sum()
+    sell_vals = (sell_df["qty"].astype(float) * sell_df["price"].astype(float)).sum()
+    cash = starting_cap - (buy_vals - sell_vals)
+    total_nav = total_value + cash
+
+    rows = []
+    for ticker, qty in net_qty.items():
+        if qty <= 0:
+            continue
+        if ticker not in last_p.index:
+            continue
+
+        latest_price = float(last_p[ticker])
+        entry_price = entry_prices.get(ticker, latest_price)
+        return_pct = ((latest_price - entry_price) / entry_price) * 100.0
+        weight_pct = (ticker_values.get(ticker, 0) / total_nav) * 100.0
+
+        meta = meta_lookup.get(ticker, {})
+        target_wt = float(meta.get("target_weight_pct", 0.0))
+        active_wt = weight_pct - target_wt
+        contribution_pct = weight_pct * return_pct / 100.0
+
+        entry_date = first_buy_dates.get(ticker)
+        if hasattr(entry_date, "strftime"):
+            entry_date_str = entry_date.strftime("%Y-%m-%d")
+        else:
+            entry_date_str = str(entry_date) if entry_date else ""
+
+        rows.append({
+            "ticker": ticker,
+            "company": meta.get("company", ticker),
+            "sector": meta.get("sector", ""),
+            "industry": meta.get("industry", ""),
+            "weight_pct": round(weight_pct, 2),
+            "target_weight_pct": target_wt,
+            "active_weight_pct": round(active_wt, 2),
+            "entry_date": entry_date_str,
+            "entry_price": round(entry_price, 2),
+            "last_price": round(latest_price, 2),
+            "return_since_entry_pct": round(return_pct, 2),
+            "contribution_pct": round(contribution_pct, 2),
+        })
+
+    if not rows:
+        print("Warning: No holdings rows generated; skipping holdings.csv update.")
+        return
+
+    updated = pd.DataFrame(rows).sort_values("weight_pct", ascending=False)
+    updated.to_csv(HOLDINGS_PATH, index=False)
+    print(f"Updated {HOLDINGS_PATH} with {len(updated)} holdings (prices as of {latest_date_str}).")
 
 
 def main():
@@ -665,7 +775,12 @@ def main():
         json.dump(meta_json, f, indent=2, allow_nan=False)
     print(f"Updated {META_PATH} with latest metrics from {latest_row['date']}.")
 
-    # 12. Display requested summary
+    # 12b. Update holdings.csv with latest prices and recomputed returns/weights
+    _update_holdings_csv(
+        final_prices_df, txn_df, incept_date, starting_cap, latest_row["date"]
+    )
+
+    # 13. Display requested summary
     p_ret = float(latest_row["portfolio_return_pct"])
     b_ret = float(latest_row["benchmark_return_pct"])
     a_pp = float(latest_row["alpha_pp"])

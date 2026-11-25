@@ -2,12 +2,12 @@ name: Daily NAV & Return Tracker
 
 on:
   schedule:
-    # Multiple runs (Monday to Friday) to capture data as early as possible and ensure final settlement:
-    # 1. 10:45 UTC = 16:15 IST (4:15 PM IST - early run right after market closing session)
-    - cron: '45 10 * * 1-5'
-    # 2. 12:30 UTC = 18:00 IST (6:00 PM IST - primary run after official NSE Bhavcopy and Yahoo Finance settle)
+    # Every 15 minutes during NSE market hours (Mon-Fri, 09:15-15:30 IST = 03:45-10:00 UTC)
+    - cron: '*/15 3-10 * * 1-5'
+    # Post-market settlement runs:
+    # 12:30 UTC = 18:00 IST (after official NSE Bhavcopy and Yahoo Finance settle)
     - cron: '30 12 * * 1-5'
-    # 3. 13:45 UTC = 19:15 IST (7:15 PM IST - secondary backup run in case of scheduler delays or late vendor ingest)
+    # 13:45 UTC = 19:15 IST (backup run in case of scheduler delays or late vendor ingest)
     - cron: '45 13 * * 1-5'
   workflow_dispatch:
     # Allows manual trigger at any time from GitHub Actions UI
@@ -45,7 +45,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/prices_daily.csv data/nav_daily.csv data/meta.json
+          git add data/prices_daily.csv data/nav_daily.csv data/meta.json data/holdings.csv
           if git diff --staged --quiet; then
             echo "No changes detected. Data is already up to date."
           else
