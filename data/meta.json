@@ -1,12 +1,12 @@
 {
-  "last_updated": "2026-11-24",
-  "data_as_of": "2026-11-23",
+  "last_updated": "2026-11-25",
+  "data_as_of": "2026-11-25",
   "inception": "2026-03-20",
   "benchmark": "Nifty 500",
   "currency": "INR",
-  "since_inception_return_pct": 9.96,
-  "benchmark_return_pct": 11.35,
-  "alpha_pp": -1.39,
+  "since_inception_return_pct": 11.21,
+  "benchmark_return_pct": 12.95,
+  "alpha_pp": -1.74,
   "positions": 35,
   "annualised_note": "Annualised figures are shown only after one year of history.",
   "live_tracking_start": "2026-10-23"
