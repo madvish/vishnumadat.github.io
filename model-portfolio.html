@@ -1483,11 +1483,13 @@
     });
 
     // ---- 4. SECTORS TABLE + DONUT ----
-    parseCSV('data/sectors.csv', (err, rows) => {
+    let donutChart = null;
+    function renderSectors(rows) {
       const wrap = document.getElementById('mp-sectors-wrap');
-      if (err || !rows.length) {
-        wrap.innerHTML = emptyState('No sector data.');
-        document.getElementById('mp-donut').closest('.mp-donut-card').innerHTML = emptyState('No data.');
+      if (!rows || !rows.length) {
+        if (wrap) wrap.innerHTML = emptyState('No sector data.');
+        const donutCard = document.getElementById('mp-donut')?.closest('.mp-donut-card');
+        if (donutCard) donutCard.innerHTML = emptyState('No data.');
         return;
       }
       rows.sort((a,b) => parseFloat(b.weight_pct||0) - parseFloat(a.weight_pct||0));
@@ -1523,28 +1525,32 @@
       wrap.appendChild(w);
       makeSortable(table);
 
-      new Chart(document.getElementById('mp-donut'), {
-        type: 'doughnut',
-        data: {
-          labels: rows.map(r => r.sector),
-          datasets: [{
-            data: rows.map(r => parseFloat(r.weight_pct)||0),
-            backgroundColor: rows.map((_,i) => COLORS[i % COLORS.length]),
-            borderWidth: 2, borderColor: '#FAF8F5', hoverOffset: 8
-          }]
-        },
-        options: {
-          responsive: true, cutout: '60%',
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              backgroundColor: '#1C2A3A', titleColor: '#fff',
-              bodyColor: 'rgba(255,255,255,0.85)', padding: 10, cornerRadius: 8,
-              callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed.toFixed(1)}%` }
+      const donutEl = document.getElementById('mp-donut');
+      if (donutEl) {
+        if (donutChart) donutChart.destroy();
+        donutChart = new Chart(donutEl, {
+          type: 'doughnut',
+          data: {
+            labels: rows.map(r => r.sector),
+            datasets: [{
+              data: rows.map(r => parseFloat(r.weight_pct)||0),
+              backgroundColor: rows.map((_,i) => COLORS[i % COLORS.length]),
+              borderWidth: 2, borderColor: '#FAF8F5', hoverOffset: 8
+            }]
+          },
+          options: {
+            responsive: true, cutout: '60%',
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                backgroundColor: '#1C2A3A', titleColor: '#fff',
+                bodyColor: 'rgba(255,255,255,0.85)', padding: 10, cornerRadius: 8,
+                callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed.toFixed(1)}%` }
+              }
             }
           }
-        }
-      });
+        });
+      }
 
       // Populate donut legend
       const legendEl = document.getElementById('mp-donut-legend');
@@ -1556,6 +1562,15 @@
             <span class="mp-donut-legend-pct">${parseFloat(r.weight_pct).toFixed(1)}%</span>
           </div>`).join('');
       }
+    }
+
+    parseCSV('data/sectors.csv', (err, rows) => {
+      if (err || !rows.length) {
+        const wrap = document.getElementById('mp-sectors-wrap');
+        if (wrap) wrap.innerHTML = emptyState('No sector data.');
+        return;
+      }
+      renderSectors(rows);
     });
 
     // ---- 5. CHANGE LOG ----
@@ -1682,6 +1697,10 @@
         wrap.appendChild(w);
         makeSortable(table);
         table.querySelector('th[data-col="weight_pct"]')?.classList.add('sorted-desc');
+      });
+      // Refresh sectors table + donut
+      parseCSV('data/sectors.csv', (err, rows) => {
+        if (!err && rows && rows.length) renderSectors(rows);
       });
     }, AUTO_REFRESH_MS);
 
