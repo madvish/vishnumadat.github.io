@@ -35,6 +35,7 @@ NAV_DAILY_PATH = DATA_DIR / "nav_daily.csv"
 NAV_CSV_PATH = DATA_DIR / "nav.csv"
 META_PATH = DATA_DIR / "meta.json"
 HOLDINGS_PATH = DATA_DIR / "holdings.csv"
+SECTORS_PATH = DATA_DIR / "sectors.csv"
 
 BENCHMARK_SYMBOL = "^CRSLDX"
 
@@ -310,7 +311,9 @@ def _update_holdings_csv(
         meta = meta_lookup.get(ticker, {})
         target_wt = float(meta.get("target_weight_pct", 0.0))
         active_wt = weight_pct - target_wt
-        contribution_pct = weight_pct * return_pct / 100.0
+        # Inception contribution to portfolio return: (gain / starting_cap) * 100
+        gain = (latest_price - entry_price) * qty
+        contribution_pct = (gain / starting_cap) * 100.0
 
         entry_date = first_buy_dates.get(ticker)
         if hasattr(entry_date, "strftime"):
@@ -340,6 +343,30 @@ def _update_holdings_csv(
     updated = pd.DataFrame(rows).sort_values("weight_pct", ascending=False)
     updated.to_csv(HOLDINGS_PATH, index=False)
     print(f"Updated {HOLDINGS_PATH} with {len(updated)} holdings (prices as of {latest_date_str}).")
+
+    # Recompute and update sectors.csv
+    sector_rows = []
+    qty_lookup = net_qty.to_dict()
+    for sector, grp in updated.groupby("sector"):
+        sec_cost = sum(r["entry_price"] * qty_lookup.get(r["ticker"], 0) for _, r in grp.iterrows())
+        sec_val = sum(r["last_price"] * qty_lookup.get(r["ticker"], 0) for _, r in grp.iterrows())
+        sec_ret = ((sec_val - sec_cost) / sec_cost * 100.0) if sec_cost > 0 else 0.0
+        sec_weight = (sec_val / total_nav) * 100.0
+        sec_target = grp["target_weight_pct"].sum()
+        sec_contrib = grp["contribution_pct"].sum()
+
+        sector_rows.append({
+            "sector": sector,
+            "weight_pct": round(sec_weight, 2),
+            "target_weight_pct": round(sec_target, 2),
+            "sector_return_pct": round(sec_ret, 2),
+            "contribution_pct": round(sec_contrib, 2),
+        })
+
+    if sector_rows and SECTORS_PATH:
+        sec_updated = pd.DataFrame(sector_rows).sort_values("weight_pct", ascending=False)
+        sec_updated.to_csv(SECTORS_PATH, index=False)
+        print(f"Updated {SECTORS_PATH} with {len(sec_updated)} sectors.")
 
 
 def main():
@@ -454,6 +481,9 @@ def main():
         dates_to_compute = [d for d in calendar_dates if d > last_saved_date]
         if not dates_to_compute:
             print("All trading days up to latest benchmark date are already recorded. Nothing to append.")
+            _update_holdings_csv(
+                existing_prices_df, txn_df, incept_date, starting_cap, str(last_saved_date)
+            )
             return
         download_start_date = max(incept_date, last_saved_date - dt.timedelta(days=7))
         dates_to_run = dates_to_compute

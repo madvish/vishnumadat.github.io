@@ -45,7 +45,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/prices_daily.csv data/nav_daily.csv data/meta.json data/holdings.csv
+          git add data/prices_daily.csv data/nav_daily.csv data/meta.json data/holdings.csv data/sectors.csv
           if git diff --staged --quiet; then
             echo "No changes detected. Data is already up to date."
           else
